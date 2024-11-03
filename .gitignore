@@ -1,0 +1,4 @@
+### 需要忽略哪里的文件夹和文件，就在哪里加一个.gitignore文件，然后配置###
+out/
+.idea/
+JavaCodeCollection.iml
