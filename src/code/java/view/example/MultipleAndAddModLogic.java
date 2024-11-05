@@ -1,4 +1,4 @@
-package code.java.view;
+package code.java.view.example;
 /*
 from Thinking in Java
 
