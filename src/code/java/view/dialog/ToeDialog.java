@@ -25,14 +25,22 @@ public class ToeDialog extends Dialog {
         }
         int width = rows * 50;
         int height = columns * 50;
+        //if you don’t resize a Window, it won’t  show up!
         resize(width, height);
     }
 
+    /*
+     * Notice that handleEvent( ) just calls dispose( )
+     * for a WINDOW_DESTROY so the whole
+     * application doesn’t go away.
+     */
+
     public boolean handleEvent(Event evt) {
-        if (evt.id == Event.WINDOW_DESTROY)
+        if (evt.id == Event.WINDOW_DESTROY) {
             dispose();
-        else
+        } else {
             return super.handleEvent(evt);
+        }
         return true;
     }
 }
