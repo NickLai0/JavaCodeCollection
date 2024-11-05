@@ -5,6 +5,7 @@ package code.java.view.menu;
 
 import java.awt.*;
 import java.awt.event.*;
+
 /*
  * demonstrate the usages of Menu,MenuBar,
  * MenuItem,CheckboxMenuItem,Frame in a
@@ -44,6 +45,14 @@ public class MenuNew extends Frame {
     {
         ML ml = new ML();
         CMI cmi = new CMI();
+        /*
+ This seems a bit strange because in each case the
+ * “action command” is exactly the same as the label on the menu component.
+ * Why not just use the label, instead of this alternative string?
+ * The problem is internationalization. If you retarget this program
+ * to another language, you only want to change the label in the menu,
+ * and not go through the code
+ * changing all the logic which will no doubt introduce new errors. */
         safety[0].setActionCommand("Guard");
         safety[0].addItemListener(cmi);
         safety[1].setActionCommand("Hide");
@@ -110,14 +119,35 @@ public class MenuNew extends Frame {
                 else
                     t.setText("Opening " + s + ". Mmm, mm!");
             } else if (actionCommand.equals("Exit")) {
+                /*
+                 * if “Exit” is chosen, a new WindowEvent is created,
+                 * passing in the handle of the enclosing class object (MenuNew.this) and
+                 * creating a WINDOW_CLOSING event. This is handed to the dispatchEvent( )
+                 * method of the enclosing class object, which then ends up calling
+                 * windowClosing( ) inside WL, just as if the message had been
+                 * generated the “normal” way. Through this mechanism,
+                 * you can dispatch any message you want in any
+                 * circumstances, so it’s quite powerful.*/
                 dispatchEvent(
-                        new WindowEvent(MenuNew.this,
-                                WindowEvent.WINDOW_CLOSING)
+                        new WindowEvent(MenuNew.this, WindowEvent.WINDOW_CLOSING)
                 );
             }
         }
     }
 
+    /*
+     *   The FL listener is simple even though it’s handling all
+     *   the different flavors in the flavor menu. This
+     *   approach is useful if you have enough simplicity in your logic,
+     *   but in general you’ll usually want to take
+     *   the approach used with FooL, BarL and BazL,
+     *   where they are each only attached to a single menu
+     *   component, so no extra detection logic is necessary
+     *   and you know exactly who called the listener.
+     *   Even with the profusion(众多/many) of classes generated this way,
+     *  the code inside tends to be smaller and the
+     *   process is more foolproof(使用简便).
+     */
     class FL implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             MenuItem target = (MenuItem) e.getSource();
@@ -174,3 +204,63 @@ public class MenuNew extends Frame {
         f.addWindowListener(new WL());
     }
 }
+
+
+/**
+ * the following description from Thinking in Java.
+ * <p>
+ * This code is essentially the same as the previous (Java 1.0) version,
+ * until you get to the initialization section
+ * (marked by the opening brace right after the comment “Initialization code:”).
+ * Here you can see the ItemListeners and ActionListeners attached to the
+ * various menu components.
+ * You can also see the use of setActionCommand( ).
+ * <p>
+ * This seems a bit strange because in each case the
+ * “action command” is exactly the same as the label on the menu component.
+ * Why not just use the label, instead of this alternative string?
+ * The problem is internationalization. If you retarget this program
+ * to another language, you only want to change the label in the menu,
+ * and not go through the code
+ * changing all the logic which will no doubt introduce new errors.
+ * So to make this easy for code that
+ * checks the text string associated with a menu component,
+ * the “action command” can be immutable(unchangeable) while
+ * the menu label can change.
+ * All the code works with the “action command,” so it’s unaffected by
+ * changes to the menu labels. Notice that in this program,
+ * not all the menu components are examined(checked)
+ * for their action commands, so those that aren’t don’t
+ * have their action command set.
+ * <p>
+ * Much of the constructor is the same as before,
+ * with the exception of a couple of calls to add listeners.
+ * The bulk(much) of the work happens in the listeners themselves.
+ * In BL, the MenuBar swapping happens as in
+ * the previous example. In ML,
+ * the “figure out who rang” approach is taken by getting
+ * the source of the ActionEvent and casting it to a MenuItem,
+ * then getting the action command string to pass it through a
+ * cascaded(连级的) if statement. Much of this is the same as before,
+ * but notice that if “Exit” is chosen, a new WindowEvent is created,
+ * passing in the handle of the enclosing class object (MenuNew.this) and
+ * creating a WINDOW_CLOSING event. This is handed to the dispatchEvent( )
+ * method of the enclosing class object, which then ends up calling
+ * windowClosing( ) inside WL, just as if the message had been
+ * generated the “normal” way. Through this mechanism,
+ * you can dispatch any message you want in any
+ * circumstances, so it’s quite powerful.
+ * <p>
+ * The FL listener is simple even though it’s handling all
+ * the different flavors in the flavor menu. This
+ * approach is useful if you have enough simplicity in your logic,
+ * but in general you’ll usually want to take
+ * the approach used with FooL, BarL and BazL,
+ * where they are each only attached to a single menu
+ * component, so no extra detection logic is necessary and
+ * you know exactly who called the listener.
+ * Even with the profusion of classes generated this way,
+ * the code inside tends to be smaller and the
+ * process is more foolproof.
+ *
+ */
