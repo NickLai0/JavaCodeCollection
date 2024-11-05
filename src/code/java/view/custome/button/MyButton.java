@@ -1,10 +1,8 @@
-package code.java.view.custome;
+package code.java.view.custome.button;
 
 import code.java.view.applet.AutoEvent;
 
 import java.awt.*;
-import java.applet.*;
-import java.util.*;
 
 import static code.java.utils.LU.println;
 
