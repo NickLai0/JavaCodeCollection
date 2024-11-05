@@ -3,15 +3,15 @@ package code.java.view.button;
 //: Button2New.java
 // Capturing button presses
 
-import code.java.view.applet.AppletWithButton;
 import code.java.view.dialog.HintDialog;
 
 import javax.swing.*;
+import java.applet.Applet;
 import java.awt.*;
-import java.awt.event.*; // Must add this
-import java.applet.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Button2New extends Applet {
+public class ButtonListeningEvents extends Applet {
     Button b1, b2;
 
     public void init() {
@@ -40,7 +40,7 @@ public class Button2New extends Applet {
     }
 
     private static void testButton2New() {
-        Button2New b = new Button2New();
+        ButtonListeningEvents b = new ButtonListeningEvents();
 
         // JFrame can be a window and the container of JApplet.
         // Use JFrame to test Applet is really convenient.
@@ -62,7 +62,7 @@ public class Button2New extends Applet {
         frame.setVisible(true);
     }
 
-    private static void initListeners(Button2New b, JFrame frame) {
+    private static void initListeners(ButtonListeningEvents b, JFrame frame) {
         b.b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
