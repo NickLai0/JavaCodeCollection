@@ -280,3 +280,50 @@ public class GoodTechnique extends Frame {
     }
 
 }
+/**
+ * Graphics object you have and writes directly on that surface.
+ * The scheme(计谋/plot) is intended to be somewhat(a little) reusable.
+ *
+ * EnabledPanel represents the new type of component.
+ * It’s a colored panel with a button at the
+ * bottom, and it captures all the events that happen over it.
+ * The MyButton object also captures the
+ * events that happen over it. Both components capture all events
+ * by using inner listener classes for
+ * every single event except where EnabledPanel overrides processEvent( )
+ * in the old style (notice it
+ * must also call super.processEvent( )).
+ * The only reason for using this method is that it captures every
+ * event that happens, so you can view everything that goes on.
+ * processEvent( ) does nothing more
+ * than show the string representation of each event,
+ * otherwise it would have to use a cascade of if
+ * statements to figure out what event it was.
+ * On the other hand, the inner listener classes already know
+ * precisely（exactly） what event occurred
+ * (assuming you only register them to components where you don’t
+ * need any control logic, which should be your goal).
+ * Thus they don’t have to check anything out; they
+ * just do their stuff.
+ *
+ * Each listener modifies the Display string associated with
+ * its particular event and calls repaint( ) so the
+ * strings get displayed. You can also see a trick that
+ * will usually eliminate flicker:
+ *
+ *  public void update(Graphics g) {
+ *  paint(g);
+ *  }
+ *
+ * You don’t always need to override update( ),
+ * but if you write something that flickers, try it.
+ * You can see that there are lots of listeners – however,
+ * type checking occurs for the listeners, and you
+ * can’t listen for something that the component doesn’t
+ * support (unlike BadTechnique.java, which you
+ * will see momentarily（暂时地）).
+ *
+ * Experimenting with this program is quite educational
+ * since you learn a lot about the way events are
+ * occurring in Java.
+ */
