@@ -7,7 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 
 /*
- *剪切板工具
+  剪切板工具
  */
 public class ClipboardUtils {
 
@@ -18,6 +18,12 @@ public class ClipboardUtils {
         if (str == null) {
             return;
         }
+        /*
+        the creation of a
+        StringSelection object from the String, and the call to
+        setContents( ) with this StringSelection.
+        That’s all there is to putting a String on the clipboard.
+        */
         StringSelection clipString = new StringSelection(str);
         sfClipboard.setContents(clipString, clipString);
     }
