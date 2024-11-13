@@ -398,3 +398,34 @@ public class Blocking extends Applet {
         aFrame.setVisible(true);
     }
 } /// :~
+
+/*
+In init( ), note the loop that moves through the entire array and
+adds the state and peeker.status text fields to the page.
+When the Blockable threads are initially created,
+each one automatically creates and starts its own
+Peeker. Thus you’ll see the Peekers running before
+the Blockable threads are started. This is
+essential, as some of the Peekers will get
+blocked and stop when the Blockable threads start, and it’s
+essential to see this to understand that particular aspect of blocking.
+
+deadlock
+
+Because threads can become blocked and because
+objects can have synchronized methods that
+prevent threads from accessing that object
+until the synchronization lock is released, it’s possible for
+one thread to get stuck waiting for another thread,
+which in turn waits for another thread, etc. until the
+chain leads back to a thread waiting on the first one.
+Thus there’s a continuous loop of threads waiting
+on each other and no one can move. This is called deadlock.
+The claim is that it doesn’t happen that
+often, but when it happens to you it’s very frustrating to debug.
+There is no language support to help prevent deadlock;
+it’s up to you to avoid it by careful design.
+These are not very comforting words to the person who’s
+trying to debug a deadlocking program.
+
+* */
