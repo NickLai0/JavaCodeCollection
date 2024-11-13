@@ -1,5 +1,7 @@
 package code.java.utils;
 
+import java.io.File;
+
 public class LU {
 
     public static void print(boolean b) {
@@ -78,5 +80,8 @@ public class LU {
 
     public static void println(Object x) {
         System.out.println(x);
+    }
+    public static void printSeparateLine() {
+        println("--------------------------------------------------");
     }
 }
