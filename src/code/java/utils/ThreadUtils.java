@@ -2,6 +2,9 @@ package code.java.utils;
 
 public class ThreadUtils {
     public static void sleep(long millis) {
+        if (millis <= 0) {
+            return;
+        }
         try {
             /*
                 Note that sleep( ) may throw InterruptedException,
