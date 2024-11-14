@@ -1,8 +1,5 @@
 package code.java.adapter;
 
-import code.java.view.dialog.HintDialog;
-
-import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
