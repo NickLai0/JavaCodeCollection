@@ -13,13 +13,13 @@ import javax.swing.*;
  * <p>
  * A frame with a button panel.
  */
-public class HandleClickEvent extends JFrame {
+public class HandleClickEventByListener extends JFrame {
 
     private JPanel buttonPanel;
     private static final int DEFAULT_WIDTH = 300;
     private static final int DEFAULT_HEIGHT = 200;
 
-    public HandleClickEvent() {
+    public HandleClickEventByListener() {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
         // create buttons
@@ -68,7 +68,7 @@ public class HandleClickEvent extends JFrame {
 
 
     public static void main(String[] args) {
-        var frame = new HandleClickEvent();
+        var frame = new HandleClickEventByListener();
         frame.setVisible(true);
     }
 }
