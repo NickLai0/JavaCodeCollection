@@ -1,0 +1,8 @@
+Other utils or tools:
+
+
+1、Printer(打印机)：
+    Toolkit.getDefaultToolkit().getPrintJob()
+
+2、SystemClipboard（系统粘贴板）:
+    Toolkit.getDefaultToolkit().getSystemClipboard();
