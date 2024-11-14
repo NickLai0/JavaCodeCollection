@@ -41,7 +41,7 @@ class DrawFontButton extends Button {
         int horizMargin = (getSize().width - width) / 2;
         int verMargin = (getSize().height - height) / 2;
         g.setColor(Color.red);
-        //感觉添加ascent 和 leading到y的偏移无助于字符串在y轴上的居中呀，用意暂不解。
+        // 添加ascent使得y达到baseline，添加leading，使得本行开始就跟上一行保持间隙
         g.drawString(label, horizMargin, verMargin + ascent + leading);
     }
 
