@@ -129,6 +129,7 @@ public class PinBall {
             // 如果游戏已经结束
             if (isLose) {
                 g.setColor(new Color(255, 0, 0));
+                //Java Core 1: The third argument is the point size. Points are commonly used in typography（版面设计） to indicate the size of a font. There are 72 points per inch.
                 g.setFont(new Font("Times", Font.BOLD, 30));
                 g.drawString("游戏已结束！", 50, 200);
             }

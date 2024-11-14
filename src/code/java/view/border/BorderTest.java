@@ -43,6 +43,7 @@ public class BorderTest extends JFrame {
                 "Test Title",
                 TitledBorder.LEFT,//调整的位置
                 TitledBorder.BOTTOM,//所在位置
+                //Java Core 1: The third argument is the point size. Points are commonly used in typography（版面设计） to indicate the size of a font. There are 72 points per inch.
                 new Font("StSong", Font.BOLD, 18),
                 Color.BLUE
         );

@@ -29,12 +29,19 @@ class DrawFontButton extends Button {
     private void drawLabel(Graphics g) {
         FontMetrics fm = g.getFontMetrics();
         int width = fm.stringWidth(label);
+         /*
+         字体高度=
+         ascent（字母上部分，含出头部分）
+         + descent（字母下面出头部分）
+         + leading（本行跟下一行的间隙）
+        */
         int height = fm.getHeight();
         int ascent = fm.getAscent();
         int leading = fm.getLeading();
         int horizMargin = (getSize().width - width) / 2;
         int verMargin = (getSize().height - height) / 2;
         g.setColor(Color.red);
+        //感觉添加ascent 和 leading到y的偏移无助于字符串在y轴上的居中呀，用意暂不解。
         g.drawString(label, horizMargin, verMargin + ascent + leading);
     }
 

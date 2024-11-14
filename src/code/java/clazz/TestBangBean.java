@@ -107,6 +107,7 @@ class BangBean extends Canvas implements Serializable {
         public void mousePressed(MouseEvent e) {
             Graphics g = getGraphics();
             g.setColor(tColor);
+            //Java Core 1: The third argument is the point size. Points are commonly used in typography（版面设计） to indicate the size of a font. There are 72 points per inch.
             g.setFont(new Font("TimesRoman", Font.BOLD, fontSize));
             int width = g.getFontMetrics().stringWidth(text);
             g.drawString(text,
