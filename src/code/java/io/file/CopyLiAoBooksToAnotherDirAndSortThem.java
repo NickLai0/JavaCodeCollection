@@ -15,12 +15,12 @@ import static code.java.utils.LU.println;
  * 到另外目录下，然后按从01-xx排序。
  * 如“01自传回忆类”目录下有八个文件，
  * 则从01-08排序，其它以此类推。
- *
+ * <p>
  * 复制的好处是不影响原始文件。
  */
 public class CopyLiAoBooksToAnotherDirAndSortThem {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         List<String> liaoBookNamesList = LiAoBookStore.newLiaoBookNamesList();
         addSuffixForBookName(liaoBookNamesList, ".txt");
 
@@ -31,14 +31,16 @@ public class CopyLiAoBooksToAnotherDirAndSortThem {
         //组织子目录对应书本排序信息列表
         organizeSubDirBookSortInfos(subDirBookSortInfos, bookSubDirs, liaoBookNamesList);
 
-        print("子目录下书本名称对应李敖大全集5.0的目录索引开始------------------------");
+        println("子目录下书本名称对应李敖大全集5.0的目录索引开始------------------------");
         printSubDirBookSortInfos(subDirBookSortInfos);
-        print("子目录下书本名称对应李敖大全集5.0的目录索引结束------------------------");
+        println("子目录下书本名称对应李敖大全集5.0的目录索引结束------------------------");
 
         File newBookDir = new File(LiAoBookStore.getLiAoBooksRootDir() + "(书名按顺序排列)");
         FileUtils.makeDirIfDoesNotExist(newBookDir);
         //将原目录下的书本复制到目标目录，且目录名在原有基础上(的前面)加序号
+        println("复制李敖大全集5.0目录下所有书本开始------------------------");
         copyBookFilesAndRenameThemByOrder(newBookDir, subDirBookSortInfos);
+        println("复制李敖大全集5.0目录下所有书本结束------------------------");
     }
 
     //打印子目录信息
@@ -57,7 +59,7 @@ public class CopyLiAoBooksToAnotherDirAndSortThem {
     private static void copyBookFilesAndRenameThemByOrder(
             File newBookRootDir,
             HashMap<File, List<BookSortInfo>> subDirBookSortInfos
-    ) {
+    ) throws IOException {
 
         for (Map.Entry<File, List<BookSortInfo>> entry : subDirBookSortInfos.entrySet()) {
             File subDir = entry.getKey();
@@ -66,26 +68,19 @@ public class CopyLiAoBooksToAnotherDirAndSortThem {
 
             List<BookSortInfo> bsiList = new ArrayList<>(entry.getValue());
 
-            for (int i = 0, realIndex = 1; i < bsiList.size(); i++, realIndex++) {
-                int smallestIndex = findSmallestIndex(bsiList);
-                BookSortInfo bsi = bsiList.get(smallestIndex);
-
+            for (int bookNameIndex = 1; bsiList.size() > 0; bookNameIndex++) {
+                int index = findSmallestIndex(bsiList);
+                BookSortInfo bsi = bsiList.remove(index);
                 File srcFile = bsi.bookFile;
                 File destFile = null;
-                if (realIndex < 10) {
-                    destFile = new File(newBookDestSubDir, "0" + realIndex + srcFile.getName());
+
+                //目标文件名增加01——xx这样的序号
+                if (bookNameIndex < 10) {
+                    destFile = new File(newBookDestSubDir, "0" + bookNameIndex + srcFile.getName());
                 } else {
-                    destFile = new File(newBookDestSubDir, realIndex + srcFile.getName());
+                    destFile = new File(newBookDestSubDir, bookNameIndex + srcFile.getName());
                 }
-
-                try {
-                    FileUtils.copyFile(srcFile, destFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                bsiList.remove(smallestIndex);
-                i--;
+                FileUtils.copyFile(srcFile, destFile);
             }
 
         }

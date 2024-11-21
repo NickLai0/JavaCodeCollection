@@ -4,6 +4,9 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+
+import static code.java.utils.IOUtils.skipFully;
+
 //不少API来源commons io哭的FileUtils和IOUtils
 public class FileUtils {
     public static void makeDirIfDoesNotExist(File dir) {
@@ -319,96 +322,7 @@ public class FileUtils {
         }
     }
 
-    private static byte[] SKIP_BYTE_BUFFER;
 
-    public static long skip(InputStream input, long toSkip) throws IOException {
-        if (toSkip < 0L) {
-            throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
-        } else {
-            if (SKIP_BYTE_BUFFER == null) {
-                SKIP_BYTE_BUFFER = new byte[2048];
-            }
-
-            long remain;
-            long n;
-            for (remain = toSkip; remain > 0L; remain -= n) {
-                n = (long) input.read(SKIP_BYTE_BUFFER, 0, (int) Math.min(remain, 2048L));
-                if (n < 0L) {
-                    break;
-                }
-            }
-
-            return toSkip - remain;
-        }
-    }
-
-    public static long skip(ReadableByteChannel input, long toSkip) throws IOException {
-        if (toSkip < 0L) {
-            throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
-        } else {
-            ByteBuffer skipByteBuffer = ByteBuffer.allocate((int) Math.min(toSkip, 2048L));
-
-            long remain;
-            int n;
-            for (remain = toSkip; remain > 0L; remain -= (long) n) {
-                skipByteBuffer.position(0);
-                skipByteBuffer.limit((int) Math.min(remain, 2048L));
-                n = input.read(skipByteBuffer);
-                if (n == -1) {
-                    break;
-                }
-            }
-
-            return toSkip - remain;
-        }
-    }
-
-    public static long skip(Reader input, long toSkip) throws IOException {
-        if (toSkip < 0L) {
-            throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
-        } else {
-            char[] SKIP_CHAR_BUFFER = new char[2048];
-            long remain;
-            long n;
-            for (remain = toSkip; remain > 0L; remain -= n) {
-                n = (long) input.read(SKIP_CHAR_BUFFER, 0, (int) Math.min(remain, 2048L));
-                if (n < 0L) {
-                    break;
-                }
-            }
-
-            return toSkip - remain;
-        }
-    }
-
-    public static void skipFully(InputStream input, long toSkip) throws IOException {
-        if (toSkip < 0L) {
-            throw new IllegalArgumentException("Bytes to skip must not be negative: " + toSkip);
-        } else {
-            long skipped = skip(input, toSkip);
-            if (skipped != toSkip) {
-                throw new EOFException("Bytes to skip: " + toSkip + " actual: " + skipped);
-            }
-        }
-    }
-
-    public static void skipFully(ReadableByteChannel input, long toSkip) throws IOException {
-        if (toSkip < 0L) {
-            throw new IllegalArgumentException("Bytes to skip must not be negative: " + toSkip);
-        } else {
-            long skipped = skip(input, toSkip);
-            if (skipped != toSkip) {
-                throw new EOFException("Bytes to skip: " + toSkip + " actual: " + skipped);
-            }
-        }
-    }
-
-    public static void skipFully(Reader input, long toSkip) throws IOException {
-        long skipped = skip(input, toSkip);
-        if (skipped != toSkip) {
-            throw new EOFException("Chars to skip: " + toSkip + " actual: " + skipped);
-        }
-    }
 
 
 }

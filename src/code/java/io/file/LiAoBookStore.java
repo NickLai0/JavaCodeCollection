@@ -204,4 +204,12 @@ public class LiAoBookStore {
         return liaoBooksRootDir;
     }
 
+    public static File getLiAoBooksSortedRootDir() {
+        File liaoBooksRootDir = new File(
+                ProjectFileUtils.getProjectRootDir(),
+                "temp/李敖大全集5.0(书名按顺序排列)"
+        );
+        return liaoBooksRootDir;
+    }
+
 }
