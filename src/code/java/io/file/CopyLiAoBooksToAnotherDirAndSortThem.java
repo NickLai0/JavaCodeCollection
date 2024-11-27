@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static code.java.utils.LU.print;
 import static code.java.utils.LU.println;
 
 /**

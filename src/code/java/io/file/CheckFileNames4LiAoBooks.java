@@ -54,12 +54,10 @@ public class CheckFileNames4LiAoBooks {
         }
     }
 
-
     private static boolean hasBook(Set<String> liaoBookNamesSet, File realBookFile) {
         String bookName = realBookFile.getName()
                 .replace(".txt", "");
         return liaoBookNamesSet.contains(bookName);
     }
-
 
 }
