@@ -9,10 +9,15 @@ import static code.java.utils.IOUtils.skipFully;
 
 //不少API来源commons io哭的FileUtils和IOUtils
 public class FileUtils {
-    public static void makeDirIfDoesNotExist(File dir) {
+    public static boolean makeDirIfDoesNotExist(String dir) {
+        return makeDirIfDoesNotExist(new File(dir));
+    }
+
+    public static boolean makeDirIfDoesNotExist(File dir) {
         if (!dir.exists()) {
-            dir.mkdirs();
+            return dir.mkdirs();
         }
+        return true;
     }
 
     public static void copyFile(File srcFile, File destFile) throws IOException {
@@ -321,8 +326,4 @@ public class FileUtils {
             return ch2 == -1;
         }
     }
-
-
-
-
 }
