@@ -120,7 +120,7 @@ public class LiAoBookStore {
         liaoBooksList.add("为文学开窗");
         liaoBooksList.add("丑陋的中国人研究");
         liaoBooksList.add("闽变研究与文星讼案");
-        liaoBooksList.add("大江大海骗了你");
+        liaoBooksList.add("大江大海骗了你——李敖秘密谈话录");
         liaoBooksList.add("蒋介石研究");
         liaoBooksList.add("蒋介石研究续集");
         liaoBooksList.add("蒋介石研究三集");

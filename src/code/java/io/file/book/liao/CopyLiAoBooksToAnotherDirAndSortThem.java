@@ -31,9 +31,9 @@ public class CopyLiAoBooksToAnotherDirAndSortThem {
         //组织子目录对应书本排序信息列表
         organizeSubDirBookSortInfos(subDirBookSortInfos, bookSubDirs, liaoBookNamesList);
 
-        println("子目录下书本名称对应李敖大全集5.0的目录索引开始------------------------");
+        println("排序子目录下书本名称对应李敖大全集5.0的目录索引开始------------------------");
         printSubDirBookSortInfos(subDirBookSortInfos);
-        println("子目录下书本名称对应李敖大全集5.0的目录索引结束------------------------");
+        println("排序子目录下书本名称对应李敖大全集5.0的目录索引结束------------------------");
 
         File newBookDir = new File(LiAoBookStore.getLiAoBooksRootDir() + "(书名按顺序排列)");
         FileUtils.makeDirIfDoesNotExist(newBookDir);

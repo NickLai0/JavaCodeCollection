@@ -9,6 +9,7 @@ import static code.java.utils.IOUtils.skipFully;
 
 //不少API来源commons io哭的FileUtils和IOUtils
 public class FileUtils {
+
     public static boolean makeDirIfDoesNotExist(String dir) {
         return makeDirIfDoesNotExist(new File(dir));
     }
@@ -18,6 +19,19 @@ public class FileUtils {
             return dir.mkdirs();
         }
         return true;
+    }
+
+    //将整个文件转字符串
+    public static String fileToString(File file) throws IOException {
+        FileInputStream fis = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) file.length());
+        try {
+            fis = new FileInputStream(file);
+            IOUtils.copy(fis, baos);
+        } finally {
+            IOUtils.closeQuietly(fis);
+        }
+        return baos.toString();
     }
 
     public static void copyFile(File srcFile, File destFile) throws IOException {

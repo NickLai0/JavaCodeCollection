@@ -21,7 +21,7 @@ public class CopyLiAoBooksToAnotherDirAndRemoveHtmlCode {
             FileUtils.makeDirIfDoesNotExist(destSubDir);
 
             for (File srcFile : srcSubDir.listFiles()) {
-                String htmlText = fileToString(srcFile);
+                String htmlText = FileUtils.fileToString(srcFile);
                 String bookText = htmlTextToBookText(htmlText);
                 saveBookText(bookText, destSubDir, srcFile.getName());
             }
@@ -61,18 +61,6 @@ public class CopyLiAoBooksToAnotherDirAndRemoveHtmlCode {
             bookText = htmlText.substring(textStart);
         }
         return bookText.trim();
-    }
-
-    private static String fileToString(File file) throws IOException {
-        FileInputStream fis = null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) file.length());
-        try {
-            fis = new FileInputStream(file);
-            IOUtils.copy(fis, baos);
-        } finally {
-            IOUtils.closeQuietly(fis);
-        }
-        return baos.toString();
     }
 
 }
