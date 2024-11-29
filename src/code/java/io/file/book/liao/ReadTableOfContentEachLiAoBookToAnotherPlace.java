@@ -16,6 +16,7 @@ import static code.java.utils.LU.println;
 /**
  * 将李敖大全集5.0的所有书本目录输出数来.
  */
+@Deprecated
 public class ReadTableOfContentEachLiAoBookToAnotherPlace {
 
     public static void main(String[] args) throws IOException {

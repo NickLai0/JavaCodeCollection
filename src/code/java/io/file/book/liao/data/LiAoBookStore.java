@@ -212,6 +212,24 @@ public class LiAoBookStore {
         return liaoBooksRootDir;
     }
 
+    public static File getLiAoBooksWithoutHTMLRootDir() {
+        File liaoBooksRootDir = new File(
+                ProjectFileUtils.getProjectRootDir(),
+                "temp/李敖大全集5.0(书名按顺序排列)(去除html，仅有文字内容)"
+        );
+        return liaoBooksRootDir;
+    }
 
+    //获取李敖大全集目录下所有文件List
+    public static List<File> getLADQJBookWithoHTMLFiles() {
+        File[] subDirArr = getLiAoBooksWithoutHTMLRootDir().listFiles();
+        List<File> allBookFiles = new ArrayList<>();
+        for (File subDir : subDirArr) {
+            if (subDir.isDirectory()) {
+                allBookFiles.addAll(Arrays.asList(subDir.listFiles()));
+            }
+        }
+        return allBookFiles;
+    }
 
 }

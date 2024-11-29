@@ -28,7 +28,7 @@ public class FilesLastLinesPrinter {
     }
 
     public void print() throws IOException {
-        printRecursively(sourceDir, 0);
+        printRecursively(sourceDir, 1);
     }
 
     private void printRecursively(String srcDir, int i) throws IOException {
@@ -44,6 +44,8 @@ public class FilesLastLinesPrinter {
             return;
         }
         List<String> lastThreeLinesList = new LinkedList<>();
+        printTab(i-1);
+        println(dir.getName());
         for (File f : fileList) {
             if (f == null) {
                 continue;
@@ -63,10 +65,10 @@ public class FilesLastLinesPrinter {
                 } finally {
                     IOUtils.closeQuietly(br);
                 }
-                printTab(i - 1);
+                printTab(i);
                 println(f.getName());
                 while (lastThreeLinesList.size() > 0) {
-                    printTab(i);
+                    printTab(i+1);
                     println(lastThreeLinesList.remove(0));
                 }
             } else {

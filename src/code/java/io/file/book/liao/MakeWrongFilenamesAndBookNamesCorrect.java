@@ -17,7 +17,10 @@ import static code.java.utils.LU.println;
  * 文件名和書名不同：filename=大江大海骗了，你bookName=大江大海骗了你——李敖秘密谈话录
  * <p>
  * 按：“为历史拨云”是书名错而文件名对；“大江大海骗了”是文件名错而书名对。
+ *
+ * @Link 逻辑整合到了CopyLiAoBooksToAnotherDirAndRemoveHtmlCode2
  */
+@Deprecated
 public class MakeWrongFilenamesAndBookNamesCorrect {
     public static void main(String[] args) throws IOException {
         String dir = "D:\\code\\java\\JavaCodeCollection\\temp\\李敖大全集5.0(书名按顺序排列)(去除html，仅有文字内容)";

@@ -28,7 +28,7 @@ public class TableOfContentListWriter {
         for (TableOfContent tableOfContent : srcTOCList.getTableOfContentList()) {
             File toSubDir = new File(toDir, tableOfContent.getBookParentName());
             FileUtils.makeDirIfDoesNotExist(toSubDir);
-            File tableOfContentDestFile = new File(toSubDir, tableOfContent.getBookName() + ".txt");
+            File tableOfContentDestFile = new File(toSubDir, tableOfContent.getBookFileName());
             PrintWriter pw = null;
             try {
                 pw = new PrintWriter(new BufferedWriter(new FileWriter(tableOfContentDestFile)));
@@ -38,6 +38,12 @@ public class TableOfContentListWriter {
             }
         }
     }
+
+    public static final String TABLE_OF_CONTENT_SEPARATOR = ",";
+    public static final String PREFIX_LESS_THAN_TEN = "0";
+    public static final String PREFIX_LESS_THAN_ONE_HUNDRED = "00";
+
+    private static final StringBuffer mSbTemp = new StringBuffer();
 
     private void saveTablesOfContentsTo(TableOfContent toc, PrintWriter pw) throws IOException {
         pw.println(toc.getBookName());//写入书名
@@ -51,24 +57,30 @@ public class TableOfContentListWriter {
                     toci = tociList.get(i);
                     int titleOrder = toci.getOrder();
                     //目录一般是用空格隔开
+                    mSbTemp.setLength(0);
                     if (titleOrder < 10) {
-                        pw.println("0" + titleOrder + toci.getArticleTitle());
-                    } else {
-                        pw.println(titleOrder + toci.getArticleTitle());
+                        mSbTemp.append(PREFIX_LESS_THAN_TEN);
                     }
+                    mSbTemp.append(titleOrder)
+                            .append(TABLE_OF_CONTENT_SEPARATOR)
+                            .append(toci.getArticleTitle());
+                    pw.println(mSbTemp.toString());
                 }
             } else {
                 for (int i = 0; i < tociList.size(); i++) {
                     toci = tociList.get(i);
                     int titleOrder = toci.getOrder();
                     //目录一般是用空格隔开
+                    mSbTemp.setLength(0);
                     if (titleOrder < 10) {
-                        pw.println("00" + titleOrder + toci.getArticleTitle());
+                        mSbTemp.append(PREFIX_LESS_THAN_ONE_HUNDRED);
                     } else if (titleOrder < 100) {
-                        pw.println("0" + titleOrder + toci.getArticleTitle());
-                    } else {
-                        pw.println(titleOrder + toci.getArticleTitle());
+                        mSbTemp.append(PREFIX_LESS_THAN_TEN);
                     }
+                    mSbTemp.append(titleOrder)
+                            .append(TABLE_OF_CONTENT_SEPARATOR)
+                            .append(toci.getArticleTitle());
+                    pw.println(mSbTemp.toString());
                 }
             }
         }

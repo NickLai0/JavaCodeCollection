@@ -7,6 +7,7 @@ import code.java.utils.IOUtils;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -38,17 +39,19 @@ public class TableOfContentListBuilder {
 
     private Pattern tablesOfContentsEndLinePattern = Pattern.compile(
             "(.*wjm_tcy.*制作.*)|(.*wjm_tcy.*编.*)"//一般目录的结束行
-            + "|(李庆元简介)"//《陈水扁的真面目》目录结束行
-            + "|(版权信息)"//《快意还乡——李敖神州文化之旅》目录结束行
-            + "|(《李敖大哥大》简介)"//《李敖大哥大》目录结束行
-            + "|(本书译名悉以李敖认定者为准，间与一般译名有异。)"//《阳痿美国》目录结束行
-            + "|(补充中间一段有被删除九页，由李敖影音书籍QQ群feel me提供！错字由孤笑看一线天校对。)"//《上山·上山·爱》目录结束行
+                    + "|(李庆元简介)"//《陈水扁的真面目》目录结束行
+                    + "|(版权信息)"//《快意还乡——李敖神州文化之旅》目录结束行
+                    + "|(《李敖大哥大》简介)"//《李敖大哥大》目录结束行
+                    + "|(本书译名悉以李敖认定者为准，间与一般译名有异。)"//《阳痿美国》目录结束行
+                    + "|(补充中间一段有被删除九页，由李敖影音书籍QQ群feel me提供！错字由孤笑看一线天校对。)"//《上山·上山·爱》目录结束行
     );
 
 
     private void realBuild2(BufferedReader brInput, TableOfContent tableOfContent) throws IOException {
-        tableOfContent.setBookName(brInput.readLine().trim());
         String temp = null;
+        if ((temp = brInput.readLine()) != null) {
+            tableOfContent.setBookName(temp.trim());
+        }
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
             if ("目录".equals(temp)) {
@@ -64,34 +67,12 @@ public class TableOfContentListBuilder {
                 tableOfContent.getBookDescriptionList().add(temp);
             }
         }
-
+        LinkedList<String> articleTitleAndDescriptionList = new LinkedList<>();
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
             if (!tablesOfContentsEndLinePattern.matcher(temp).matches()) {
                 if (temp.length() > 0 /*过滤空行*/) {
-                    //添加每项目录
-                    List<TableOfContentItem> tableOfContentItemList = tableOfContent.getTableOfContentItemList();
-                    if (tableOfContentItemList == null) {
-                        tableOfContentItemList = new ArrayList<>();
-                        tableOfContent.setTableOfContentItemList(tableOfContentItemList);
-                    }
-
-                    String[] articleTitleArr = temp.split(" ");
-                    for (int i = 0; i < articleTitleArr.length; i++) {
-                        String articleTitle = articleTitleArr[i];
-                        TableOfContentItem item = new TableOfContentItem();
-                        //有些目录名会被“ ”给切割成两句，下面将此种情况重新组合为一句。
-                        if (articleTitle.contains("（") && !articleTitle.contains("）")) {
-                            String nextStr = null;
-                            if ((i + 1) < articleTitleArr.length && (nextStr = articleTitleArr[i + 1]) != null && !nextStr.contains("（") && nextStr.contains("）")) {
-                                //重新组合为完整的目录标题
-                                articleTitle += nextStr;
-                            }
-                        }
-                        tableOfContentItemList.add(item);
-                        item.setOrder(tableOfContentItemList.size());
-                        item.setArticleTitle(articleTitle);
-                    }
+                    articleTitleAndDescriptionList.add(temp);
                 }
             } else {
                 //正则匹配了目录结尾行，所以中断
@@ -99,26 +80,66 @@ public class TableOfContentListBuilder {
             }
         }
 
-        String description4TableOfContent = null;
-        if (hasDescription4TableOfContent(tableOfContent.getBookName())) {
-            //todo:xxx这里的目录描述表是一行或多行的，
-            // 如果出现多行情况，有些在tableOfContentItemList里
-            List<String> descriptionList = new ArrayList<>();
-            descriptionList.add(temp);
+        //先倒序处理所有文章的描述行
+        int count = descriptionCount(tableOfContent.getBookName());
+        if (count > 0) {
+            //的目录描述表是一行或多行的，
+            LinkedList<String> descriptionList = new LinkedList<>();
+            for (int i = 0; i < count; i++) {
+                String description = articleTitleAndDescriptionList.removeLast();
+                descriptionList.addFirst(description);
+            }
             tableOfContent.setTableOfContentDescriptionList(descriptionList);
+        }
+
+        //最后处理目录列表行：切割出每个文章标题项，配上序号，封装保持列表
+        while (articleTitleAndDescriptionList.size() > 0) {
+            temp = articleTitleAndDescriptionList.removeLast();
+            List<TableOfContentItem> tableOfContentItemList = tableOfContent.getTableOfContentItemList();
+            if (tableOfContentItemList == null) {
+                tableOfContentItemList = new ArrayList<>();
+                tableOfContent.setTableOfContentItemList(tableOfContentItemList);
+            }
+
+            String[] articleTitleArr = temp.split(" ");
+            for (int i = 0; i < articleTitleArr.length; i++) {
+                String articleTitle = articleTitleArr[i];
+                TableOfContentItem item = new TableOfContentItem();
+                //有些目录名会被“ ”给切割成两句，下面将此种情况重新组合为一句。
+                if (articleTitle.contains("（") && !articleTitle.contains("）")) {
+                    String nextStr = null;
+                    if ((i + 1) < articleTitleArr.length && (nextStr = articleTitleArr[i + 1]) != null && !nextStr.contains("（") && nextStr.contains("）")) {
+                        //重新组合为完整的目录标题
+                        articleTitle += nextStr;
+                    }
+                }
+                tableOfContentItemList.add(item);
+                item.setOrder(tableOfContentItemList.size());
+                item.setArticleTitle(articleTitle);
+            }
         }
     }
 
-    //这些书的目录下面都有一句描述的话，不是来源作者李敖，就是来源编者。
-    private String[] BookNamesIncludingDescription4TableOfContent = new String[]{"为中国思想趋向求答案", "李戡专访与脸书合集", "李敖登陆记", "我也李敖一下", "胡适与我", "笑傲六十年·有话说李敖", "李敖快意恩仇录（十二）", "给马戈的五十封信", "李敖书信集", "李敖秘藏日记", "虽千万人，李敖往矣", "千秋万岁乌鸦求是合集", "李敖全集",};
-
-    private boolean hasDescription4TableOfContent(String bookName) {
-        for (String anotherBookName : BookNamesIncludingDescription4TableOfContent) {
-            if (anotherBookName.equals(bookName)) {
-                return true;
-            }
+    private int descriptionCount(String bookName) {
+        switch (bookName) {
+            case "李敖快意恩仇录":
+            case "为中国思想趋向求答案":
+            case "李戡专访与脸书合集":
+            case "我也李敖一下"://todo:xxx这本书的目录有点独特，到时候如何修正？
+            case "胡适与我":
+            case "笑傲六十年·有话说李敖":
+            case "给马戈的五十封信":
+            case "李敖书信集":
+            case "李敖秘藏日记":
+            case "虽千万人，李敖往矣":
+            case "千秋万岁乌鸦求是合集":
+            case "李敖全集":
+                return 1;
+            case "李敖登陆记"://todo:xxx这本书的目录有点独特，到时候如何修正？
+                return 2;
+            default:
+                return 0;
         }
-        return false;
     }
 
     public TableOfContentList build() {
@@ -145,7 +166,8 @@ public class TableOfContentListBuilder {
                 BufferedReader br = null;
                 try {
                     TableOfContent tableOfContent = new TableOfContent();
-                    tableOfContent.setBookParentName(bookFile.getName());
+                    tableOfContent.setBookParentName(subDir.getName());
+                    tableOfContent.setBookFileName(bookFile.getName());
                     realBuild2(br = new BufferedReader(new FileReader(bookFile)), tableOfContent);
                     list.add(tableOfContent);
                 } catch (FileNotFoundException e) {

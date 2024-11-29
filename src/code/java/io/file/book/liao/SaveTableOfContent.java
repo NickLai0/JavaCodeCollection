@@ -5,7 +5,6 @@ import code.java.io.file.book.liao.data.LiAoBookStore;
 import code.java.io.file.utils.FilesLastLinesPrinter;
 import code.java.io.file.utils.TableOfContentListWriter;
 import code.java.utils.FileUtils;
-import code.java.utils.ProjectFileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,10 +17,10 @@ import static code.java.utils.LU.println;
  * 这个比ReadTableOfContentEachLiAoBookToAnotherPlace来说，
  * 职责分离更清晰
  */
-public class ReadTableOfContentEachLiAoBookToAnotherPlace2 {
+public class SaveTableOfContent {
 
     public static void main(String[] args) throws IOException {
-        File liaoBooksRootDir = new File(ProjectFileUtils.getProjectRootDir(), "temp/李敖大全集5.0(书名按顺序排列)(去除html，仅有文字内容)");
+        File liaoBooksRootDir = LiAoBookStore.getLiAoBooksWithoutHTMLRootDir();
         TableOfContentListBuilder.TableOfContentList tableOfContentList = new TableOfContentListBuilder()
                 .setBookDir(liaoBooksRootDir.getAbsolutePath())
                 .build();
@@ -30,7 +29,7 @@ public class ReadTableOfContentEachLiAoBookToAnotherPlace2 {
         println("copy from directory: " + liaoBooksRootDir);
         println("copy to directory: " + liaoBooksTablesOfContentsRootDir);
         TableOfContentListWriter tableWriter = new TableOfContentListWriter(
-                tableOfContentList, liaoBooksRootDir.getAbsolutePath()
+                tableOfContentList, liaoBooksTablesOfContentsRootDir.getAbsolutePath()
         );
         tableWriter.write();
         println("Copy finished.");

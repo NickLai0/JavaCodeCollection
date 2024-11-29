@@ -3,10 +3,10 @@ package code.java.io.file.book.liao;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
-import static code.java.io.file.book.liao.data.LiAoBookStore.getLADQJBookFiles;
+import static code.java.io.file.book.liao.data.LiAoBookStore.getLADQJBookWithoHTMLFiles;
 import static code.java.io.file.book.liao.data.LiAoBookStore.newLiaoBookNamesSet;
-import static code.java.utils.LU.print;
 import static code.java.utils.LU.println;
 
 /*
@@ -15,49 +15,65 @@ import static code.java.utils.LU.println;
  */
 public class CheckFileNames4LiAoBooks {
 
+    private static List<File> allBookFiles = getLADQJBookWithoHTMLFiles();
+
+    private static Set<String> liaoBookNamesSet = newLiaoBookNamesSet();
+
     public static void main(String[] args) {
-        checkLiAoBooks();
+        println("检查目录在文件夹下的书本-----------------");
+        checkIfLackSomeBooks();
+        println("目录中" + liaoBookNamesSet.size() + "本书检查完毕。");
+
+        println("检查文件夹在目录的书本-----------------");
+        checkIfLackSomeContent();
+        println("文件夹下" + getLADQJBookWithoHTMLFiles().size() + "本书检查完毕。");
     }
 
-    //根据李敖大全集5.0目录来检查李敖的书，将存在和不存在的书名都输出。
-    private static void checkLiAoBooks() {
-        Set<String> liaoBookNamesSet = newLiaoBookNamesSet();
-        List<File> allBookFiles = getLADQJBookFiles();
-        print("检查163本书目录中，文件夹下是否缺少-----------------");
-        checkIfLackSomeBooks(liaoBookNamesSet, allBookFiles);
-        println();
-        println();
-        print("检查文件夹下的书本，目录中是否没包含-----------------");
-        checkIfLackSomeContent(liaoBookNamesSet, allBookFiles);
-    }
-
-    private static void checkIfLackSomeContent(Set<String> liaoBookNamesSet, List<File> allBookFiles) {
-        for (File bookFile : allBookFiles) {
-            if (!hasBook(liaoBookNamesSet, bookFile)) {
-                println("目录中没有，但是文件夹有的书：" + bookFile);
-            }
-        }
-    }
-
-    private static void checkIfLackSomeBooks(Set<String> liaoBookNamesSet, List<File> allBookFiles) {
+    //遍历目录的书本名称，检查文件夹下是否有该书
+    private static void checkIfLackSomeContent() {
         for (String bookName : liaoBookNamesSet) {
-            boolean found = false;
-            for (File bookFile : allBookFiles) {
-                if (bookFile.getName().equals(bookName + ".txt")) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                println("Didn't find the book name:" + bookName);
+            if (!findInBookDir(bookName)) {
+                println("目录中不包含的书：" + bookName);
             }
         }
     }
 
-    private static boolean hasBook(Set<String> liaoBookNamesSet, File realBookFile) {
-        String bookName = realBookFile.getName()
-                .replace(".txt", "");
-        return liaoBookNamesSet.contains(bookName);
+    //遍历文件夹下所有书，检查目录里面是否存在
+    private static boolean findInBookDir(String bookName) {
+        for (File bookFile : allBookFiles) {
+            if (isBookNameAndFilenameTheSame(bookName, bookFile.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void checkIfLackSomeBooks() {
+        for (File file : allBookFiles) {
+            boolean found = isBookNameAndFilenameTheSame(file.getName());
+            if (!found) {
+                println("Couldn't find the book from table of content: " + file.getName());
+            }
+        }
+    }
+
+    private static boolean isBookNameAndFilenameTheSame(String bookFileName) {
+        for (String bookName : liaoBookNamesSet) {
+            if (
+                    Pattern.compile(".*(" + bookName + ".txt)$")
+                            .matcher(bookFileName)
+                            .matches()
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isBookNameAndFilenameTheSame(String bookName, String bookFileName) {
+        return Pattern.compile(".*(" + bookName + ".txt)$")
+                .matcher(bookFileName)
+                .matches();
     }
 
 }

@@ -9,6 +9,8 @@ import java.io.*;
 import static code.java.utils.LU.println;
 
 //将李敖163本书的内容去掉html标签，然后将存内容保持到另外目录
+//看优化版本CopyLiAoBooksToAnotherDirAndRemoveHtmlCode2
+@Deprecated
 public class CopyLiAoBooksToAnotherDirAndRemoveHtmlCode {
 
     public static void main(String[] args) throws IOException {

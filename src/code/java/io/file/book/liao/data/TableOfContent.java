@@ -6,6 +6,8 @@ public class TableOfContent {
 
     //书本所属的父目录名
     private String bookParentName;
+    //书本所属的文件名
+    private String bookFileName;
     //书本名
     private String bookName;
     //书本描述列表
@@ -23,6 +25,14 @@ public class TableOfContent {
 
     public void setBookParentName(String bookParentName) {
         this.bookParentName = bookParentName;
+    }
+
+    public String getBookFileName() {
+        return bookFileName;
+    }
+
+    public void setBookFileName(String bookFileName) {
+        this.bookFileName = bookFileName;
     }
 
     public String getBookName() {

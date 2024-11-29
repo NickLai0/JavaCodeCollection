@@ -1,6 +1,6 @@
 package code.java.io.file.book.liao;
 
-import code.java.utils.ProjectFileUtils;
+import code.java.io.file.book.liao.data.LiAoBookStore;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -53,10 +53,7 @@ public class WjmTcyStatistics {
     //组织含“wjm_tcy”的字符串和其一共出现次数的map
     private static Map<String, Integer> oganizeWjmTcyStatisticsMap() throws IOException {
         //D:\code\java\JavaCodeCollection\temp\李敖大全集5.0(书名按顺序排列)(去除html，仅有文字内容)
-        File liaoBooksRootDir = new File(
-                ProjectFileUtils.getProjectRootDir(),
-                "temp/李敖大全集5.0(书名按顺序排列)(去除html，仅有文字内容)"
-        );
+        File liaoBooksRootDir = LiAoBookStore.getLiAoBooksWithoutHTMLRootDir();
         Map<String, Integer> wjmTcyStatisticsMap = new HashMap<>();
         for (File liAoBooksSubDir : liaoBooksRootDir.listFiles()) {
             for (File liAoBookFile : liAoBooksSubDir.listFiles()) {
