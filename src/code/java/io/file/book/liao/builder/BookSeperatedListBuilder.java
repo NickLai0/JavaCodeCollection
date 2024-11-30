@@ -20,11 +20,6 @@ import static code.java.utils.LU.println;
  */
 public class BookSeperatedListBuilder {
 
-    //目录表文件名后缀
-    public static final String FILE_SUFFIX_TABLE = "-table.txt";
-
-    //目录表文件名前缀
-    public static final String FILE_SUFFIX_CONTENT = "-content.txt";
 
     private String bookSrcDir;
 

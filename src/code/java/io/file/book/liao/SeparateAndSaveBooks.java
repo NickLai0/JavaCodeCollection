@@ -15,11 +15,9 @@ import static code.java.utils.LU.println;
 
 /**
  * 从李敖大全集目录下复制每本书的目录出来格式化后，
- * 输出到目标文件
- * 这个比ReadTableOfContentEachLiAoBookToAnotherPlace来说，
- * 职责分离更清晰
+ * 输出到目标文件，每篇文章则切割保存
  */
-public class SaveTableOfContent {
+public class SeparateAndSaveBooks {
 
     public static void main(String[] args) throws IOException {
         File liaoBooksRootDir = LiAoBookStore.getLiAoBooksWithoutHTMLRootDir();
