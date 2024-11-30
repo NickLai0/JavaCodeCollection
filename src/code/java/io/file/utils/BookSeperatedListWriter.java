@@ -11,6 +11,8 @@ import java.util.List;
 
 public class BookSeperatedListWriter {
 
+    private static final String SUFFIX = "-目录.txt";
+
     private final BookSeperatedListBuilder.BookSeperatedList srcTOCList;
 
     private final String outputDir;
@@ -21,22 +23,36 @@ public class BookSeperatedListWriter {
     }
 
     public void write() throws IOException {
-        saveTablesOfContentsTo(srcTOCList, new File(outputDir));
+        saveBookTo(srcTOCList, new File(outputDir));
     }
 
-    private void saveTablesOfContentsTo(BookSeperatedListBuilder.BookSeperatedList srcTOCList, File toDir) throws IOException {
+    private void saveBookTo(BookSeperatedListBuilder.BookSeperatedList srcTOCList, File toDir) throws IOException {
         for (BookTableOfContentAndBody tableOfContent : srcTOCList.getTableOfContentList()) {
-            File toSubDir = new File(toDir, tableOfContent.getBookParentName());
+            File toSubDir = new File(
+                    //子目录名，如：01自传回忆类
+                    new File(toDir, tableOfContent.getBookParentName()),
+                    //守护本目录名，结果如：01李敖自传与回忆（因文件名有序号，这一写就不需要排序）
+                    tableOfContent.getBookFileName().replace(".txt", "")
+            );
             FileUtils.makeDirIfDoesNotExist(toSubDir);
-            File tableOfContentDestFile = new File(toSubDir, tableOfContent.getBookFileName());
-            PrintWriter pw = null;
-            try {
-                pw = new PrintWriter(new BufferedWriter(new FileWriter(tableOfContentDestFile)));
-                saveTablesOfContentsTo(tableOfContent, pw);
-            } finally {
-                IOUtils.closeQuietly(pw);
-            }
+            saveTableOfContent(tableOfContent, toSubDir);
+            separateAndSaveBookBody(tableOfContent, toSubDir);
         }
+    }
+
+    private void saveTableOfContent(BookTableOfContentAndBody tableOfContent, File toSubDir) throws IOException {
+        File tableOfContentDestFile = new File(toSubDir, tableOfContent.getBookName() + SUFFIX);
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new BufferedWriter(new FileWriter(tableOfContentDestFile)));
+            saveTableOfContentStep2(tableOfContent, pw);
+        } finally {
+            IOUtils.closeQuietly(pw);
+        }
+    }
+
+    private void separateAndSaveBookBody(BookTableOfContentAndBody tableOfContent, File toSubDir) {
+
     }
 
     public static final String TABLE_OF_CONTENT_SEPARATOR = ",";
@@ -45,7 +61,7 @@ public class BookSeperatedListWriter {
 
     private static final StringBuffer mSbTemp = new StringBuffer();
 
-    private void saveTablesOfContentsTo(BookTableOfContentAndBody toc, PrintWriter pw) throws IOException {
+    private void saveTableOfContentStep2(BookTableOfContentAndBody toc, PrintWriter pw) throws IOException {
         pw.println(toc.getBookName());//写入书名
         pw.println(toc.getTableOfContentTitle());//写入“目录”二字
         pw.println();//写空行
@@ -92,4 +108,5 @@ public class BookSeperatedListWriter {
             }
         }
     }
+
 }
