@@ -2,7 +2,7 @@ package code.java.io.file.book.liao.data;
 
 import java.util.List;
 
-public class TableOfContent {
+public class BookTableOfContentAndBody {
 
     //书本所属的父目录名
     private String bookParentName;
@@ -18,6 +18,10 @@ public class TableOfContent {
     private List<TableOfContentItem> tableOfContentItemList;
     //目录描述列表
     private List<String> tableOfContentDescriptionList;
+    //整本书的书体，整本书的所有文章（含每篇文章顶部标题）部分
+    private String bookContentBody;
+    //整本书的来源绝对路径
+    private String bookSrcFilePath;
 
     public String getBookParentName() {
         return bookParentName;
@@ -73,5 +77,21 @@ public class TableOfContent {
 
     public void setTableOfContentDescriptionList(List<String> tableOfContentDescriptionList) {
         this.tableOfContentDescriptionList = tableOfContentDescriptionList;
+    }
+
+    public String getBookContentBody() {
+        return bookContentBody;
+    }
+
+    public void setBookContentBody(String bookContentBody) {
+        this.bookContentBody = bookContentBody;
+    }
+
+    public String getBookSrcFilePath() {
+        return bookSrcFilePath;
+    }
+
+    public void setBookSrcFilePath(String bookSrcFilePath) {
+        this.bookSrcFilePath = bookSrcFilePath;
     }
 }

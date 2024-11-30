@@ -1,10 +1,8 @@
-package code.java.io.file.book.liao;
+package code.java.io.file.book.liao.data;
 
 import code.java.io.file.book.liao.builder.BookSeperatedListBuilder;
-import code.java.io.file.book.liao.data.LiAoBookStore;
-import code.java.io.file.book.liao.data.BookTableOfContentAndBody;
+import code.java.io.file.book.liao.utils.ArticleListWriter;
 import code.java.io.file.utils.FilesLastLinesPrinter;
-import code.java.io.file.utils.BookSeperatedListWriter;
 import code.java.utils.FileUtils;
 
 import java.io.File;
@@ -14,29 +12,26 @@ import java.util.List;
 import static code.java.utils.LU.println;
 
 /**
- * 从李敖大全集目录下复制每本书的目录出来格式化后，
- * 输出到目标文件
- * 这个比ReadTableOfContentEachLiAoBookToAnotherPlace来说，
- * 职责分离更清晰
+ * 将李敖大全集5.0纯文本的文章全部切割出来
+ * 并按照所属分类目录排序存放。
  */
-public class SaveTableOfContent {
+public class SaveArticles {
 
     public static void main(String[] args) throws IOException {
         File liaoBooksRootDir = LiAoBookStore.getLiAoBooksWithoutHTMLRootDir();
-        BookSeperatedListBuilder.BookSeperatedList bsl = new BookSeperatedListBuilder()
-                .setBookSrcDir(liaoBooksRootDir.getAbsolutePath())
-                .build();
-        File tacsDir = getTablesAndContentSeparatedDir();
-        println("切割李敖大全集的书为：目录表（格式化的）和整书内容（未格式化）两部分。");
+        BookSeperatedListBuilder.BookSeperatedList tableOfContentList = new BookSeperatedListBuilder().setBookSrcDir(liaoBooksRootDir.getAbsolutePath()).build();
+        File liaoBooksTablesOfContentsRootDir = getTablesOfContentDir();
+        println("将李敖大全集5.0纯文本的文章全部切割出来,并按照所属分类目录排序存放。");
         println("copy from directory: " + liaoBooksRootDir);
-        println("copy to directory: " + tacsDir);
-        BookSeperatedListWriter writer = new BookSeperatedListWriter(bsl, tacsDir.getAbsolutePath());
-        writer.write();
+        println("copy to directory: " + liaoBooksTablesOfContentsRootDir);
+        ArticleListWriter tableWriter = new ArticleListWriter(tableOfContentList, liaoBooksTablesOfContentsRootDir.getAbsolutePath());
+        tableWriter.write();
         println("Copy finished.");
-        checkExceptedTableOfContent(bsl);
+        //showAFewLines4EachTableOfContent(liaoBooksTablesOfContentsRootDir);
+        checkExceptedTableOfContent(tableOfContentList);
     }
 
-    private static final int EXCEPTED_NUMBER = 10;
+    private static final int EXCEPTED_NUMBER = 1;
 
     private static void checkExceptedTableOfContent(BookSeperatedListBuilder.BookSeperatedList tableOfContentList) {
         List<BookTableOfContentAndBody> tocList = tableOfContentList.getTableOfContentList();
@@ -52,8 +47,8 @@ public class SaveTableOfContent {
         new FilesLastLinesPrinter(liaoBooksTablesOfContentsRootDir.getAbsolutePath(), 2).print();
     }
 
-    private static File getTablesAndContentSeparatedDir() {
-        File liaoBooksTablesOfContentsRootDir = new File(LiAoBookStore.getLiAoBooksRootDir() + "(目录和内容分离)");
+    private static File getTablesOfContentDir() {
+        File liaoBooksTablesOfContentsRootDir = new File(LiAoBookStore.getLiAoBooksRootDir() + "(每本书的文章)");
         FileUtils.makeDirIfDoesNotExist(liaoBooksTablesOfContentsRootDir);
         return liaoBooksTablesOfContentsRootDir;
     }

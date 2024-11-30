@@ -66,7 +66,7 @@ public class ReadTableOfContentEachLiAoBookToAnotherPlace {
 
     private static File getTablesOfContentDir() {
         File liaoBooksTablesOfContentsRootDir
-                = new File(LiAoBookStore.getLiAoBooksRootDir() + "(每本书的目录)");
+                = getTablesOfContentDir();
         FileUtils.makeDirIfDoesNotExist(liaoBooksTablesOfContentsRootDir);
         return liaoBooksTablesOfContentsRootDir;
     }

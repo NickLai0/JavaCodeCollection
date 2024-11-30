@@ -1,7 +1,8 @@
 package code.java.io.file.book.liao.builder;
 
-import code.java.io.file.book.liao.data.TableOfContent;
+import code.java.io.file.book.liao.data.BookTableOfContentAndBody;
 import code.java.io.file.book.liao.data.TableOfContentItem;
+import code.java.io.file.book.liao.factory.BookTableOfContentAndBodyFactory;
 import code.java.utils.FileUtils;
 import code.java.utils.IOUtils;
 
@@ -15,11 +16,18 @@ import static code.java.utils.LU.println;
 
 
 /**
- * 李敖书本目录树构建者
+ * 李敖书本目录和内容树构建者
  */
-public class TableOfContentListBuilder {
+public class BookSeperatedListBuilder {
 
-    private String bookDir;
+    //目录表文件名后缀
+    public static final String FILE_SUFFIX_TABLE = "-table.txt";
+
+    //目录表文件名前缀
+    public static final String FILE_SUFFIX_CONTENT = "-content.txt";
+
+    private String bookSrcDir;
+
     /*
      * 目录规则：
      *     一、正常情况下，书本文件目录二字的下一句就是所有目录合在一起，用“ ”间隔开的本书目录。
@@ -34,8 +42,8 @@ public class TableOfContentListBuilder {
      * 得根据书名特殊处理
      */
 
-    public TableOfContentListBuilder setBookDir(String bookDir) {
-        this.bookDir = bookDir;
+    public BookSeperatedListBuilder setBookSrcDir(String bookSrcDir) {
+        this.bookSrcDir = bookSrcDir;
         return this;
     }
 
@@ -48,14 +56,11 @@ public class TableOfContentListBuilder {
                     + "|(补充中间一段有被删除九页，由李敖影音书籍QQ群feel me提供！错字由孤笑看一线天校对。)"//《上山·上山·爱》目录结束行
     );
 
-
-    private void realBuild2(BufferedReader brInput, TableOfContent tableOfContent) throws IOException {
+    //构建整本书的目录部分
+    private void buildTableOfContent(BufferedReader brInput, BookTableOfContentAndBody tableOfContent) throws IOException {
         String temp = null;
         if ((temp = brInput.readLine()) != null) {
             tableOfContent.setBookName(temp.trim());
-        }
-        if ("我也李敖一下".equals(tableOfContent.getBookName())) {
-            println();
         }
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
@@ -147,34 +152,46 @@ public class TableOfContentListBuilder {
         }
     }
 
-    public TableOfContentList build() {
+    public BookSeperatedList build() {
         checkParameters();
-        List<TableOfContent> list = new ArrayList<>();
+        List<BookTableOfContentAndBody> list = new ArrayList<>();
         realBuild(list);
-        TableOfContentList tableOfContentList = new TableOfContentList();
+        BookSeperatedList tableOfContentList = new BookSeperatedList();
         tableOfContentList.list = list;
         return tableOfContentList;
     }
 
     private void checkParameters() {
-        if (bookDir == null) {
+        if (bookSrcDir == null) {
             throw new NullPointerException("bookDir is null");
         }
-        if (!FileUtils.makeDirIfDoesNotExist(bookDir)) {
+        if (!FileUtils.makeDirIfDoesNotExist(bookSrcDir)) {
             throw new IllegalArgumentException("bookDir doesn't exist");
         }
     }
 
-    private void realBuild(List<TableOfContent> list) {
-        for (File subDir : new File(bookDir).listFiles()) {
+    private void realBuild(List<BookTableOfContentAndBody> bookList) {
+        for (File subDir : new File(bookSrcDir).listFiles()) {
+            for (File bookFile : subDir.listFiles()) {
+                BookTableOfContentAndBody book = BookTableOfContentAndBodyFactory.create(
+                        bookFile.getAbsolutePath()
+                );
+                bookList.add(book);
+            }
+        }
+    }
+
+    private void realBuild2(List<BookTableOfContentAndBody> list) {
+        for (File subDir : new File(bookSrcDir).listFiles()) {
             for (File bookFile : subDir.listFiles()) {
                 BufferedReader br = null;
                 try {
-                    TableOfContent tableOfContent = new TableOfContent();
-                    tableOfContent.setBookParentName(subDir.getName());
-                    tableOfContent.setBookFileName(bookFile.getName());
-                    realBuild2(br = new BufferedReader(new FileReader(bookFile)), tableOfContent);
-                    list.add(tableOfContent);
+                    BookTableOfContentAndBody toc = new BookTableOfContentAndBody();
+                    toc.setBookParentName(subDir.getName());
+                    toc.setBookFileName(bookFile.getName());
+                    br = new BufferedReader(new FileReader(bookFile));
+                    buildTableOfContent(br, toc);
+                    list.add(toc);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
@@ -186,10 +203,10 @@ public class TableOfContentListBuilder {
         }
     }
 
-    public static class TableOfContentList {
-        private List<TableOfContent> list;
+    public static class BookSeperatedList {
+        private List<BookTableOfContentAndBody> list;
 
-        public List<TableOfContent> getTableOfContentList() {
+        public List<BookTableOfContentAndBody> getTableOfContentList() {
             //todo:xxx这里应该用原型设计模式，复制一份出来，以让外部无法修改内部的数据。
             //因为忘记原型设计模式原理，所以只能这样！
             return list;

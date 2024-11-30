@@ -1,7 +1,7 @@
 package code.java.io.file.utils;
 
-import code.java.io.file.book.liao.builder.TableOfContentListBuilder;
-import code.java.io.file.book.liao.data.TableOfContent;
+import code.java.io.file.book.liao.builder.BookSeperatedListBuilder;
+import code.java.io.file.book.liao.data.BookTableOfContentAndBody;
 import code.java.io.file.book.liao.data.TableOfContentItem;
 import code.java.utils.FileUtils;
 import code.java.utils.IOUtils;
@@ -9,13 +9,13 @@ import code.java.utils.IOUtils;
 import java.io.*;
 import java.util.List;
 
-public class TableOfContentListWriter {
+public class BookSeperatedListWriter {
 
-    private final TableOfContentListBuilder.TableOfContentList srcTOCList;
+    private final BookSeperatedListBuilder.BookSeperatedList srcTOCList;
 
     private final String outputDir;
 
-    public TableOfContentListWriter(TableOfContentListBuilder.TableOfContentList srcTOCList, String outputDir) {
+    public BookSeperatedListWriter(BookSeperatedListBuilder.BookSeperatedList srcTOCList, String outputDir) {
         this.srcTOCList = srcTOCList;
         this.outputDir = outputDir;
     }
@@ -24,8 +24,8 @@ public class TableOfContentListWriter {
         saveTablesOfContentsTo(srcTOCList, new File(outputDir));
     }
 
-    private void saveTablesOfContentsTo(TableOfContentListBuilder.TableOfContentList srcTOCList, File toDir) throws IOException {
-        for (TableOfContent tableOfContent : srcTOCList.getTableOfContentList()) {
+    private void saveTablesOfContentsTo(BookSeperatedListBuilder.BookSeperatedList srcTOCList, File toDir) throws IOException {
+        for (BookTableOfContentAndBody tableOfContent : srcTOCList.getTableOfContentList()) {
             File toSubDir = new File(toDir, tableOfContent.getBookParentName());
             FileUtils.makeDirIfDoesNotExist(toSubDir);
             File tableOfContentDestFile = new File(toSubDir, tableOfContent.getBookFileName());
@@ -45,7 +45,7 @@ public class TableOfContentListWriter {
 
     private static final StringBuffer mSbTemp = new StringBuffer();
 
-    private void saveTablesOfContentsTo(TableOfContent toc, PrintWriter pw) throws IOException {
+    private void saveTablesOfContentsTo(BookTableOfContentAndBody toc, PrintWriter pw) throws IOException {
         pw.println(toc.getBookName());//写入书名
         pw.println(toc.getTableOfContentTitle());//写入“目录”二字
         pw.println();//写空行
