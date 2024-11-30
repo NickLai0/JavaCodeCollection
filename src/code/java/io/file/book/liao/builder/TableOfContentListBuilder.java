@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static code.java.utils.LU.println;
+
 
 /**
  * 李敖书本目录树构建者
@@ -52,6 +54,9 @@ public class TableOfContentListBuilder {
         if ((temp = brInput.readLine()) != null) {
             tableOfContent.setBookName(temp.trim());
         }
+        if ("我也李敖一下".equals(tableOfContent.getBookName())) {
+            println();
+        }
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
             if ("目录".equals(temp)) {
@@ -92,32 +97,32 @@ public class TableOfContentListBuilder {
             tableOfContent.setTableOfContentDescriptionList(descriptionList);
         }
 
-        //最后处理目录列表行：切割出每个文章标题项，配上序号，封装保持列表
-        while (articleTitleAndDescriptionList.size() > 0) {
-            temp = articleTitleAndDescriptionList.removeLast();
-            List<TableOfContentItem> tableOfContentItemList = tableOfContent.getTableOfContentItemList();
-            if (tableOfContentItemList == null) {
-                tableOfContentItemList = new ArrayList<>();
-                tableOfContent.setTableOfContentItemList(tableOfContentItemList);
-            }
-
-            String[] articleTitleArr = temp.split(" ");
-            for (int i = 0; i < articleTitleArr.length; i++) {
-                String articleTitle = articleTitleArr[i];
-                TableOfContentItem item = new TableOfContentItem();
-                //有些目录名会被“ ”给切割成两句，下面将此种情况重新组合为一句。
-                if (articleTitle.contains("（") && !articleTitle.contains("）")) {
-                    String nextStr = null;
-                    if ((i + 1) < articleTitleArr.length && (nextStr = articleTitleArr[i + 1]) != null && !nextStr.contains("（") && nextStr.contains("）")) {
-                        //重新组合为完整的目录标题
-                        articleTitle += nextStr;
+        if (articleTitleAndDescriptionList.size() > 0) {
+            //有目录，所以顺序处理所有目录
+            List<TableOfContentItem> tableOfContentItemList = new ArrayList<>();
+            //最后处理目录列表行：切割出每个文章标题项，配上序号，封装保持列表
+            while (articleTitleAndDescriptionList.size() > 0) {
+                temp = articleTitleAndDescriptionList.removeFirst();
+                String[] articleTitleArr = temp.split(" ");
+                for (int i = 0; i < articleTitleArr.length; i++) {
+                    String articleTitle = articleTitleArr[i];
+                    TableOfContentItem item = new TableOfContentItem();
+                    //有些目录名会被“ ”给切割成两句，下面将此种情况重新组合为一句。
+                    if (articleTitle.contains("（") && !articleTitle.contains("）")) {
+                        String nextStr = null;
+                        if ((i + 1) < articleTitleArr.length && (nextStr = articleTitleArr[i + 1]) != null && !nextStr.contains("（") && nextStr.contains("）")) {
+                            //重新组合为完整的目录标题
+                            articleTitle += nextStr;
+                        }
                     }
+                    tableOfContentItemList.add(item);
+                    item.setOrder(tableOfContentItemList.size());
+                    item.setArticleTitle(articleTitle);
                 }
-                tableOfContentItemList.add(item);
-                item.setOrder(tableOfContentItemList.size());
-                item.setArticleTitle(articleTitle);
             }
+            tableOfContent.setTableOfContentItemList(tableOfContentItemList);
         }
+
     }
 
     private int descriptionCount(String bookName) {
@@ -125,7 +130,7 @@ public class TableOfContentListBuilder {
             case "李敖快意恩仇录":
             case "为中国思想趋向求答案":
             case "李戡专访与脸书合集":
-            case "我也李敖一下"://todo:xxx这本书的目录有点独特，到时候如何修正？
+            case "我也李敖一下"://这本书的目录有点独特，带有“第x部——...”这样的目录名
             case "胡适与我":
             case "笑傲六十年·有话说李敖":
             case "给马戈的五十封信":
@@ -135,7 +140,7 @@ public class TableOfContentListBuilder {
             case "千秋万岁乌鸦求是合集":
             case "李敖全集":
                 return 1;
-            case "李敖登陆记"://todo:xxx这本书的目录有点独特，到时候如何修正？
+            case "李敖登陆记"://这本书的目录有点独特，带有“上篇：李敖登陆记” “下篇：出版背后的故事”这样的目录名
                 return 2;
             default:
                 return 0;

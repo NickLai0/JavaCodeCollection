@@ -20,6 +20,9 @@ import static code.java.utils.LU.println;
 
 目的：为了拿出每篇文章的结束字符串，
 用来后续做切割出每篇文章用。
+
+得出文章的结尾行标志：.*wjm_tcy.*(制作！)$
+
 * */
 public class WjmTcyStatistics {
     public static void main(String[] args) throws IOException {
@@ -29,6 +32,7 @@ public class WjmTcyStatistics {
             Map.Entry<String, Integer> maxEntry = findMaxWjmTcyEntry(wjmTcyStatisticsMap);
             println(/*"含“wjm_tcy”的字符串: " +*/ maxEntry.getKey() + ", count=" + maxEntry.getValue());
             wjmTcyStatisticsMap.remove(maxEntry.getKey());
+            total+= maxEntry.getValue();
         }
         println("含“wjm_tcy”字符串的总数: " + total);
     }
