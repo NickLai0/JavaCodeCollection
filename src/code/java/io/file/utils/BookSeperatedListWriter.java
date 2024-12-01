@@ -3,15 +3,18 @@ package code.java.io.file.utils;
 import code.java.io.file.book.liao.builder.BookSeperatedListBuilder;
 import code.java.io.file.book.liao.data.BookTableOfContentAndBody;
 import code.java.io.file.book.liao.data.TableOfContentItem;
+import code.java.io.file.book.liao.utils.LiAoBookUtils;
 import code.java.utils.FileUtils;
 import code.java.utils.IOUtils;
 
 import java.io.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class BookSeperatedListWriter {
 
-    private static final String SUFFIX = "-目录.txt";
+    private static final String SUFFIX_TABLE_FILE = "-目录.txt";
+    private static final String SUFFIX_ARTICLE_FILE = ".txt";
 
     private final BookSeperatedListBuilder.BookSeperatedList srcTOCList;
 
@@ -32,16 +35,22 @@ public class BookSeperatedListWriter {
                     //子目录名，如：01自传回忆类
                     new File(toDir, tableOfContent.getBookParentName()),
                     //守护本目录名，结果如：01李敖自传与回忆（因文件名有序号，这一写就不需要排序）
-                    tableOfContent.getBookFileName().replace(".txt", "")
-            );
+                    tableOfContent.getBookFileName().replace(".txt", ""));
             FileUtils.makeDirIfDoesNotExist(toSubDir);
             saveTableOfContent(tableOfContent, toSubDir);
             separateAndSaveBookBody(tableOfContent, toSubDir);
         }
     }
 
+    /**
+     * 保持书本的目录部分
+     *
+     * @param tableOfContent
+     * @param toSubDir
+     * @throws IOException
+     */
     private void saveTableOfContent(BookTableOfContentAndBody tableOfContent, File toSubDir) throws IOException {
-        File tableOfContentDestFile = new File(toSubDir, tableOfContent.getBookName() + SUFFIX);
+        File tableOfContentDestFile = new File(toSubDir, tableOfContent.getBookName() + SUFFIX_TABLE_FILE);
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new BufferedWriter(new FileWriter(tableOfContentDestFile)));
@@ -51,8 +60,126 @@ public class BookSeperatedListWriter {
         }
     }
 
-    private void separateAndSaveBookBody(BookTableOfContentAndBody tableOfContent, File toSubDir) {
+    /**
+     * 保存书本体部分：切割出每篇文章，一篇文章存一个目录。
+     *
+     * @param book
+     * @param toSubDir
+     */
+    private void separateAndSaveBookBody(BookTableOfContentAndBody book, File toSubDir) throws IOException {
+        /*
+        由下面书本文章结构的出：
+            一、一般情况
+                1、文章标题
+                2、文章体
+                3、文章结束行
+            二、特殊情况
+                第x部——xxx(或者是”上篇：...“这样的书部名)
+                和“一般情况”一样
 
+        WjmTcyStatistics得出文章的结尾行标志：.*wjm_tcy.*(制作！)$
+
+        得出需求：
+            1、如果是一般情况，则切割出来
+            2、如果是非一般情况，则将“部名/篇名”
+                加入到该部第一篇文章里。
+            3、序号则用新的，不按照目录的来
+        按：这会导致未来可能要手动的改一些目录、
+        序号什么的，没法，因目前无能力全自动。
+
+
+        李敖文章结构一般和特殊情况：
+
+        一般情况：
+            目录：
+                01,瞻之在前，忽焉在后（何飞鹏）
+            文章内容（规律）：
+                瞻之在前，忽焉在后（何飞鹏）
+                （...文字内容略）
+                 wjm_tcy（不自由的自由）制作！
+        特殊情况：
+            《李敖登陆记》
+                部分目录
+                    12,下篇：出版背后的故事
+                    13,“他妈的”是粗话吗？
+                文章内容（规律）：
+                    下篇：出版背后的故事
+                    “他妈的”是粗话吗？
+                     （...文字内容略）
+                     不自由的自由（wjm_tcy）与“Jeff Ao”联合制作！
+            《我也李敖一下》和《李敖登陆记》类似，
+                部分目录：
+                    44,第三部——我也李敖一下
+                    45,速溶英雄
+                文章内容（规律）：
+                    第三部——我也李敖一下
+                    速溶英雄
+                    （...文字内容略）
+                    不自由的自由（wjm_tcy）与“Jeff Ao”联合制作！
+         */
+        String bookContentBody = book.getBookContentBody();
+        BufferedReader br = new BufferedReader(new StringReader(bookContentBody));
+        List<TableOfContentItem> tocItemList = book.getTableOfContentItemList();
+        String line;
+        Pattern articleEndLinePattern = Pattern.compile(".*wjm_tcy.*(制作！)$");
+        int articleIndex = 0;
+        for (int i = 0, size = tocItemList.size(); i < size; i++) {
+            String articleTitle = tocItemList.get(i).getArticleTitle();
+            mSbTemp.setLength(0);
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (articleTitle.equals(line)) {
+                    mSbTemp.append(line).append("\n");
+                    if (i + 1 < size) {
+                        //handle second title if it exists.
+                        TableOfContentItem tociTemp = tocItemList.get(i + 1);
+                        if ((line = br.readLine()) != null) {
+                            line = line.trim();
+                            if (tociTemp.getArticleTitle().equals(line)) {
+                                //If there is second title,which means it is the real article title.
+                                articleTitle = tociTemp.getArticleTitle();
+                                ++i;//Skip this handled item for next loop.
+                            }
+                            //Whatever it is, just add this line as the body of this article.
+                            mSbTemp.append(line).append("\n");
+                        }
+                    }
+                } else { //Add article body line.
+                    mSbTemp.append(line).append("\n");
+                    if (articleEndLinePattern.matcher(line).matches()) {
+                        //Reach the end line of this article, so break.
+                        break;
+                    }
+                }
+            }
+            saveArticle(
+                    LiAoBookUtils.addZerosDependsOnSize(++articleIndex, size),
+                    correctTitle(articleTitle),
+                    mSbTemp.toString(),
+                    toSubDir
+            );
+        }
+    }
+
+    //纠正文章标题如“李敖：不忘初心，砥砺前行。（散翎/千灯茶社）”中的“/”要替换为“-”，这样文件才能成功创建。
+    private String correctTitle(String articleTitle) {
+        return articleTitle.replace("/", "-");
+    }
+
+    //保存文章
+    private void saveArticle(String number, String title, String content, File toSubDir) throws FileNotFoundException {
+        PrintWriter pw = null;
+        //文件名：序号+文章标题+后缀
+        String filename = number + title + SUFFIX_ARTICLE_FILE;
+        try {
+            pw = new PrintWriter(
+                    new File(toSubDir, filename)
+            );
+            pw.println(content);
+
+        } finally {
+            IOUtils.closeQuietly(pw);
+        }
     }
 
     public static final String TABLE_OF_CONTENT_SEPARATOR = ",";
@@ -68,43 +195,59 @@ public class BookSeperatedListWriter {
         List<TableOfContentItem> tociList = toc.getTableOfContentItemList();
         TableOfContentItem toci = null;
         if (tociList != null && tociList.size() > 0) {
-            if (tociList.size() < 100) {
-                for (int i = 0; i < tociList.size(); i++) {
-                    toci = tociList.get(i);
-                    int titleOrder = toci.getOrder();
-                    //目录一般是用空格隔开
-                    mSbTemp.setLength(0);
-                    if (titleOrder < 10) {
-                        mSbTemp.append(PREFIX_LESS_THAN_TEN);
-                    }
-                    mSbTemp.append(titleOrder)
-                            .append(TABLE_OF_CONTENT_SEPARATOR)
-                            .append(toci.getArticleTitle());
-                    pw.println(mSbTemp.toString());
-                }
-            } else {
-                for (int i = 0; i < tociList.size(); i++) {
-                    toci = tociList.get(i);
-                    int titleOrder = toci.getOrder();
-                    //目录一般是用空格隔开
-                    mSbTemp.setLength(0);
-                    if (titleOrder < 10) {
-                        mSbTemp.append(PREFIX_LESS_THAN_ONE_HUNDRED);
-                    } else if (titleOrder < 100) {
-                        mSbTemp.append(PREFIX_LESS_THAN_TEN);
-                    }
-                    mSbTemp.append(titleOrder)
-                            .append(TABLE_OF_CONTENT_SEPARATOR)
-                            .append(toci.getArticleTitle());
-                    pw.println(mSbTemp.toString());
-                }
-            }
+            //printSerialTitle2方法的代码简化版，但运行效率会稍差些（没时间测试）
+//            printSerialTitle(pw, tociList);
+            printSerialTitle2(pw, tociList);
         }
         List<String> descriptionList = toc.getTableOfContentDescriptionList();
         if (descriptionList != null) {
             pw.println();//打印空行
             for (String description : descriptionList) {
                 pw.println(description);//打印目录描述
+            }
+        }
+    }
+
+    //printSerialTitle2方法的代码简化版，但运行效率会稍差些
+    private static void printSerialTitle(PrintWriter pw, List<TableOfContentItem> tociList) {
+        for (int i = 0, size = tociList.size(); i < size; i++) {
+            TableOfContentItem toci = tociList.get(i);
+            //目录一般是用空格隔开
+            mSbTemp.setLength(0);
+            mSbTemp.append(LiAoBookUtils.addZerosDependsOnSize(toci.getOrder(), size));
+            mSbTemp.append(toci.getArticleTitle());
+            pw.println(mSbTemp);
+        }
+    }
+
+    //printSerialTitle方法的代码增多版本，但运行效率会稍好些
+    private static void printSerialTitle2(PrintWriter pw, List<TableOfContentItem> tociList) {
+        TableOfContentItem toci;
+        if (tociList.size() < 100) {
+            for (int i = 0; i < tociList.size(); i++) {
+                toci = tociList.get(i);
+                int titleOrder = toci.getOrder();
+                //目录一般是用空格隔开
+                mSbTemp.setLength(0);
+                if (titleOrder < 10) {
+                    mSbTemp.append(PREFIX_LESS_THAN_TEN);
+                }
+                mSbTemp.append(titleOrder).append(TABLE_OF_CONTENT_SEPARATOR).append(toci.getArticleTitle());
+                pw.println(mSbTemp.toString());
+            }
+        } else {
+            for (int i = 0; i < tociList.size(); i++) {
+                toci = tociList.get(i);
+                int titleOrder = toci.getOrder();
+                //目录一般是用空格隔开
+                mSbTemp.setLength(0);
+                if (titleOrder < 10) {
+                    mSbTemp.append(PREFIX_LESS_THAN_ONE_HUNDRED);
+                } else if (titleOrder < 100) {
+                    mSbTemp.append(PREFIX_LESS_THAN_TEN);
+                }
+                mSbTemp.append(titleOrder).append(TABLE_OF_CONTENT_SEPARATOR).append(toci.getArticleTitle());
+                pw.println(mSbTemp.toString());
             }
         }
     }

@@ -25,7 +25,7 @@ public class SeparateAndSaveBooks {
                 .setBookSrcDir(liaoBooksRootDir.getAbsolutePath())
                 .build();
         File tacsDir = getTablesAndContentSeparatedDir();
-        println("切割李敖大全集的书为：目录表（格式化的）和整书内容（未格式化）两部分。");
+        println("切割李敖大全集的书为：切割出目录表和每篇文章来保存。");
         println("copy from directory: " + liaoBooksRootDir);
         println("copy to directory: " + tacsDir);
         BookSeperatedListWriter writer = new BookSeperatedListWriter(bsl, tacsDir.getAbsolutePath());
@@ -34,12 +34,12 @@ public class SeparateAndSaveBooks {
         checkExceptedTableOfContent(bsl);
     }
 
-    private static final int EXCEPTED_NUMBER = 10;
+    private static final int EXCEPTED_NUMBER = 2;
 
     private static void checkExceptedTableOfContent(BookSeperatedListBuilder.BookSeperatedList tableOfContentList) {
         List<BookTableOfContentAndBody> tocList = tableOfContentList.getTableOfContentList();
         for (BookTableOfContentAndBody toc : tocList) {
-            if (toc.getTableOfContentItemList().size() <= EXCEPTED_NUMBER) {
+            if (toc.getTableOfContentItemList().size() < EXCEPTED_NUMBER) {
                 println("《" + toc.getBookName() + "》 的目录小于" + EXCEPTED_NUMBER + ", 怀疑有异常。");
             }
         }
@@ -51,7 +51,7 @@ public class SeparateAndSaveBooks {
     }
 
     private static File getTablesAndContentSeparatedDir() {
-        File liaoBooksTablesOfContentsRootDir = new File(LiAoBookStore.getLiAoBooksRootDir() + "(目录和内容分离)");
+        File liaoBooksTablesOfContentsRootDir = new File(LiAoBookStore.getLiAoBooksRootDir() + "(每本书的目录和每篇文章分离)");
         FileUtils.makeDirIfDoesNotExist(liaoBooksTablesOfContentsRootDir);
         return liaoBooksTablesOfContentsRootDir;
     }
