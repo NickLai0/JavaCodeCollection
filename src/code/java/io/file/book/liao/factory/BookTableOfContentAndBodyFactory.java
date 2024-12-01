@@ -39,7 +39,6 @@ public class BookTableOfContentAndBodyFactory {
                     + "|(版权信息)"//《快意还乡——李敖神州文化之旅》目录结束行
                     + "|(《李敖大哥大》简介)"//《李敖大哥大》目录结束行
                     + "|(本书译名悉以李敖认定者为准，间与一般译名有异。)"//《阳痿美国》目录结束行
-                    + "|(补充中间一段有被删除九页，由李敖影音书籍QQ群feel me提供！错字由孤笑看一线天校对。)"//《上山·上山·爱》目录结束行
     );
 
     private static void separatingBookAndSave(BufferedReader brInput, BookTableOfContentAndBody book) throws IOException {
@@ -135,6 +134,7 @@ public class BookTableOfContentAndBodyFactory {
             case "虽千万人，李敖往矣":
             case "千秋万岁乌鸦求是合集":
             case "李敖全集":
+            case "上山·上山·爱":
                 return 1;
             case "李敖登陆记"://这本书的目录有点独特，带有“上篇：李敖登陆记” “下篇：出版背后的故事”这样的目录名
                 return 2;

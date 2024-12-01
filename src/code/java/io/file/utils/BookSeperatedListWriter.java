@@ -11,6 +11,8 @@ import java.io.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static code.java.utils.LU.println;
+
 public class BookSeperatedListWriter {
 
     private static final String SUFFIX_TABLE_FILE = "-目录.txt";
@@ -193,7 +195,6 @@ public class BookSeperatedListWriter {
         pw.println(toc.getTableOfContentTitle());//写入“目录”二字
         pw.println();//写空行
         List<TableOfContentItem> tociList = toc.getTableOfContentItemList();
-        TableOfContentItem toci = null;
         if (tociList != null && tociList.size() > 0) {
             //printSerialTitle2方法的代码简化版，但运行效率会稍差些（没时间测试）
 //            printSerialTitle(pw, tociList);
