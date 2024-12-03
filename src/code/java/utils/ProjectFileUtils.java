@@ -77,4 +77,16 @@ public class ProjectFileUtils {
         }
         return sImageDir;
     }
+
+    /**
+     * @return 和源代码同级的temp目录，一般用来存储和操作临时文件
+     * 如：/D:/code/java/JavaCodeCollection/temp
+     */
+    public static File getTempDir() {
+        if (sImageDir == null) {
+            sImageDir = new File(getProjectRootDir(), "temp");
+        }
+        return sImageDir;
+    }
+
 }
