@@ -6,8 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 /*
 不知为何，换成JFrame，一添加UI（如Button）就报错：BoxLayout can't be shared
-
-
  */
 public class BoxLayoutDemo1 {
     public static void main(String[] args) {
