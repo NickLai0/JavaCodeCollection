@@ -1,9 +1,14 @@
 package code.java.store.preference;
 
+import code.java.utils.ProjectFileUtils;
+
+import java.io.*;
 import java.util.prefs.BackingStoreException;
+import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 
 import static code.java.utils.LU.*;
+
 /*
 演示Preferences的基本用法，可和ImageViewer.java配合，但需先运行它。
 
@@ -22,14 +27,19 @@ an additional tree, called the system tree,
 is available for settings that are common to all users.
 * */
 public class PreferenceDemo {
-    public static void main(String[] args) throws BackingStoreException {
+
+    public static void main(String[] args) throws BackingStoreException, IOException, InvalidPreferencesFormatException {
         Preferences userRoot = Preferences.userRoot();
         Preferences userNode = userRoot.node("/com/horstmann/corejava/ImageViewer");
         println("userRoot = " + userRoot);
         println("userNode = " + userNode);
-        userNode.put(PreferenceDemo.class.getName(), "a new string saved from this class.");
+//        userNode.put(PreferenceDemo.class.getName(), "a new string saved from this class.");
         for (String key : userNode.keys()) {
             println("\t" + key + " = " + userNode.get(key, ""));
+        }
+        File exportedFile = new File(ProjectFileUtils.getTempDir(), "PreferenceExportedDemo.xml");
+        try (OutputStream out = new FileOutputStream(exportedFile)) {
+            userNode.exportNode(out);
         }
 
         printSeparateLine();
@@ -49,9 +59,11 @@ public class PreferenceDemo {
         printSeparateLine();
         Preferences userNodeForPackage = Preferences.userNodeForPackage(PreferenceDemo.class.getClass());
         println("userNodeForPackage = " + userNodeForPackage);
-        userNodeForPackage.put(PreferenceDemo.class.getName(), "a string saved from this class.");
+        //这是个static方法。将偏好信息导入到Preference中央仓库。咱不理解。
+        //Preferences.importPreferences(new FileInputStream(exportedFile));
+        userNodeForPackage.put(PreferenceDemo.class.getName(), "a string for userNodeForPackage.");
         for (String key : userNodeForPackage.keys()) {
-            println("\t" + key + " = " + userNode.get(key, ""));
+            println("\t" + key + " = " + userNodeForPackage.get(key, ""));
         }
 
         printSeparateLine();
