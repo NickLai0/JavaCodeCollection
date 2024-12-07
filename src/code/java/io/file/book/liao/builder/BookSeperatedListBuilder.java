@@ -1,18 +1,12 @@
 package code.java.io.file.book.liao.builder;
 
 import code.java.io.file.book.liao.data.BookTableOfContentAndBody;
-import code.java.io.file.book.liao.data.TableOfContentItem;
 import code.java.io.file.book.liao.factory.BookTableOfContentAndBodyFactory;
 import code.java.utils.FileUtils;
-import code.java.utils.IOUtils;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
-
-import static code.java.utils.LU.println;
 
 
 /**
@@ -61,14 +55,33 @@ public class BookSeperatedListBuilder {
     }
 
     private void realBuild(List<BookTableOfContentAndBody> bookList) {
-        for (File subDir : new File(bookSrcDir).listFiles()) {
-            for (File bookFile : subDir.listFiles()) {
-                BookTableOfContentAndBody book = BookTableOfContentAndBodyFactory.create(
+        buildRecursively(new File(bookSrcDir), bookList);
+    }
+
+    private void buildRecursively(File f, List<BookTableOfContentAndBody> bookList) {
+        if (f.isDirectory()) {
+            for (File file : f.listFiles()) {
+                if (file.isDirectory()) {
+                    //目录则递归处理
+                    buildRecursively(file, bookList);
+                } else {
+                    //文件则直接添加
+                    addBookTableOfContentAndBody(bookList, file);
+                }
+            }
+        } else {
+            //文件则直接添加
+            addBookTableOfContentAndBody(bookList, f);
+        }
+
+    }
+
+    private static void addBookTableOfContentAndBody(List<BookTableOfContentAndBody> bookList, File bookFile) {
+        BookTableOfContentAndBody book =
+                BookTableOfContentAndBodyFactory.create(
                         bookFile.getAbsolutePath()
                 );
-                bookList.add(book);
-            }
-        }
+        bookList.add(book);
     }
 
 

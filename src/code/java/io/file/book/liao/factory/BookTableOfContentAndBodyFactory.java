@@ -1,9 +1,7 @@
 package code.java.io.file.book.liao.factory;
 
-import code.java.io.file.book.liao.builder.BookSeperatedListBuilder;
 import code.java.io.file.book.liao.data.BookTableOfContentAndBody;
 import code.java.io.file.book.liao.data.TableOfContentItem;
-import code.java.utils.FileUtils;
 import code.java.utils.IOUtils;
 
 import java.io.*;
@@ -74,7 +72,7 @@ public class BookTableOfContentAndBodyFactory {
             }
         }
 
-        //先倒序处理所有文章的描述行
+        //先倒序处理所有目录的描述行
         int count = descriptionCount(book.getBookName());
         if (count > 0) {
             //的目录描述表是一行或多行的，
@@ -89,25 +87,12 @@ public class BookTableOfContentAndBodyFactory {
         if (articleTitleAndDescriptionList.size() > 0) {
             //有目录，所以顺序处理所有目录
             List<TableOfContentItem> tableOfContentItemList = new ArrayList<>();
-            //最后处理目录列表行：切割出每个文章标题项，配上序号，封装保持列表
-            while (articleTitleAndDescriptionList.size() > 0) {
-                temp = articleTitleAndDescriptionList.removeFirst();
-                String[] articleTitleArr = temp.split(" ");
-                for (int i = 0; i < articleTitleArr.length; i++) {
-                    String articleTitle = articleTitleArr[i];
-                    TableOfContentItem item = new TableOfContentItem();
-                    //有些目录名会被“ ”给切割成两句，下面将此种情况重新组合为一句。
-                    if (articleTitle.contains("（") && !articleTitle.contains("）")) {
-                        String nextStr = null;
-                        if ((i + 1) < articleTitleArr.length && (nextStr = articleTitleArr[i + 1]) != null && !nextStr.contains("（") && nextStr.contains("）")) {
-                            //重新组合为完整的目录标题
-                            articleTitle += nextStr;
-                        }
-                    }
-                    tableOfContentItemList.add(item);
-                    item.setOrder(tableOfContentItemList.size());
-                    item.setArticleTitle(articleTitle);
-                }
+            if (needSplitOutTable(book.getBookName())) {
+                //每行目录由多个标题组成，所以切割处理
+                splitOutTableOfContent(articleTitleAndDescriptionList, tableOfContentItemList);
+            } else {
+                //每行是一个目录，不需切割。
+                handleTableOfContent4EachLine(articleTitleAndDescriptionList, tableOfContentItemList);
             }
             book.setTableOfContentItemList(tableOfContentItemList);
         }
@@ -120,6 +105,54 @@ public class BookTableOfContentAndBodyFactory {
         book.setBookContentBody(sb.toString());
     }
 
+    private static void handleTableOfContent4EachLine(LinkedList<String> articleTitleAndDescriptionList, List<TableOfContentItem> tableOfContentItemList) {
+        String articleTitle;
+        while (articleTitleAndDescriptionList.size() > 0) {
+            articleTitle = articleTitleAndDescriptionList.removeFirst();
+            if(articleTitle!=null && articleTitle.length() >0) {
+                TableOfContentItem item = new TableOfContentItem();
+                tableOfContentItemList.add(item);
+                item.setOrder(tableOfContentItemList.size());
+                item.setArticleTitle(articleTitle);
+            }
+        }
+    }
+
+    private static boolean needSplitOutTable(String bookName) {
+        switch (bookName) {
+            case "李敖有话说":
+                return false;
+            default://默认情况下都需要切割
+                return true;
+        }
+    }
+
+    //每一行都有很多目录，由“ ”隔开，所以切割出每个文章标题，
+    //配上序号，封装成标题项后保持列表
+    private static void splitOutTableOfContent(LinkedList<String> articleTitleAndDescriptionList, List<TableOfContentItem> tableOfContentItemList) {
+        String temp;
+        while (articleTitleAndDescriptionList.size() > 0) {
+            temp = articleTitleAndDescriptionList.removeFirst();
+            String[] articleTitleArr = temp.split(" ");
+            for (int i = 0; i < articleTitleArr.length; i++) {
+                String articleTitle = articleTitleArr[i];
+                TableOfContentItem item = new TableOfContentItem();
+                //有些目录名会被“ ”给切割成两句，下面将此种情况重新组合为一句。
+                if (articleTitle.contains("（") && !articleTitle.contains("）")) {
+                    String nextStr = null;
+                    if ((i + 1) < articleTitleArr.length && (nextStr = articleTitleArr[i + 1]) != null && !nextStr.contains("（") && nextStr.contains("）")) {
+                        //重新组合为完整的目录标题
+                        articleTitle += nextStr;
+                    }
+                }
+                tableOfContentItemList.add(item);
+                item.setOrder(tableOfContentItemList.size());
+                item.setArticleTitle(articleTitle);
+            }
+        }
+    }
+
+    //返回目录列表下面的描述行个数
     private static int descriptionCount(String bookName) {
         switch (bookName) {
             case "李敖快意恩仇录":
