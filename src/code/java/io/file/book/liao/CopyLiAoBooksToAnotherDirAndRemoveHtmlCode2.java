@@ -1,6 +1,5 @@
 package code.java.io.file.book.liao;
 
-import code.java.io.file.book.liao.data.LiAoBookStore;
 import code.java.utils.FileUtils;
 import code.java.utils.IOUtils;
 
@@ -15,26 +14,49 @@ import static code.java.utils.LU.*;
 public class CopyLiAoBooksToAnotherDirAndRemoveHtmlCode2 {
 
     public static void main(String[] args) throws IOException {
-        File rootDir = LiAoBookStore.getLiAoBooksSortedRootDir();
+        /*File rootDir = LiAoBookStore.getLiAoBooksSortedRootDir();
         File destRootDir = new File(rootDir.getParent(), rootDir.getName() + "(去除html，仅有文字内容)");
         FileUtils.makeDirIfDoesNotExist(destRootDir);
         println("复制含html的书本内容后，去除html，并统一文件名和书本标题名后存放");
         println("Copy books(including HTML) from: " + rootDir);
-        println("Copy books(Removed HTML) To: " + destRootDir);
-        for (File srcSubDir : rootDir.listFiles()) {
-            File destSubDir = new File(destRootDir, srcSubDir.getName());
-            FileUtils.makeDirIfDoesNotExist(destSubDir);
+        println("Copy books(Removed HTML) To: " + destRootDir);*/
 
-            for (File srcFile : srcSubDir.listFiles()) {
-                String htmlText = FileUtils.fileToString(srcFile);
-                String bookText = htmlTextToBookText(htmlText);
-                String fileName = srcFile.getName();
-                String[] bookTextAndFileName = {bookText, fileName};
-                fixBookTextAndFileName(bookTextAndFileName);
-                saveBookText(bookTextAndFileName[0], destSubDir, bookTextAndFileName[1]);
-            }
-        }
+        println("复制含html的书本内容后，去除html，并统一文件名和书本标题名后存放到目标目录");
+        print("请输入html文件文目录：");
+        File rootDir = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
+        print("请输入txt文件目标目录：");
+        File destRootDir = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
+        copyRecursively(rootDir, destRootDir);
         println("复制完成，请查看：" + destRootDir);
+    }
+
+    private static void copyRecursively(File src, File destDir) throws IOException {
+        if (src.isDirectory()) {
+            for (File srcFile : src.listFiles()) {
+                if (srcFile.isDirectory()) {
+                    //源路径如果是子目录，则创建一样名字的目标目录
+                    File srcSubDir = srcFile;
+                    File destSubDir = new File(destDir, srcFile.getName());
+                    FileUtils.makeDirIfDoesNotExist(destSubDir);
+                    copyRecursively(srcSubDir, destSubDir);
+                } else {
+                    //源路径文件，直接将源html文件处理后保存到目标目录的txt文件里
+                    htmlToTextThenCopyToDestDir(srcFile, destDir);
+                }
+            }
+        } else {
+            htmlToTextThenCopyToDestDir(src, destDir);
+        }
+    }
+
+    //直接将源html文件处理后保存到目标目录的txt文件里
+    private static void htmlToTextThenCopyToDestDir(File htmlSrcFile, File destDir) throws IOException {
+        String htmlText = FileUtils.fileToString(htmlSrcFile);
+        String bookText = htmlToText(htmlText);
+        String fileName = htmlSrcFile.getName();
+        String[] bookTextAndFileName = {bookText, fileName};
+        fixBookTextAndFileName(bookTextAndFileName);
+        saveBookText(bookTextAndFileName[0], destDir, bookTextAndFileName[1]);
     }
 
     private static void fixBookTextAndFileName(String[] bookTextAndFileName) throws IOException {
@@ -46,20 +68,18 @@ public class CopyLiAoBooksToAnotherDirAndRemoveHtmlCode2 {
             printSeparateLine();
         } else if (fileName.endsWith("大江大海骗了你.txt")) {
             // “大江大海骗了”是文件名错而书名对,所以纠正文件名
-            bookTextAndFileName[1] = fileName.replace(
-                    "大江大海骗了你", "大江大海骗了你——李敖秘密谈话录"
-            );
+            bookTextAndFileName[1] = fileName.replace("大江大海骗了你", "大江大海骗了你——李敖秘密谈话录");
             println("纠正文间名：大江大海骗了你 -> 大江大海骗了你——李敖秘密谈话录");
             printSeparateLine();
         } else if (fileName.contains("中国性研究")) {
             println("《中国性研究》和其他书的目录规则有区别，改为统一的书名-》目录-》目录列表结构");
-            doubleBookNamesToOneBookNameWith目录(bookTextAndFileName,2,"中国性研究\n目录");
-            println("修改后书本的前50个字符：" + bookTextAndFileName[0].substring(0, 50));
+            doubleBookNamesToOneBookNameWith目录(bookTextAndFileName, 2, "中国性研究\n目录");
+            println("修改后书本的前50个字符：\n" + bookTextAndFileName[0].substring(0, 50));
             printSeparateLine();
-        }else if (fileName.contains("蒋介石评传")) {
+        } else if (fileName.contains("蒋介石评传")) {
             println("《蒋介石评传》和其他书的目录规则有区别，改为统一的书名-》目录-》目录列表结构");
-            doubleBookNamesToOneBookNameWith目录(bookTextAndFileName,2,"蒋介石评传\n目录");
-            println("修改后书本的前50个字符：" + bookTextAndFileName[0].substring(0, 50));
+            doubleBookNamesToOneBookNameWith目录(bookTextAndFileName, 2, "蒋介石评传\n目录");
+            println("修改后书本的前50个字符：\n" + bookTextAndFileName[0].substring(0, 50));
             printSeparateLine();
         }
     }
@@ -85,7 +105,7 @@ public class CopyLiAoBooksToAnotherDirAndRemoveHtmlCode2 {
         for (int i = 0; i < removeLines; i++) {
             length += br.readLine().length();
         }
-        bookTextAndFileName[0] = replaceRemovedStr+ bookText.substring(length);
+        bookTextAndFileName[0] = replaceRemovedStr + bookText.substring(length);
 
     }
 
@@ -106,7 +126,7 @@ public class CopyLiAoBooksToAnotherDirAndRemoveHtmlCode2 {
      * @param htmlText 上面样式的html标签包含这文本的文本
      * @return //纯书籍内容
      */
-    private static String htmlTextToBookText(String htmlText) {
+    private static String htmlToText(String htmlText) {
         String rawTextStartHtmlStr = "Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {\n" + "                        link.setAttribu te('tabIndex', sidebar === 'visible' ? 0 : -1);\n" + "                    });";
         String rawTextEndHtmlStr = "window.playground_copyable = true;";
 
