@@ -16,6 +16,8 @@ import static code.java.utils.LU.println;
 public class BookSeperatedListWriter {
 
     private static final String SUFFIX_TABLE_FILE = "-目录.txt";
+    private static final String SUFFIX_BOOK_DESCRIPTION_FILE = "-书本描述.txt";
+    private static final String SUFFIX_TABLE_DESCRIPTION_FILE = "-目录描述.txt";
     private static final String SUFFIX_ARTICLE_FILE = ".txt";
 
     private final BookSeperatedListBuilder.BookSeperatedList srcTOCList;
@@ -39,11 +41,44 @@ public class BookSeperatedListWriter {
                     //守护本目录名，结果如：01李敖自传与回忆（因文件名有序号，这一写就不需要排序）
                     tableOfContent.getBookFileName().replace(".txt", ""));
             FileUtils.makeDirIfDoesNotExist(toSubDir);
+            saveBookDescriptionIfHad(tableOfContent, toSubDir);
             saveTableOfContent(tableOfContent, toSubDir);
+            saveTableDescriptionIfHad(tableOfContent,toSubDir);
             separateAndSaveBookBody(tableOfContent, toSubDir);
         }
     }
 
+    private void saveBookDescriptionIfHad(BookTableOfContentAndBody toc, File toSubDir) throws IOException {
+        List<String> bdList = toc.getBookDescriptionList();
+        if (bdList == null || bdList.isEmpty()) {
+            return;
+        }
+        File descriptionFile = new File(toSubDir, toc.getBookName() + SUFFIX_BOOK_DESCRIPTION_FILE);
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(descriptionFile)))) {
+            pw.println(toc.getBookName());//写入书名
+            pw.println();//写空行
+            for (String articleDescription : bdList) {
+                //打印文章描述
+                pw.println(articleDescription);
+            }
+        }
+    }
+    //此方法和saveBookDescriptionIfHad高度类同
+    private void saveTableDescriptionIfHad(BookTableOfContentAndBody toc, File toSubDir) throws IOException {
+        List<String> descList = toc.getTableOfContentDescriptionList();
+        if (descList == null || descList.isEmpty()) {
+            return;
+        }
+        File descriptionFile = new File(toSubDir, toc.getBookName() + SUFFIX_TABLE_DESCRIPTION_FILE);
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(descriptionFile)))) {
+            pw.println(toc.getBookName());//写入书名
+            pw.println();//写空行
+            for (String articleDescription : descList) {
+                //打印文章描述
+                pw.println(articleDescription);
+            }
+        }
+    }
     /**
      * 保持书本的目录部分
      *
@@ -200,13 +235,16 @@ public class BookSeperatedListWriter {
 //            printSerialTitle(pw, tociList);
             printSerialTitle2(pw, tociList);
         }
-        List<String> descriptionList = toc.getTableOfContentDescriptionList();
+      /*
+      //目录描述单独存放一个文件
+      List<String> descriptionList = toc.getTableOfContentDescriptionList();
         if (descriptionList != null) {
             pw.println();//打印空行
             for (String description : descriptionList) {
                 pw.println(description);//打印目录描述
             }
         }
+        */
     }
 
     //printSerialTitle2方法的代码简化版，但运行效率会稍差些

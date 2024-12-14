@@ -35,7 +35,7 @@ public class BookTableOfContentAndBodyFactory {
             "(.*wjm_tcy.*制作.*)|(.*wjm_tcy.*编.*)"//一般目录的结束行
                     + "|(李庆元简介)"//《陈水扁的真面目》目录结束行
                     + "|(版权信息)"//《快意还乡——李敖神州文化之旅》目录结束行
-                    + "|(《李敖大哥大》简介)"//《李敖大哥大》目录结束行
+//                    + "|(《李敖大哥大》简介)"//《李敖大哥大》目录结束行
                     + "|(本书译名悉以李敖认定者为准，间与一般译名有异。)"//《阳痿美国》目录结束行
     );
 
@@ -96,7 +96,6 @@ public class BookTableOfContentAndBodyFactory {
             }
             book.setTableOfContentItemList(tableOfContentItemList);
         }
-
         //将书本的书体（所有文章含标题）转为一个字符串保存下来
         StringBuffer sb = new StringBuffer(8 * 1024);
         while ((temp = brInput.readLine()) != null) {
@@ -109,7 +108,7 @@ public class BookTableOfContentAndBodyFactory {
         String articleTitle;
         while (articleTitleAndDescriptionList.size() > 0) {
             articleTitle = articleTitleAndDescriptionList.removeFirst();
-            if(articleTitle!=null && articleTitle.length() >0) {
+            if (articleTitle != null && articleTitle.length() > 0) {
                 TableOfContentItem item = new TableOfContentItem();
                 tableOfContentItemList.add(item);
                 item.setOrder(tableOfContentItemList.size());
@@ -117,10 +116,13 @@ public class BookTableOfContentAndBodyFactory {
             }
         }
     }
-
+    //@return
+    // true：每行多个目录组成；
+    // false每行是一个目录，不需切割。
     private static boolean needSplitOutTable(String bookName) {
         switch (bookName) {
             case "李敖有话说":
+            case "李敖大哥大":
                 return false;
             default://默认情况下都需要切割
                 return true;
@@ -170,6 +172,7 @@ public class BookTableOfContentAndBodyFactory {
             case "上山·上山·爱":
                 return 1;
             case "李敖登陆记"://这本书的目录有点独特，带有“上篇：李敖登陆记” “下篇：出版背后的故事”这样的目录名
+            case "李敖大哥大":
                 return 2;
             default:
                 return 0;
