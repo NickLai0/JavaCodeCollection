@@ -43,7 +43,7 @@ public class BookSeperatedListWriter {
             FileUtils.makeDirIfDoesNotExist(toSubDir);
             saveBookDescriptionIfHad(tableOfContent, toSubDir);
             saveTableOfContent(tableOfContent, toSubDir);
-            saveTableDescriptionIfHad(tableOfContent,toSubDir);
+            saveTableDescriptionIfHad(tableOfContent, toSubDir);
             separateAndSaveBookBody(tableOfContent, toSubDir);
         }
     }
@@ -63,6 +63,7 @@ public class BookSeperatedListWriter {
             }
         }
     }
+
     //此方法和saveBookDescriptionIfHad高度类同
     private void saveTableDescriptionIfHad(BookTableOfContentAndBody toc, File toSubDir) throws IOException {
         List<String> descList = toc.getTableOfContentDescriptionList();
@@ -79,6 +80,7 @@ public class BookSeperatedListWriter {
             }
         }
     }
+
     /**
      * 保持书本的目录部分
      *
@@ -189,13 +191,29 @@ public class BookSeperatedListWriter {
                     }
                 }
             }
-            saveArticle(
-                    LiAoBookUtils.addZerosDependsOnSize(++articleIndex, size),
-                    correctTitle(articleTitle),
-                    mSbTemp.toString(),
-                    toSubDir
-            );
+            if (needAddNumber(book.getBookName())) {
+                saveArticle(
+                        LiAoBookUtils.addZerosDependsOnSize(++articleIndex, size),
+                        correctTitle(articleTitle),
+                        mSbTemp.toString(),
+                        toSubDir
+                );
+            } else {
+                saveArticle(
+                        correctTitle(articleTitle),
+                        mSbTemp.toString(),
+                        toSubDir
+                );
+            }
         }
+    }
+
+    private boolean needAddNumber(String bookName) {
+        switch (bookName) {
+            case "李敖有话说":
+                return false;
+        }
+        return true;
     }
 
     //纠正文章标题如“李敖：不忘初心，砥砺前行。（散翎/千灯茶社）”中的“/”要替换为“-”，这样文件才能成功创建。
@@ -205,7 +223,7 @@ public class BookSeperatedListWriter {
 
     //保存文章
     private void saveArticle(String number, String title, String content, File toSubDir) throws FileNotFoundException {
-        PrintWriter pw = null;
+       /* PrintWriter pw = null;
         //文件名：序号+文章标题+后缀
         String filename = number + title + SUFFIX_ARTICLE_FILE;
         try {
@@ -214,6 +232,20 @@ public class BookSeperatedListWriter {
             );
             pw.println(content);
 
+        } finally {
+            IOUtils.closeQuietly(pw);
+        }*/
+        saveArticle(number + title, content, toSubDir);
+    }
+
+    //保存文章
+    private void saveArticle(String articleName, String content, File toSubDir) throws FileNotFoundException {
+        PrintWriter pw = null;
+        //文件名：序号+文章标题+后缀
+        String filename = articleName + SUFFIX_ARTICLE_FILE;
+        try {
+            pw = new PrintWriter(new File(toSubDir, filename));
+            pw.println(content);
         } finally {
             IOUtils.closeQuietly(pw);
         }
