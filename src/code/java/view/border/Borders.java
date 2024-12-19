@@ -131,9 +131,10 @@ public class Borders extends JFrame {
                     border = BorderFactory.createEmptyBorder();
                     break;
             }
+
             jPanelCenter.setBorder(border);
-            Border titled = BorderFactory.createTitledBorder(border, borderName);
-            jPanelSouth.setBorder(titled);
+            Border titledBorder = BorderFactory.createTitledBorder(border, borderName);
+            jPanelSouth.setBorder(titledBorder);
         }
 
     }
