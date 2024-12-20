@@ -1,4 +1,4 @@
-package code.java.view.JRadioButton;
+package code.java.view.radio.JRadioButton;
 
 import java.awt.*;
 import java.awt.event.*;
