@@ -3,7 +3,8 @@ package code.java.view.layout;
 import java.awt.*;
 
 /**
- * 自己修改了一下
+ * 来源《疯狂Java讲义》
+ * Modify a little.
  *
  * Description:
  * 网站: <a href="http://www.crazyit.org">疯狂Java联盟</a><br>
@@ -15,7 +16,7 @@ import java.awt.*;
  * @author Yeeku.H.Lee kongyeeku@163.com
  * @version 1.0
  */
-public class GridBagTest {
+public class GridBagLayoutTest {
     private Frame f = new Frame("测试窗口");
     private GridBagLayout gb = new GridBagLayout();
     private GridBagConstraints gbc = new GridBagConstraints();
@@ -69,6 +70,6 @@ public class GridBagTest {
     }
 
     public static void main(String[] args) {
-        new GridBagTest().init();
+        new GridBagLayoutTest().init();
     }
 }

@@ -1,11 +1,11 @@
 package code.java.view.font;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.*;
 import javax.swing.*;
-
-import static code.java.utils.LU.println;
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * From Core Java volume 1。Modified a little.
@@ -21,7 +21,7 @@ public class DrawFontAndItsBaselineAndHeightFrame {
     public static void main(String[] args) {
         EventQueue.invokeLater(() ->//==new Runnable(){public void run(){...}}
         {
-            var frame = new FontFrame();
+            var frame = new InternalFontFrame();
             frame.setTitle("根据font height = ascent + descent + leading的公式，leading在这个案例中，岂不是指在字母顶部那一点点？");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
@@ -33,8 +33,8 @@ public class DrawFontAndItsBaselineAndHeightFrame {
  * A frame with a text message component.
  */
 
-class FontFrame extends JFrame {
-    public FontFrame() {
+class InternalFontFrame extends JFrame {
+    public InternalFontFrame() {
         add(new FontComponent());
         pack();
     }
