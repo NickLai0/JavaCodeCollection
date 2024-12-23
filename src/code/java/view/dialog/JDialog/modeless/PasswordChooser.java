@@ -3,17 +3,8 @@ package code.java.view.dialog.JDialog.modeless;
 import code.java.data.User;
 import code.java.utils.FrameUtils;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Frame;
-import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * From Java Core 1: Listing 11.14 dataExchange/PasswordChooser.java
@@ -46,9 +37,7 @@ public class PasswordChooser extends JPanel {
             okButtonClicked = true;
             dialog.setVisible(false);
         });
-        cancelButton.addActionListener(
-                event -> dialog.setVisible(false)
-        );
+        cancelButton.addActionListener(event -> dialog.setVisible(false));
     }
 
     private void prepareSouth() {
@@ -103,7 +92,12 @@ public class PasswordChooser extends JPanel {
             dialog = new JDialog(owner, true);
             //Set dialog view.
             dialog.add(this);
+
             //Config default button outside.
+            //Many dialogs have a default button,
+            // which is automatically selected
+            // if the user presses a trigger key
+            // (Enter in most look-and-feel implementations)
             dialog.getRootPane().setDefaultButton(okButton);
             dialog.pack();
         }

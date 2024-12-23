@@ -22,6 +22,9 @@ public final class FrameUtils {
     public static Frame getFrameAncestorOfClass(Component c) {
         if (c instanceof Frame)
             return (Frame) c;
+        // returns the innermost parent container of
+        // the given component that belongs to
+        // the given class or one of its subclasses.
         return (Frame) SwingUtilities.getAncestorOfClass(Frame.class, c);
     }
 
