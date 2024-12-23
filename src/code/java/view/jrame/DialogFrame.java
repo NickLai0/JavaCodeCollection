@@ -1,6 +1,6 @@
 package code.java.view.jrame;
 
-import code.java.view.dialog.JDialog.AboutDialog;
+import code.java.view.dialog.JDialog.modeless.AboutDialog;
 
 import javax.swing.*;
 
@@ -26,6 +26,7 @@ public class DialogFrame extends JFrame {
 
     public DialogFrame() {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initView();
         initListener();
     }
