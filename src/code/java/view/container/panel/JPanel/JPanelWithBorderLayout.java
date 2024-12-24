@@ -1,4 +1,4 @@
-package code.java.view.container;
+package code.java.view.container.panel.JPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package code.java.view.jrame;
+package code.java.view.container.frame.Jframe;
 
 import code.java.view.dialog.JDialog.modeless.AboutDialog;
 

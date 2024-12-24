@@ -1,6 +1,6 @@
 package code.java.store.preference;
 
-import code.java.view.jrame.ImageViewerFrame;
+import code.java.view.container.frame.Jframe.ImageViewerFrame;
 
 import javax.swing.*;
 import java.awt.*;

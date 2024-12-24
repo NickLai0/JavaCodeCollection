@@ -1,4 +1,4 @@
-package code.java.view.custome.demension;
+package code.java.view.container.component.custom;
 
 import java.awt.*;
 import java.awt.geom.*;

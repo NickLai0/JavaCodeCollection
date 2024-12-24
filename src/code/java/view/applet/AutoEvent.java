@@ -1,6 +1,6 @@
 package code.java.view.applet;
 
-import code.java.view.custome.button.MyButton;
+import code.java.view.button.custom.MyButton;
 
 import javax.swing.*;
 import java.applet.Applet;

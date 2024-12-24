@@ -1,4 +1,4 @@
-package code.java.view.custome.panel;
+package code.java.view.container.panel;
 
 /*
 From Thinking in Java.I modified a lot.

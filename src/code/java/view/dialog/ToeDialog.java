@@ -1,6 +1,6 @@
 package code.java.view.dialog;
 
-import code.java.view.custome.button.ToeButton;
+import code.java.view.button.custom.ToeButton;
 
 import java.awt.*;
 
