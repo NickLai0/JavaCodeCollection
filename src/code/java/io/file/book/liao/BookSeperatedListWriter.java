@@ -1,4 +1,4 @@
-package code.java.io.file.utils;
+package code.java.io.file.book.liao;
 
 import code.java.io.file.book.liao.builder.BookSeperatedListBuilder;
 import code.java.io.file.book.liao.data.BookTableOfContentAndBody;
@@ -10,8 +10,6 @@ import code.java.utils.IOUtils;
 import java.io.*;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import static code.java.utils.LU.println;
 
 public class BookSeperatedListWriter {
 
@@ -160,7 +158,19 @@ public class BookSeperatedListWriter {
         BufferedReader br = new BufferedReader(new StringReader(bookContentBody));
         List<TableOfContentItem> tocItemList = book.getTableOfContentItemList();
         String line;
-        Pattern articleEndLinePattern = Pattern.compile(".*wjm_tcy.*(制作！)$");
+        /*
+         * 结束行：
+         *      1、天花乱坠、wjm_tcy（不自由的自由）与Jeff Ao联合制作！
+         *          对应正则：".*wjm_tcy.*(制作！)$"
+         *      2、天花乱坠与Jeff Ao联合制作！
+         *          对应正则：".*Jeff Ao.*(制作！)$"
+         *
+         * 得出最终正则：
+         */
+        Pattern articleEndLinePattern = Pattern.compile(
+                "(.*wjm_tcy.*(制作！)$)"
+                        + "|(.*Jeff Ao.*(制作！)$)"
+        );
         int articleIndex = 0;
         for (int i = 0, size = tocItemList.size(); i < size; i++) {
             String articleTitle = tocItemList.get(i).getArticleTitle();

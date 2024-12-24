@@ -28,6 +28,7 @@ public class PlanetTableFrame extends JFrame {
 
     public PlanetTableFrame() {
         JTable table = new JTable(cells, columnNames);
+        //自动创建行排序器
         table.setAutoCreateRowSorter(true);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
@@ -45,7 +46,6 @@ public class PlanetTableFrame extends JFrame {
                 e.printStackTrace();
             }
         });
-
     }
 
     public static void main(String[] args) {
