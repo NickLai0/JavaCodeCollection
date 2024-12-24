@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 /**
  * From Java Core 1:Listing 11.13 dataExchange/DataExchangeFrame.java
- *
+ * <p>
  * Demonstrate how to exchange data between frame and dialog.
  *
  * <p>
@@ -43,6 +43,9 @@ public class DataExchangeFrame extends JFrame {
         connectItem.addActionListener(new ConnectAction());
         exitItem.addActionListener(event -> System.exit(0));
     }
+
+
+
 
     private void setupCenterPanel() {
         ta = new JTextArea(TEXT_ROWS, TEXT_COLUMNS);

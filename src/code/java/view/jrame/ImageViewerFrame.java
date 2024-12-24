@@ -35,6 +35,7 @@ public class ImageViewerFrame extends JFrame {
         var label = new JLabel();
         //设置只有JFrame的一般那么大
         label.setBounds(0, 0, width / 2, height / 2);
+        //label.setPreferredSize(new Dimension(width / 2, height / 2));
         //先add label后setIcon才能显示图片，真他妈妈的！Java Core此案例有bug！
         add(label);
 
@@ -88,4 +89,5 @@ public class ImageViewerFrame extends JFrame {
         menu.add(exitItem);
         exitItem.addActionListener(event -> System.exit(0));
     }
+
 }
