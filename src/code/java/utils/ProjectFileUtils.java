@@ -67,6 +67,7 @@ public class ProjectFileUtils {
     }
 
     private static File sImageDir;
+
     /**
      * @return 项目资源所在目录，
      * 如：/D:/code/java/JavaCodeCollection/src/res/images
@@ -78,15 +79,21 @@ public class ProjectFileUtils {
         return sImageDir;
     }
 
+    private static File sTempDir;
+
     /**
      * @return 和源代码同级的temp目录，一般用来存储和操作临时文件
      * 如：/D:/code/java/JavaCodeCollection/temp
      */
     public static File getTempDir() {
-        if (sImageDir == null) {
-            sImageDir = new File(getProjectRootDir(), "temp");
+        if (sTempDir == null) {
+            sTempDir = new File(getProjectRootDir(), "temp");
         }
-        return sImageDir;
+        return sTempDir;
+    }
+
+    public static String getImageAbsPathByName(String iconName) {
+        return getImageDir().getAbsolutePath() + "/" + iconName;
     }
 
 }
