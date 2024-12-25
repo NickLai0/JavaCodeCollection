@@ -1,5 +1,7 @@
 package code.java.view.container.frame.Jframe;
 
+import code.java.utils.FrameUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -58,10 +60,7 @@ public class ImageViewerFrame extends JFrame {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            var frame = new ImageViewerFrame();
-            frame.setTitle("ImageViewer");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
+            FrameUtils.visibleAndExitOnClose(ImageViewerFrame.class);
         });
     }
 

@@ -11,6 +11,7 @@ import static code.java.utils.LU.println;
 import static code.java.utils.ProjectFileUtils.getImageAbsPathByName;
 
 public class FileIconView extends FileView {
+
     private FileFilter filter;
 
     public FileIconView(FileFilter filter) {
@@ -63,4 +64,5 @@ public class FileIconView extends FileView {
             return null;
         }
     }
+
 }
