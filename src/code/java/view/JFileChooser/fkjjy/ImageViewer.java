@@ -1,4 +1,4 @@
-package code.java.view.JFileChooser;
+package code.java.view.JFileChooser.fkjjy;
 
 import code.java.view.JFileChooser.filter.CommonImageExtensionFileFilter;
 
@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.util.ArrayList;
 
 import static code.java.utils.LU.println;
 
@@ -200,12 +199,42 @@ class FileIconView extends FileView {
     public FileIconView(FileFilter filter) {
         this.filter = filter;
     }
-
     // 重写该方法，为文件夹、文件设置图标
-    //不知为何，代码执行了，就是不显示图标。
+    //相对路径不显示图标,改为绝对路径。
     public Icon getIcon(File f) {
         if (!f.isDirectory() && filter.accept(f)) {
             println("getIcon-> 给图片显示图标");
+            //不显示图标。要用绝对路径？
+            return new ImageIcon(getIconAbsPath("pict.png"));
+        } else if (f.isDirectory()) {
+            // 获取所有根路径
+            File[] fList = File.listRoots();
+            for (File tmp : fList) {
+                // 如果该路径是根路径
+                if (tmp.equals(f)) {
+                    println("getIcon-> 给目录显示桌面图标");
+                    //不显示图标。要用绝对路径？
+                    return new ImageIcon(getIconAbsPath("dsk.png"));
+                }
+            }
+            println("getIcon-> 给目录显示文件夹图标");
+            return new ImageIcon(getIconAbsPath("folder.png"));
+        } else { // 使用默认图标
+            return null;
+        }
+    }
+
+    private static String getIconAbsPath(String iconName) {
+        String iconDir = "D:/code/java/JavaCodeCollection/out/production/CodeCollection/code/java/view/JFileChooser/fkjjy/ico/";
+        return iconDir+iconName;
+    }
+
+    // 重写该方法，为文件夹、文件设置图标、
+    //图标相对路径不显示，改为绝对路径，如何才能相对路径可显示？
+    public Icon getIcon2(File f) {
+        if (!f.isDirectory() && filter.accept(f)) {
+            println("getIcon-> 给图片显示图标");
+            //不显示图标。要用绝对路径？
             return new ImageIcon("ico/pict.png");
         } else if (f.isDirectory()) {
             // 获取所有根路径
@@ -214,6 +243,7 @@ class FileIconView extends FileView {
                 // 如果该路径是根路径
                 if (tmp.equals(f)) {
                     println("getIcon-> 给目录显示桌面图标");
+                    //不显示图标。要用绝对路径？
                     return new ImageIcon("ico/dsk.png");
                 }
             }
