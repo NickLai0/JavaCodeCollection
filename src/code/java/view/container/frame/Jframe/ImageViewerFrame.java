@@ -1,6 +1,7 @@
 package code.java.view.container.frame.Jframe;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -37,7 +38,7 @@ public class ImageViewerFrame extends JFrame {
         label.setBounds(0, 0, width / 2, height / 2);
         //label.setPreferredSize(new Dimension(width / 2, height / 2));
         //先add label后setIcon才能显示图片，真他妈妈的！Java Core此案例有bug！
-        add(label);
+        add(new JScrollPane(label));
 
         if (imagePath != null) label.setIcon(new ImageIcon(imagePath));
         // use a label to display the images
@@ -52,6 +53,15 @@ public class ImageViewerFrame extends JFrame {
                 node.putInt("height", getHeight());
                 if (imagePath != null) node.put("image", imagePath);
             }
+        });
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            var frame = new ImageViewerFrame();
+            frame.setTitle("ImageViewer");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
         });
     }
 
