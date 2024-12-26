@@ -7,21 +7,21 @@ import java.io.*;
 
 import static code.java.utils.LU.print;
 import static code.java.utils.LU.println;
+
 /**
- *
  * 将源文件夹下的所有文件（含子目录下的文件），
  * 用GB2312编码读取出来后，再用UTF-8编码保存
  * 到目标目录，同时在"all files(system generated)"
  * 目录下也保持一份。
- *
+ * <p>
  * 因《疯狂Java讲义第4版》源代码+课件下的代码文件是用GB2312编码存放，
  * 但IntelliJ IDEA默认用UTF8，所以直接打开会乱码。
- *
+ * <p>
  * 解决方案：
  * 1、先用GB2312编码读取源代码文件，解析为Java的unicode字符串
  * 2、然后将其保存，由于默认使用UTF-8编码集，所以按照UTF-8编码集
  * 保存(用IntelliJ IDEA打开后就没有乱码了)。
- *
+ * <p>
  * D:\坚果云盘\notebook\软件研究\Java\books\疯狂Java讲义\《疯狂Java讲义第4版》高清PDF+源代码+课件\《疯狂Java讲义第4版》源代码+课件\codes\12
  * D:\code\java\JavaCodeCollection\temp\书本处理目标目录
  */
@@ -31,7 +31,7 @@ public class FKJJYCodeToUTF8 {
 
     public static void main(String[] args) throws IOException {
         println("Source code file（.java） to UTF-8 encode.");
-        print("Source directory:");
+        print("Source directory(or file):");
         File srcDir = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
         print("dest directory:");
         File destDir = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
@@ -47,21 +47,22 @@ public class FKJJYCodeToUTF8 {
      * 递归转txtFromDir目录下的.java文件为UTF-8编码集，
      * 保存到toDir目录下
      *
-     * @param fromDir
+     * @param f
      * @param toDir
      * @throws IOException
      */
-    private void toUTF8ForJavaSourceCodeFilesRecursively(File fromDir, File toDir) throws IOException {
-        for (File f : fromDir.listFiles()) {
-            if (f.isDirectory()) {
-                //遇到来源是子目录，则在目标目录创建同名子目录
-                File newDestDir = new File(toDir, f.getName());
-                newDestDir.mkdirs();
-                toUTF8ForJavaSourceCodeFilesRecursively(f, newDestDir);
-            } else {
-                if (f.getName().endsWith(".java")) {
-                    javaSourceCodeToUTF8(f, toDir);
-                }
+    private void toUTF8ForJavaSourceCodeFilesRecursively(File f, File toDir) throws IOException {
+        if (f.isDirectory()) {
+            //来源是目录
+            File newDestDir = new File(toDir, f.getName());
+            //在目标目录创建同名子目录
+            newDestDir.mkdirs();
+            for (File anotherF : f.listFiles()) {
+                toUTF8ForJavaSourceCodeFilesRecursively(anotherF, newDestDir);
+            }
+        } else {
+            if (f.getName().endsWith(".java")) {
+                javaSourceCodeToUTF8(f, toDir);
             }
         }
     }
