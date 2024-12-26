@@ -1,5 +1,7 @@
 package code.java.view.table.JTable;
 
+import code.java.utils.FrameUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.print.PrinterException;
@@ -49,12 +51,8 @@ public class PlanetTableFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            PlanetTableFrame frame = new PlanetTableFrame();
-            frame.setTitle("TableTest");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-        });
+        FrameUtils.visibleAndExitOnClose(PlanetTableFrame.class)
+                .setTitle("Planet Table");
     }
 
 }

@@ -5,17 +5,21 @@ import java.awt.*;
 
 public final class FrameUtils {
 
-    public static void visibleAndExitOnClose(Class<? extends JFrame> clz) {
-        if (clz == null) {
-            return;
+    public static JFrame visibleAndExitOnClose(Class<? extends JFrame> clz) {
+        JFrame f = null;
+        if (clz != null) {
+            try {
+                f = clz.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            JFrame f = clz.newInstance();
+
+        if (f != null) {
             f.setVisible(true);
             f.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        return f;
     }
 
     // locate the owner frame
