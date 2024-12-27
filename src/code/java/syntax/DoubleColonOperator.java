@@ -118,7 +118,15 @@ public class DoubleColonOperator extends SuperClass {
     String print(String s) {
         // call the super method  using double colon operator
         Function<String, String> func = super::print;
-
+       /*
+       上面的一行代码，似乎就等同于下面这一块代码：
+       Function<String, String> func = new Function() {
+            @Override
+            public Object apply(Object o) {
+                DoubleColonOperator.super.print((String) o);
+                return null;
+            }
+        };*/
         String newValue = func.apply(s);
         newValue += "After super method be called:" + s + "\n";
         System.out.println(newValue);

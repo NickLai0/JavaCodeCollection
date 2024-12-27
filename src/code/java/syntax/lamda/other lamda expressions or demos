@@ -1,6 +1,0 @@
-other lamda expressions or demos that you can search
-from the whole project by the following keywords：
-1、() ->
-2、() -> {
-3、 -> //注意前后要有空格，这种方式貌似是回调方法要
-有参数才行，如：e -> {...},大扩括号可省略。
