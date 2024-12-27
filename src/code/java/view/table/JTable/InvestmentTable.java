@@ -9,7 +9,8 @@ import javax.swing.*;
  * From Java Core 2.
  * Modified.
  * <p>
- * This program shows how to build a table from a table model.
+ * This program shows how to build
+ * a table from a table model.
  *
  * @author Cay Horstmann
  * @version 1.05 2021-09-09

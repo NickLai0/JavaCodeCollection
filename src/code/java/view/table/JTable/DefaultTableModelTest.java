@@ -71,6 +71,7 @@ public class DefaultTableModelTest extends JFrame {
         pack();
     }
 
+    
     private void initListener() {
         hideColumnsItem.addActionListener(new HideColumnsAction());
         showColumnsItem.addActionListener(new ShowColumnsAction());
@@ -88,7 +89,6 @@ public class DefaultTableModelTest extends JFrame {
         menu.add(addRowItem);
         menu.add(removeRowsItem);
     }
-
 
     class HideColumnsAction implements ActionListener {
         @Override

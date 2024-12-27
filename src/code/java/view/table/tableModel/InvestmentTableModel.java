@@ -57,4 +57,8 @@ public class InvestmentTableModel extends AbstractTableModel {
     public String getColumnName(int c) {
         return (c + minRate) + "%";
     }
+
+
+
+
 }
