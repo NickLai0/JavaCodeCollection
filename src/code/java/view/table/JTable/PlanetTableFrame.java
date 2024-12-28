@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.print.PrinterException;
 
 /**
+ * From Core Java 2.
+ * Modified.
+ * PlanetTableFrame2 shows more demos.
+ * <p>
  * This frame contains a table of planet data.
  */
 public class PlanetTableFrame extends JFrame {

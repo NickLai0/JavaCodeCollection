@@ -93,7 +93,7 @@ public class ProjectFileUtils {
     }
 
     public static String getImageAbsPathByName(String iconName) {
-        return getImageDir().getAbsolutePath() + "/" + iconName;
+        return getImageDir().getAbsolutePath() + "\\" + iconName;
     }
 
 }
