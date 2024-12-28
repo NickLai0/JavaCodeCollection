@@ -58,7 +58,4 @@ public class InvestmentTableModel extends AbstractTableModel {
         return (c + minRate) + "%";
     }
 
-
-
-
 }

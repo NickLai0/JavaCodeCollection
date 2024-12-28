@@ -8,12 +8,12 @@ public class BaseExtensionFileFilter extends FileFilter {
 
     private String description;
 
-    private ArrayList<String> extensions = new ArrayList<>();
+    private ArrayList<String> suffixList = new ArrayList<>();
 
     //添加扩展名：.png或者png等都可以
-    public void addExtensions(String... extensionArr) {
-        if (extensionArr != null && extensionArr.length > 0) {
-            for (String extension : extensionArr) {
+    public void addExtensions(String... sufArr) {
+        if (sufArr != null && sufArr.length > 0) {
+            for (String extension : sufArr) {
                 addExtension(extension);
             }
         }
@@ -27,7 +27,7 @@ public class BaseExtensionFileFilter extends FileFilter {
         if (!extension.startsWith(".")) {
             extension = "." + extension;
         }
-        extensions.add(extension.toLowerCase());
+        suffixList.add(extension.toLowerCase());
     }
 
     // 用于设置该文件过滤器的描述文本
@@ -47,7 +47,7 @@ public class BaseExtensionFileFilter extends FileFilter {
         // 将文件名转为小写（全部转为小写后比较，用于忽略文件名大小写）
         String name = f.getName().toLowerCase();
         // 遍历所有可接受的扩展名，如果扩展名相同，该文件就可接受。
-        for (String extension : extensions) {
+        for (String extension : suffixList) {
             if (name.endsWith(extension)) {
                 return true;
             }
