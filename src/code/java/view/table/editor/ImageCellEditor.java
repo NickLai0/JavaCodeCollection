@@ -72,7 +72,7 @@ public class ImageCellEditor extends DefaultCellEditor {
                 if (f.isDirectory()) {
                     return true;
                 }
-                String suf = PrefixAndSuffixUtils.getExtension(f);
+                String suf = PrefixAndSuffixUtils.getSuffix(f);
                 if (suf != null) {
                     if (suf.equals(ImageUtils.tiff)
                             || suf.equals(ImageUtils.tif)
