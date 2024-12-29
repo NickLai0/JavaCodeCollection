@@ -11,6 +11,8 @@ import java.io.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static code.java.utils.LU.println;
+
 public class BookSeperatedListWriter {
 
     private static final String SUFFIX_TABLE_FILE = "-目录.txt";
@@ -32,17 +34,22 @@ public class BookSeperatedListWriter {
     }
 
     private void saveBookTo(BookSeperatedListBuilder.BookSeperatedList srcTOCList, File toDir) throws IOException {
-        for (BookTableOfContentAndBody tableOfContent : srcTOCList.getTableOfContentList()) {
+        for (BookTableOfContentAndBody bookData : srcTOCList.getTableOfContentList()) {
             File toSubDir = new File(
                     //子目录名，如：01自传回忆类
-                    new File(toDir, tableOfContent.getBookParentName()),
+                    new File(toDir, bookData.getBookParentName()),
                     //守护本目录名，结果如：01李敖自传与回忆（因文件名有序号，这一写就不需要排序）
-                    tableOfContent.getBookFileName().replace(".txt", ""));
+                    bookData.getBookFileName().replace(".txt", ""));
             FileUtils.makeDirIfDoesNotExist(toSubDir);
-            saveBookDescriptionIfHad(tableOfContent, toSubDir);
-            saveTableOfContent(tableOfContent, toSubDir);
-            saveTableDescriptionIfHad(tableOfContent, toSubDir);
-            separateAndSaveBookBody(tableOfContent, toSubDir);
+            try {
+                saveBookDescriptionIfHad(bookData, toSubDir);
+                saveTableOfContent(bookData, toSubDir);
+                saveTableDescriptionIfHad(bookData, toSubDir);
+                separateAndSaveBookBody(bookData, toSubDir);
+            } catch (Exception e) {
+                println("Met an exception：" + bookData);
+                throw e;
+            }
         }
     }
 
@@ -203,6 +210,7 @@ public class BookSeperatedListWriter {
             }
             if (needAddNumber(book.getBookName())) {
                 saveArticle(
+                        book.getBookName(),
                         LiAoBookUtils.addZerosDependsOnSize(++articleIndex, size),
                         correctTitle(articleTitle),
                         mSbTemp.toString(),
@@ -210,6 +218,7 @@ public class BookSeperatedListWriter {
                 );
             } else {
                 saveArticle(
+                        book.getBookName(),
                         correctTitle(articleTitle),
                         mSbTemp.toString(),
                         toSubDir
@@ -232,29 +241,18 @@ public class BookSeperatedListWriter {
     }
 
     //保存文章
-    private void saveArticle(String number, String title, String content, File toSubDir) throws FileNotFoundException {
-       /* PrintWriter pw = null;
-        //文件名：序号+文章标题+后缀
-        String filename = number + title + SUFFIX_ARTICLE_FILE;
-        try {
-            pw = new PrintWriter(
-                    new File(toSubDir, filename)
-            );
-            pw.println(content);
-
-        } finally {
-            IOUtils.closeQuietly(pw);
-        }*/
-        saveArticle(number + title, content, toSubDir);
+    private void saveArticle(String bookName, String number, String title, String content, File toSubDir) throws FileNotFoundException {
+        saveArticle(bookName, number + title, content, toSubDir);
     }
 
     //保存文章
-    private void saveArticle(String articleName, String content, File toSubDir) throws FileNotFoundException {
+    private void saveArticle(String bookName, String articleName, String content, File toSubDir) throws FileNotFoundException {
         PrintWriter pw = null;
         //文件名：序号+文章标题+后缀
         String filename = articleName + SUFFIX_ARTICLE_FILE;
         try {
             pw = new PrintWriter(new File(toSubDir, filename));
+            pw.println("注：来源《" + bookName + "》");
             pw.println(content);
         } finally {
             IOUtils.closeQuietly(pw);

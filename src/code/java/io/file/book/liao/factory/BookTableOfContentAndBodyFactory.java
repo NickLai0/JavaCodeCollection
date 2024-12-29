@@ -116,6 +116,7 @@ public class BookTableOfContentAndBodyFactory {
             }
         }
     }
+
     //@return
     // true：每行多个目录组成；
     // false每行是一个目录，不需切割。
@@ -174,6 +175,8 @@ public class BookTableOfContentAndBodyFactory {
             case "李敖登陆记"://这本书的目录有点独特，带有“上篇：李敖登陆记” “下篇：出版背后的故事”这样的目录名
             case "李敖大哥大":
                 return 2;
+            case "四十二年，我的“恶邻”李敖大师":
+                return 10;
             default:
                 return 0;
         }

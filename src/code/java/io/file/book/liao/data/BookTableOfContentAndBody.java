@@ -94,4 +94,14 @@ public class BookTableOfContentAndBody {
     public void setBookSrcFilePath(String bookSrcFilePath) {
         this.bookSrcFilePath = bookSrcFilePath;
     }
+
+    @Override
+    public String toString() {
+        return "BookTableOfContentAndBody{" +
+                "bookName='" + bookName + '\'' +
+                ", bookFileName='" + bookFileName + '\'' +
+                ", bookParentName='" + bookParentName + '\'' +
+                '}';
+    }
+
 }
