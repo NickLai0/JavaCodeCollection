@@ -1,5 +1,6 @@
 package code.java.io.file.book;
 
+import code.java.utils.FileUtils;
 import code.java.utils.IOUtils;
 
 import java.io.*;
@@ -11,20 +12,33 @@ public class CoreJavaCodeRemoveLineNumber {
 
     public static void main(String[] args) throws IOException {
         println("Core Java code transfer. Remove line numbers.");
-        print("请输入源代码绝对路径：");
-        File srcFile = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
+        print("请输入源代码文件或目录绝对路径：");
+        File src = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
         print("请输入目标存放结果目录：");
-        File destDir = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
-        transferTo(srcFile, destDir);
+        File dest = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
+        removeLineNumberThenTransferToRecursively(src, dest);
     }
 
-    //移出代码的行号，保留结果到目标目录
-    private static void transferTo(File srcFile, File destDir) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(srcFile));
-        PrintWriter pw = new PrintWriter(new FileWriter(new File(destDir, srcFile.getName())));
+    //递归遍历源文件和文件夹
+    private static void removeLineNumberThenTransferToRecursively(File src, File destDir) throws IOException {
+        if (src.isDirectory()) {
+            File subDestDir = new File(destDir, src.getName());
+            FileUtils.makeDirIfDoesNotExist(subDestDir);
+            for (File f : src.listFiles()) {
+                removeLineNumberThenTransferToRecursively(f, subDestDir);
+            }
+        } else {
+            removeLineNumbersAndTransferTo(src, new File(destDir, src.getName()));
+        }
+    }
+
+    //移出源文件的行号后，保存到目标文件
+    private static void removeLineNumbersAndTransferTo(File src, File dest) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(src));
+        PrintWriter pw = new PrintWriter(new FileWriter(dest));
         String line;
         while ((line = br.readLine()) != null) {
-            line = fixLine(line);
+            line = removeLineNumbers(line);
             if (line != null && line.length() > 0) {
                 pw.println(line);
             }
@@ -32,14 +46,15 @@ public class CoreJavaCodeRemoveLineNumber {
         IOUtils.closeQuietly(br, pw);
     }
 
-    private static String fixLine(String line) {
+    //给字符串除行号
+    private static String removeLineNumbers(String line) {
         String fixedLine = line.trim();
         if (fixedLine.length() == 0) {
             return "";
         }
         int i = 0;
         char ch;
-        while (i< fixedLine.length() && (ch = fixedLine.charAt(i)) >= '0' && ch <= '9') {
+        while (i < fixedLine.length() && (ch = fixedLine.charAt(i)) >= '0' && ch <= '9') {
             i++;
         }
         if (i > 0) {

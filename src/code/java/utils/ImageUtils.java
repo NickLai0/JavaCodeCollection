@@ -1,5 +1,7 @@
 package code.java.utils;
 
+import javax.swing.*;
+
 public class ImageUtils {
     public final static String jpeg = "jpeg";
     public final static String jpg = "jpg";
@@ -9,4 +11,14 @@ public class ImageUtils {
     public final static String png = "png";
     //    public final static String webh = "webh";
     public static final String[] imageSuffixArr = new String[]{jpeg, jpg, gif, tiff, tif, png};
+
+
+    //返回本项目的图片绝对路径,用法：getImageAbsPath("Mercury.gif")
+    public static String getImageAbsPath(String imageName) {
+        return ProjectFileUtils.getImageAbsPathByName(imageName);
+    }
+
+    public static ImageIcon newImageIcon(String imageName) {
+        return new ImageIcon(getImageAbsPath(imageName)) ;
+    }
 }

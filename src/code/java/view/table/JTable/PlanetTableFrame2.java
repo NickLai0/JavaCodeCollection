@@ -10,6 +10,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import static code.java.utils.ImageUtils.getImageAbsPath;
+
 /**
  * From Java Core 2.
  * Modified a lot.
@@ -56,7 +58,17 @@ public class PlanetTableFrame2 extends JFrame {
 
     private String[] columnNames = {"Planet", "Radius", "Moons", "Gaseous", "Color", "Image"};
     //因为Java Core 2里面的git图全部找不到，所以到网上下载一张Mercury.gif，全部用此图。
-    private Object[][] cells = {{"Mercury", 2440.0, 0, false, Color.YELLOW, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Venus", 6052.0, 0, false, Color.YELLOW, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Earth", 6378.0, 1, false, Color.BLUE, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Mars", 3397.0, 2, false, Color.RED, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Jupiter", 71492.0, 16, true, Color.ORANGE, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Saturn", 60268.0, 18, true, Color.ORANGE, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Uranus", 25559.0, 17, true, Color.BLUE, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Neptune", 24766.0, 8, true, Color.BLUE, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))}, {"Pluto", 1137.0, 1, false, Color.BLACK, new ImageIcon(ProjectFileUtils.getImageAbsPathByName("Mercury.gif"))},};
+    private Object[][] cells = {
+            {"Mercury", 2440.0, 0, false, Color.YELLOW, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Venus", 6052.0, 0, false, Color.YELLOW, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Earth", 6378.0, 1, false, Color.BLUE, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Mars", 3397.0, 2, false, Color.RED, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Jupiter", 71492.0, 16, true, Color.ORANGE, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Saturn", 60268.0, 18, true, Color.ORANGE, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Uranus", 25559.0, 17, true, Color.BLUE, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Neptune", 24766.0, 8, true, Color.BLUE, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+            {"Pluto", 1137.0, 1, false, Color.BLACK, new ImageIcon(getImageAbsPath("Mercury.gif"))},
+    };
 
     DefaultTableModel tableModel = new DefaultTableModel(cells, columnNames) {
         //the common ancestor class of the object values in the model.

@@ -340,4 +340,28 @@ public class FileUtils {
             return ch2 == -1;
         }
     }
+
+    /**
+     * 一、给定目录
+     * 删除该目录下的所有文件和文件夹
+     * 二、给定文件
+     * 删除该文件
+     *
+     * @param f
+     */
+    public static void deleteDirRecursively(File f) {
+        if (f.isDirectory()) {
+            File[] fileArr = f.listFiles();
+            if (fileArr != null && fileArr.length > 0) {
+                for (File subFile : fileArr) {
+                    deleteDirRecursively(subFile);
+                }
+            }
+        }
+        //delete file
+        if (!f.delete()) {
+            System.out.println("删除失败：" + f.getAbsolutePath());
+        }
+    }
+
 }
