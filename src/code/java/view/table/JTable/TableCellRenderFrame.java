@@ -1,6 +1,7 @@
 package code.java.view.table.JTable;
 
 import code.java.utils.FrameUtils;
+import code.java.view.table.editor.ColorTableCellEditor;
 import code.java.view.table.renderer.ColorTableCellRenderer;
 import code.java.view.table.tableModel.PlanetTableModel;
 
