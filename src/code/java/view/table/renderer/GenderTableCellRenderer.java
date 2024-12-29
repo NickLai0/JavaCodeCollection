@@ -6,7 +6,9 @@ import java.awt.*;
 
 import static code.java.utils.ImageUtils.newImageIcon;
 
-public class GenderTableCellRenderer extends JPanel implements TableCellRenderer {
+public class GenderTableCellRenderer
+        extends HighlightBorderCellRenderer
+        implements TableCellRenderer {
 
     // 定义图标的宽度和高度
     final int ICON_WIDTH = 50;
@@ -23,13 +25,7 @@ public class GenderTableCellRenderer extends JPanel implements TableCellRenderer
             int row,
             int column) {
         cellValue = (String) value;
-        if (hasFocus) {
-            // 设置选中状态下绘制边框
-            setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
-        } else {
-            setBorder(null);
-        }
-        return this;//自身就是渲染组件
+        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);//自身就是渲染组件
     }
 
     // 重写paint()方法，负责绘制该单元格内容

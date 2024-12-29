@@ -10,7 +10,7 @@ import javax.swing.table.*;
  * This renderer renders a color value as a panel with the
  * given color.
  */
-public class ColorTableCellRenderer extends JPanel implements TableCellRenderer {
+public class ColorTableCellRenderer extends HighlightBorderCellRenderer implements TableCellRenderer {
 
     public Component getTableCellRendererComponent(
             JTable table,
@@ -18,17 +18,15 @@ public class ColorTableCellRenderer extends JPanel implements TableCellRenderer 
             boolean isSelected,
             boolean hasFocus,
             int row, int column) {
+        //设置一下背景色
         setBackground((Color) value);
-        if (hasFocus) {
-            setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
-        } else {
-            setBorder(null);
-        }
-        return this;
+        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
-//GenderTableCellRenderer类则是在一步进行绘制table cell
-    @Override
+
+    //GenderTableCellRenderer类则是在一步进行绘制table cell
+    /*@Override
     public void paint(Graphics g) {
         super.paint(g);
-    }
+    }*/
+
 }
