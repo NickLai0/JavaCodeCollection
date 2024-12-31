@@ -1,5 +1,7 @@
 package code.java.view.border;
 
+import code.java.utils.FrameUtils;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -26,7 +28,7 @@ import java.awt.event.ActionListener;
  * Border titled = BorderFactory.createTitledBorder(etched, "A Title");
  * panel.setBorder(titled);
  */
-public class Borders extends JFrame {
+public class BorderSwitch extends JFrame {
 
     public static final String LOWERED_BEVEL = "Lowered bevel";
     public static final String RAISED_BEVEL = "Raised bevel";
@@ -47,7 +49,7 @@ public class Borders extends JFrame {
 
     private static final int DEFAULT_SIZE = 36;
 
-    public Borders() {
+    public BorderSwitch() {
         prepareNorth();
         prepareCenter();
         prepareSouth();
@@ -140,9 +142,7 @@ public class Borders extends JFrame {
     }
 
     public static void main(String[] args) {
-        Borders borders = new Borders();
-        borders.setTitle("Test various borders");
-        borders.setVisible(true);
+        FrameUtils.visibleAndExitOnClose(BorderSwitch.class);
     }
 
 }

@@ -1,5 +1,7 @@
 package code.java.view.border;
 
+import code.java.utils.FrameUtils;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -73,8 +75,7 @@ public class BorderTest extends JFrame {
     }
 
     public static void main(String[] args) {
-        BorderTest borderTest = new BorderTest("BorderTest");
-        borderTest.setVisible(true);
+        FrameUtils.visibleAndExitOnClose(BorderTest.class);
     }
 
 }

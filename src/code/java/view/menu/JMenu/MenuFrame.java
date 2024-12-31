@@ -2,6 +2,7 @@ package code.java.view.menu.JMenu;
 
 import code.java.adapter.ActionNamePrinterAdapter;
 import code.java.adapter.ExitActionAdapter;
+import code.java.utils.FrameUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,8 @@ import java.awt.event.ActionListener;
  * JPopupMenu、
  * JCheckBoxMenuItem、
  * JRadioButtonMenuItem
+ *
+ * and demonstrate accelerator(加速器) and mnemonic（助记符）.
  * <p>
  * <p>
  * A frame with a sample menu bar.
@@ -165,7 +168,7 @@ public class MenuFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new MenuFrame().setVisible(true);
+        FrameUtils.visibleAndExitOnClose(MenuFrame.class);
     }
 
 }
