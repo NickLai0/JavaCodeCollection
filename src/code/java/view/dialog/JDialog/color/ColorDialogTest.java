@@ -1,4 +1,4 @@
-package code.java.view.dialog.JDialog;
+package code.java.view.dialog.JDialog.color;
 
 import code.java.view.table.JTable.TableCellRenderFrame;
 
