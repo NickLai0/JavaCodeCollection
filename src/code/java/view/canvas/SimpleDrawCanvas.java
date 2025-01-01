@@ -24,7 +24,7 @@ import javax.swing.*;
  * @author Yeeku.H.Lee kongyeeku@163.com
  * @version 1.0
  */
-public class SimpleDrawCanvasFrame extends JFrame {
+public class SimpleDrawCanvas extends JFrame {
 
     private final int AREA_WIDTH = 700;// 画图区的宽度
     private final int AREA_HEIGHT = 600;// 画图区的高度
@@ -53,7 +53,7 @@ public class SimpleDrawCanvasFrame extends JFrame {
     // 画笔颜色（默认红色）
     private Color paintColor = new Color(255, 0, 0);
 
-    public SimpleDrawCanvasFrame() {
+    public SimpleDrawCanvas() {
         setupView();
         setupListener();
     }
@@ -115,7 +115,7 @@ public class SimpleDrawCanvasFrame extends JFrame {
             // 并可以分别为“确定”按钮、“取消”按钮指定事件监听器
             JColorChooser colorPane = new JColorChooser(paintColor);
             JDialog jd = JColorChooser.createDialog(
-                    SimpleDrawCanvasFrame.this,
+                    SimpleDrawCanvas.this,
                     "选择画笔颜色"
                     , false,
                     colorPane, e2 -> paintColor = colorPane.getColor(),
@@ -126,7 +126,7 @@ public class SimpleDrawCanvasFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        FrameUtils.visibleAndExitOnClose(SimpleDrawCanvasFrame.class)
+        FrameUtils.visibleAndExitOnClose(SimpleDrawCanvas.class)
                 .setTitle(("简单手绘程序(空白处单击右键可选择画笔颜色)"));
     }
 

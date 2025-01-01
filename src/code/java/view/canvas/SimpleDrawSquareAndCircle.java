@@ -19,9 +19,11 @@ import java.util.Random;
  * @author Yeeku.H.Lee kongyeeku@163.com
  * @version 1.0
  */
-public class SimpleDraw {
+public class SimpleDrawSquareAndCircle {
+
     private final String RECT_SHAPE = "rect";
     private final String OVAL_SHAPE = "oval";
+
     private Frame f = new Frame("Draw simple graphics.");
     private Button rect = new Button("Draw Square");
     private Button oval = new Button("Draw Circle");
@@ -70,7 +72,7 @@ public class SimpleDraw {
     }
 
     public static void main(String[] args) {
-        new SimpleDraw().init();
+        new SimpleDrawSquareAndCircle().init();
     }
 
     class MyCanvas extends Canvas {
