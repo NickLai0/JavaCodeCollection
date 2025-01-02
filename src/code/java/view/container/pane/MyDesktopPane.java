@@ -104,6 +104,4 @@ public class MyDesktopPane extends JDesktopPane {
             }
         }
     }
-
-
 }

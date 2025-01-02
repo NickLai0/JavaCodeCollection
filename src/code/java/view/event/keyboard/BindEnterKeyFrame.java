@@ -9,8 +9,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 /*
-Demonstrate ctrl + enter to fire an action.
- */
+    Demonstrate ctrl + enter to fire an action.
+*/
 public class BindEnterKeyFrame extends JFrame {
 
     public static final String TEXT_SEND = "Send";
@@ -25,7 +25,6 @@ public class BindEnterKeyFrame extends JFrame {
         setupView();
         btn.addActionListener(sendMsgAction);
         bindKeyStor();
-
     }
 
     private void bindKeyStor() {
@@ -57,4 +56,5 @@ public class BindEnterKeyFrame extends JFrame {
     public static void main(String[] args) {
         FrameUtils.visibleAndExitOnClose(BindEnterKeyFrame.class);
     }
+
 }
