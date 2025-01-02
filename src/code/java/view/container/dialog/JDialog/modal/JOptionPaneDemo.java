@@ -1,4 +1,4 @@
-package code.java.view.dialog.JDialog.modal;
+package code.java.view.container.dialog.JDialog.modal;
 
 import javax.swing.*;
 

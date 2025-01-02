@@ -1,4 +1,4 @@
-package code.java.view.applet;
+package code.java.view.container.applet;
 
 import code.java.utils.LU;
 

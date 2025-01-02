@@ -1,4 +1,4 @@
-package code.java.view.dialog;
+package code.java.view.container.dialog;
 
 import code.java.view.button.custom.ToeButton;
 

@@ -1,4 +1,4 @@
-package code.java.view.dialog.JDialog.modeless;
+package code.java.view.container.dialog.JDialog.modeless;
 
 import javax.swing.*;
 import java.awt.*;

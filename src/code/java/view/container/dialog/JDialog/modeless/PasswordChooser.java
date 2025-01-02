@@ -1,4 +1,4 @@
-package code.java.view.dialog.JDialog.modeless;
+package code.java.view.container.dialog.JDialog.modeless;
 
 import code.java.data.User;
 import code.java.utils.FrameUtils;

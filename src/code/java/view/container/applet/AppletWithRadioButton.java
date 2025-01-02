@@ -1,4 +1,4 @@
-package code.java.view.applet;
+package code.java.view.container.applet;
 
 import javax.swing.*;
 import java.applet.Applet;

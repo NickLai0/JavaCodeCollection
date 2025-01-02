@@ -1,6 +1,6 @@
 package code.java.view.container.frame.Jframe;
 
-import code.java.view.dialog.JDialog.modeless.AboutDialog;
+import code.java.view.container.dialog.JDialog.modeless.AboutDialog;
 
 import javax.swing.*;
 

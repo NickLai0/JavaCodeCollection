@@ -1,4 +1,4 @@
-package code.java.view.dialog;
+package code.java.view.container.dialog;
 
 //: FileDialogTest.java
 // Demonstration of File dialog boxes
