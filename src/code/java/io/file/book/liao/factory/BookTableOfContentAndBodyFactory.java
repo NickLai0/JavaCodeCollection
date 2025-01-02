@@ -36,14 +36,15 @@ public class BookTableOfContentAndBodyFactory {
                     + "|(李庆元简介)"//《陈水扁的真面目》目录结束行
                     + "|(版权信息)"//《快意还乡——李敖神州文化之旅》目录结束行
 //                    + "|(《李敖大哥大》简介)"//《李敖大哥大》目录结束行
-                    + "|(本书译名悉以李敖认定者为准，间与一般译名有异。)"//《阳痿美国》目录结束行
+//                    + "|(本书译名悉以李敖认定者为准，间与一般译名有异。)"//《阳痿美国》目录结束行
     );
 
     private static void separatingBookAndSave(BufferedReader brInput, BookTableOfContentAndBody book) throws IOException {
-        String temp = null;
+        String temp;
         if ((temp = brInput.readLine()) != null) {
             book.setBookName(temp.trim());
         }
+
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
             if ("目录".equals(temp)) {
@@ -52,13 +53,15 @@ public class BookTableOfContentAndBodyFactory {
                 break;
             } else {
                 //加载书本名下面和目录二字上面的书本描述列表。
-                //像《虚拟的十七岁》就是书本说明和一首诗歌
+                //《虚拟的十七岁》就是书本说明和一首诗歌
+                //《阳痿美国》也有两行说明
                 if (book.getBookDescriptionList() == null) {
                     book.setBookDescriptionList(new ArrayList<>());
                 }
                 book.getBookDescriptionList().add(temp);
             }
         }
+
         LinkedList<String> articleTitleAndDescriptionList = new LinkedList<>();
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
@@ -75,39 +78,42 @@ public class BookTableOfContentAndBodyFactory {
         //先倒序处理所有目录的描述行
         int count = descriptionCount(book.getBookName());
         if (count > 0) {
-            //的目录描述表是一行或多行的，
-            LinkedList<String> descriptionList = new LinkedList<>();
+            //目录描述表是一行或多行的，
+            LinkedList<String> descList = new LinkedList<>();
             for (int i = 0; i < count; i++) {
-                String description = articleTitleAndDescriptionList.removeLast();
-                descriptionList.addFirst(description);
+                String desc = articleTitleAndDescriptionList.removeLast();
+                descList.addFirst(desc);
             }
-            book.setTableOfContentDescriptionList(descriptionList);
+            book.setTableOfContentDescriptionList(descList);
         }
 
-        if (articleTitleAndDescriptionList.size() > 0) {
+        List<String> articleTitleList = articleTitleAndDescriptionList;
+        if (articleTitleList.size() > 0) {
             //有目录，所以顺序处理所有目录
             List<TableOfContentItem> tableOfContentItemList = new ArrayList<>();
             if (needSplitOutTable(book.getBookName())) {
                 //每行目录由多个标题组成，所以切割处理
-                splitOutTableOfContent(articleTitleAndDescriptionList, tableOfContentItemList);
+                splitOutTableOfContent(book.getBookName(), articleTitleList, tableOfContentItemList);
             } else {
                 //每行是一个目录，不需切割。
-                handleTableOfContent4EachLine(articleTitleAndDescriptionList, tableOfContentItemList);
+                handleTableOfContent4EachLine(articleTitleList, tableOfContentItemList);
             }
             book.setTableOfContentItemList(tableOfContentItemList);
         }
+
         //将书本的书体（所有文章含标题）转为一个字符串保存下来
         StringBuffer sb = new StringBuffer(8 * 1024);
         while ((temp = brInput.readLine()) != null) {
             sb.append(temp).append("\n");
         }
+
         book.setBookContentBody(sb.toString());
     }
 
-    private static void handleTableOfContent4EachLine(LinkedList<String> articleTitleAndDescriptionList, List<TableOfContentItem> tableOfContentItemList) {
+    private static void handleTableOfContent4EachLine(List<String> articleTitleList, List<TableOfContentItem> tableOfContentItemList) {
         String articleTitle;
-        while (articleTitleAndDescriptionList.size() > 0) {
-            articleTitle = articleTitleAndDescriptionList.removeFirst();
+        while (articleTitleList.size() > 0) {
+            articleTitle = articleTitleList.remove(0);
             if (articleTitle != null && articleTitle.length() > 0) {
                 TableOfContentItem item = new TableOfContentItem();
                 tableOfContentItemList.add(item);
@@ -132,18 +138,26 @@ public class BookTableOfContentAndBodyFactory {
 
     //每一行都有很多目录，由“ ”隔开，所以切割出每个文章标题，
     //配上序号，封装成标题项后保持列表
-    private static void splitOutTableOfContent(LinkedList<String> articleTitleAndDescriptionList, List<TableOfContentItem> tableOfContentItemList) {
+    private static void splitOutTableOfContent(
+            String bookName,
+            List<String> articleTitleList,
+            List<TableOfContentItem> tableOfContentItemList
+    ) {
         String temp;
-        while (articleTitleAndDescriptionList.size() > 0) {
-            temp = articleTitleAndDescriptionList.removeFirst();
-            String[] articleTitleArr = temp.split(" ");
+        while (articleTitleList.size() > 0) {
+            temp = articleTitleList.remove(0);
+            String[] articleTitleArr = splitOutTitleArr(bookName, temp);
             for (int i = 0; i < articleTitleArr.length; i++) {
                 String articleTitle = articleTitleArr[i];
                 TableOfContentItem item = new TableOfContentItem();
                 //有些目录名会被“ ”给切割成两句，下面将此种情况重新组合为一句。
                 if (articleTitle.contains("（") && !articleTitle.contains("）")) {
                     String nextStr = null;
-                    if ((i + 1) < articleTitleArr.length && (nextStr = articleTitleArr[i + 1]) != null && !nextStr.contains("（") && nextStr.contains("）")) {
+                    if ((i + 1) < articleTitleArr.length
+                            && (nextStr = articleTitleArr[i + 1]) != null
+                            && !nextStr.contains("（")
+                            && nextStr.contains("）")
+                    ) {
                         //重新组合为完整的目录标题
                         articleTitle += nextStr;
                     }
@@ -153,6 +167,21 @@ public class BookTableOfContentAndBodyFactory {
                 item.setArticleTitle(articleTitle);
             }
         }
+    }
+
+    private static String[] splitOutTitleArr(String bookName, String temp) {
+        String[] articleTitleArr = temp.split(" ");
+        switch (bookName) {
+            case "阳痿美国"://此书因每篇article title都有“ ”隔开，所以切割后，得重新每两个string组合为1个才对
+                //扉幕 JOHN-JOHN开场白 序幕 最后审判 第1幕 审判华盛顿 .. 第43幕 审判奥巴马 尾幕 JOHN-JOHN收尾
+                List<String> articleTitleList = new ArrayList<>();
+                for (int i = 0; i < articleTitleArr.length; i = i + 2) {
+                    articleTitleList.add(articleTitleArr[i] + " " + articleTitleArr[i + 1]);
+                }
+                articleTitleArr = articleTitleList.toArray(new String[articleTitleList.size()]);
+                break;
+        }
+        return articleTitleArr;
     }
 
     //返回目录列表下面的描述行个数
@@ -174,6 +203,7 @@ public class BookTableOfContentAndBodyFactory {
                 return 1;
             case "李敖登陆记"://这本书的目录有点独特，带有“上篇：李敖登陆记” “下篇：出版背后的故事”这样的目录名
             case "李敖大哥大":
+            case "阳痿美国":
                 return 2;
             case "四十二年，我的“恶邻”李敖大师":
                 return 10;

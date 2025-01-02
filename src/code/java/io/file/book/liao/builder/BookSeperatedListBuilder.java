@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class BookSeperatedListBuilder {
 
-
     private String bookSrcDir;
 
     /*
@@ -30,7 +29,6 @@ public class BookSeperatedListBuilder {
      * 另外还有特殊的目录下面和“.*wjm_tcy. * 制作. *”上面，还有一句话，
      * 得根据书名特殊处理
      */
-
     public BookSeperatedListBuilder setBookSrcDir(String bookSrcDir) {
         this.bookSrcDir = bookSrcDir;
         return this;
@@ -83,7 +81,6 @@ public class BookSeperatedListBuilder {
                 );
         bookList.add(book);
     }
-
 
     public static class BookSeperatedList {
         private List<BookTableOfContentAndBody> list;

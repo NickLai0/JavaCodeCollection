@@ -22,11 +22,6 @@ import static code.java.utils.LU.println;
 public class SeparateAndSaveBooks {
 
     public static void main(String[] args) throws IOException {
-        /*File liaoBooksRootDir = LiAoBookStore.getLiAoBooksWithoutHTMLRootDir();
-        File tacsDir = getTablesAndContentSeparatedDir();
-        println("切割李敖大全集的书为：切割出目录表和每篇文章来保存。");
-        println("copy from directory: " + liaoBooksRootDir);
-        println("copy to directory: " + tacsDir);*/
         File[] dirs = inputSrcAndDestDirs();
         File srcDir = dirs[0];
         File destDir = dirs[1];
