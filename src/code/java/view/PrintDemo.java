@@ -1,4 +1,4 @@
-package code.java.view.example;
+package code.java.view;
 /*
 
 Demonstrate how to print strings and graphics.

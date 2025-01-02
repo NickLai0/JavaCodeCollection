@@ -4,7 +4,6 @@ import code.java.adapter.WindowCloserAdapter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
 
 public class BoxLayoutDemo2 {
     public static void main(String[] args) {

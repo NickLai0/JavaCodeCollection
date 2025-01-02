@@ -1,4 +1,4 @@
-package code.java.view.japplet;
+package code.java.view.container.applet.japplet;
 
 import code.java.utils.LU;
 //awt被淘汰多年了，请用swing库。
