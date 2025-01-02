@@ -1,6 +1,6 @@
 package code.java.view.button.custom;
 
-import code.java.view.applet.AutoEvent;
+import code.java.view.container.applet.AutoEvent;
 
 import java.awt.*;
 

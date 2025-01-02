@@ -1,7 +1,7 @@
 package code.java.view.menu.JMenu;
 
 import code.java.utils.FrameUtils;
-import code.java.view.dialog.JDialog.modeless.PasswordChooser;
+import code.java.view.container.dialog.JDialog.modeless.PasswordChooser;
 import code.java.data.User;
 
 import javax.swing.*;
