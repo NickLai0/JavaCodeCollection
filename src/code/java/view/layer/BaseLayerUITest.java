@@ -1,8 +1,5 @@
 package code.java.view.layer;
 
-import code.java.utils.FrameUtils;
-import code.java.view.layer.layerUI.GradientLayerUI;
-
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
 
@@ -20,15 +17,17 @@ import javax.swing.plaf.LayerUI;
 
 public abstract class BaseLayerUITest extends JFrame {
 
-    JPanel p = new JPanel();
+    protected JPanel p = new JPanel();
 
-    ButtonGroup group = new ButtonGroup();
+    protected ButtonGroup group = new ButtonGroup();
+
+    protected JButton btn = new JButton("投票");
 
     public BaseLayerUITest() {
         setSize(300, 170);
         addRadioButtons();
         addCheckBoxes();
-        p.add(new JButton("投票"));
+        p.add(btn);
         //Creates a new JLayer object with the specified view
         //component（p） and LayerUI（SpotlightLayerUI）object.
         add(new JLayer(p, getLayerUI()));

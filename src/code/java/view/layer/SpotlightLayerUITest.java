@@ -1,13 +1,13 @@
 package code.java.view.layer;
 
 import code.java.utils.FrameUtils;
-import code.java.view.layer.layerUI.GradientLayerUI;
 import code.java.view.layer.layerUI.SpotlightLayerUI;
 
-import javax.swing.*;
 import javax.swing.plaf.LayerUI;
 
 /**
+ * Modify a lot.
+ *
  * Description:
  * 网站: <a href="http://www.crazyit.org">疯狂Java联盟</a><br>
  * Copyright (C), 2001-2018, Yeeku.H.Lee<br>

@@ -26,7 +26,8 @@ public class GradientLayerUITest extends BaseLayerUITest {
     }
 
     public static void main(String[] args) {
-        FrameUtils.visibleAndExitOnClose(GradientLayerUITest.class).setTitle("JLayer测试");
+        FrameUtils.visibleAndExitOnClose(GradientLayerUITest.class)
+                .setTitle("JLayer测试");
     }
 
 }
