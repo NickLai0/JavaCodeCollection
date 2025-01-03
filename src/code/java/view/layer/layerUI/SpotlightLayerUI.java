@@ -1,4 +1,4 @@
-package code.java.view.layer;
+package code.java.view.layer.layerUI;
 
 import javax.swing.*;
 import javax.swing.plaf.LayerUI;
