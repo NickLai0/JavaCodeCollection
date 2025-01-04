@@ -6,8 +6,8 @@ import javax.swing.*;
 import javax.swing.tree.*;
 
 /**
- * 简单树演示
- *
+ * Modify a lot.
+ * <p>
  * Description:
  * 网站: <a href="http://www.crazyit.org">疯狂Java联盟</a><br>
  * Copyright (C), 2001-2018, Yeeku.H.Lee<br>
@@ -19,6 +19,7 @@ import javax.swing.tree.*;
  * @version 1.0
  */
 public class SimpleJTree extends JFrame {
+    JTree tree;
 
     DefaultMutableTreeNode root = new DefaultMutableTreeNode("中国");
     DefaultMutableTreeNode guangdong = new DefaultMutableTreeNode("广东");
@@ -29,14 +30,19 @@ public class SimpleJTree extends JFrame {
     DefaultMutableTreeNode nanning = new DefaultMutableTreeNode("南宁");
 
     public SimpleJTree() {
-        // 通过add()方法建立树节点之间的父子关系
         setupGDProvinceNode();
         setupGXProvinceNode();
         root.add(guangdong);
         root.add(guangxi);
+        tree = new JTree(root);
         // 以根节点创建树
-        add(new JScrollPane(new JTree(root)));
+        setupView();
         pack();
+    }
+
+    //子类可重写来实现视图个性化
+    protected void setupView() {
+        add(new JScrollPane(tree));
     }
 
     private void setupGXProvinceNode() {
