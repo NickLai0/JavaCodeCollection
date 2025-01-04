@@ -1,7 +1,6 @@
-package code.java.view.tree;
+package code.java.view.tree.jTree;
 
 import code.java.utils.FrameUtils;
-import code.java.utils.LU;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -38,11 +37,9 @@ public class SelectTreeNode extends SimpleJTree {
         //setupView是在构造方法里，所以new JTextArea放这里才正确。
         horizontalBox.add(new JScrollPane(textArea = new JTextArea(5, 20)));
         add(horizontalBox);
-
     }
 
     class TreeSelectionHandler implements TreeSelectionListener {
-
         @Override
         public void valueChanged(TreeSelectionEvent e) {
             if (e.getOldLeadSelectionPath() != null) {

@@ -3,7 +3,7 @@ package code.java.view.game;
 // Demonstration of dialog boxes
 // and creating your own components
 //Modified by myself.
-import code.java.view.container.dialog.ToeDialog;
+import code.java.view.container.dialog.JDialog.ToeDialog;
 
 import java.awt.*;
 

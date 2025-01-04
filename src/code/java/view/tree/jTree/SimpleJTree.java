@@ -1,4 +1,4 @@
-package code.java.view.tree;
+package code.java.view.tree.jTree;
 
 import code.java.utils.FrameUtils;
 

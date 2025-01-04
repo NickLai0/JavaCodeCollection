@@ -2,7 +2,7 @@ package code.java.string;
 
 import code.java.utils.FileUtils;
 import code.java.utils.FrameUtils;
-import code.java.view.container.dialog.HintDialog;
+import code.java.view.container.dialog.JDialog.HintDialog;
 
 import javax.swing.*;
 import java.awt.*;

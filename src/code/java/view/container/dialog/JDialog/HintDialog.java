@@ -1,4 +1,4 @@
-package code.java.view.container.dialog;
+package code.java.view.container.dialog.JDialog;
 
 import java.awt.*;
 

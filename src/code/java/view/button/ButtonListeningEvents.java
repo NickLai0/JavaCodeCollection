@@ -3,7 +3,7 @@ package code.java.view.button;
 //: Button2New.java
 // Capturing button presses
 
-import code.java.view.container.dialog.HintDialog;
+import code.java.view.container.dialog.JDialog.HintDialog;
 
 import javax.swing.*;
 import java.applet.Applet;
