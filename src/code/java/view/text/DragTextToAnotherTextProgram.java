@@ -32,8 +32,9 @@ public class DragTextToAnotherTextProgram extends JFrame {
         setupView();
         srcTxt.append("Swing的拖放支持.\n");
         srcTxt.append("将该文本域的内容拖入其他（通常是文本）程序.\n");
-        // 启动文本域和单行文本框的拖放支持
+        // 允许内容可拖动去其它（文本）程序
         srcTxt.setDragEnabled(true);
+        // 允许内容可拖动去其它（文本）程序
         jtf.setDragEnabled(true);
     }
 

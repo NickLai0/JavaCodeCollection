@@ -7,7 +7,9 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 
 /*
-  剪切板工具
+ 剪切板工具
+
+ JToolBarTest类也有Toolkit.getDefaultToolkit().getSystemClipboard();使用案例
  */
 public class ClipboardUtils {
 
