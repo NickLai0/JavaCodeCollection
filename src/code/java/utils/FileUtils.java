@@ -364,4 +364,25 @@ public class FileUtils {
         }
     }
 
+    public static String readFirstLine(String file) throws IOException {
+        return readFirstLine(new File(file));
+    }
+
+    public static String readFirstLine(File file) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            return br.readLine();
+        }
+    }
+
+    public static String fileToString(File file, String charsetName) throws IOException {
+        FileInputStream fis = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) file.length());
+        try {
+            fis = new FileInputStream(file);
+            IOUtils.copy(fis, baos);
+        } finally {
+            IOUtils.closeQuietly(fis);
+        }
+        return baos.toString(charsetName);
+    }
 }

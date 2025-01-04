@@ -76,7 +76,7 @@ public class FKJJYCodeToUTF8 {
      * @param toDir
      */
     private void javaSourceCodeToUTF8(File f, File toDir) throws IOException {
-        String utf8Str = fileToString(f);
+        String utf8Str = FileUtils.fileToString(f, "GB2312");
         //先复制一份到目标目录
         IOUtils.copy(
                 new StringReader(utf8Str),
@@ -87,18 +87,6 @@ public class FKJJYCodeToUTF8 {
                 new StringReader(utf8Str),
                 new FileOutputStream(new File(sGlobalDir, f.getName()))
         );
-    }
-
-    public String fileToString(File file) throws IOException {
-        FileInputStream fis = null;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) file.length());
-        try {
-            fis = new FileInputStream(file);
-            IOUtils.copy(fis, baos);
-        } finally {
-            IOUtils.closeQuietly(fis);
-        }
-        return baos.toString("GB2312");
     }
 
 }

@@ -1,7 +1,5 @@
 package code.java.view.List.renderer;
 
-import code.java.utils.LU;
-
 import javax.swing.*;
 import java.awt.*;
 
