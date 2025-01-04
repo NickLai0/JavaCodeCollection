@@ -17,11 +17,13 @@ import java.util.Map;
 import java.util.SortedMap;
 
 /**
+ * 字符串编码矫正器
+ *
  * 单个文本文件原始编码（如“GB2312”）转为UTF-8编码纠正器。
  * <p>
  * 后续如果有需求，可以增加下拉选择该对应编码集。
  */
-public class CharacterHandler extends JFrame {
+public class StringCharsetCorrectHandler extends JFrame {
 
     JTextField tfSrc = new JTextField();//源文件
 
@@ -29,7 +31,7 @@ public class CharacterHandler extends JFrame {
 
     JButton btnRefreshStr = new JButton("显示源文件对应的字符串");//目标文件夹
 
-    public CharacterHandler() {
+    public StringCharsetCorrectHandler() {
         setPreferredSize(new Dimension(800, 600));
         setupNorth();
         setupCenter();
@@ -125,9 +127,9 @@ public class CharacterHandler extends JFrame {
                         new ByteArrayInputStream(str.getBytes("UTF-8")),
                         new FileOutputStream(new File(tfDest.getText(), srcFile.getName()))
                 );
-                new HintDialog(CharacterHandler.this, "Finished!").show();
+                new HintDialog(StringCharsetCorrectHandler.this, "Finished!").show();
             } catch (Exception ex) {
-                new HintDialog(CharacterHandler.this, ex.toString()).show();
+                new HintDialog(StringCharsetCorrectHandler.this, ex.toString()).show();
             }
         }
     }
@@ -143,7 +145,7 @@ public class CharacterHandler extends JFrame {
     }
 
     public static void main(String[] args) {
-        FrameUtils.visibleAndExitOnClose(CharacterHandler.class).setTitle("当个文件字符纠正器");
+        FrameUtils.visibleAndExitOnClose(StringCharsetCorrectHandler.class).setTitle("当个文件字符纠正器");
     }
 
 }
