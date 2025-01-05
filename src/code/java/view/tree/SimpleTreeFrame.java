@@ -14,6 +14,7 @@ import javax.swing.tree.*;
  * manually constructed tree model.
  */
 public class SimpleTreeFrame extends JFrame {
+
     private static final int DEFAULT_WIDTH = 300;
     private static final int DEFAULT_HEIGHT = 200;
 
@@ -60,4 +61,5 @@ public class SimpleTreeFrame extends JFrame {
     public static void main(String[] args) {
         FrameUtils.visibleAndExitOnClose(SimpleTreeFrame.class);
     }
+
 }
