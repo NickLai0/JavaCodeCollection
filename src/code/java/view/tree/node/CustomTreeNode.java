@@ -29,8 +29,11 @@ public class CustomTreeNode extends JFrame {
     DefaultMutableTreeNode nongyu = new DefaultMutableTreeNode("弄玉");
     DefaultMutableTreeNode hutou = new DefaultMutableTreeNode("虎头");
 
-    public void CustomTreeNode() {
+    public  CustomTreeNode() {
         initFriendNodes();
+        add(new JScrollPane(tree));
+        pack();
+
         // 以根节点创建树
         tree = new JTree(friends);
         // 设置是否显示根节点的“展开/折叠”图标,默认是false
@@ -39,9 +42,6 @@ public class CustomTreeNode extends JFrame {
         tree.setRootVisible(true);
         // 设置使用定制的节点绘制器
         tree.setCellRenderer(new TreeImageCellRenderer());
-        add(new JScrollPane(tree));
-
-        pack();
     }
 
     private void initFriendNodes() {

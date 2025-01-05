@@ -102,4 +102,5 @@ public class TreeEditFrame extends SimpleTreeFrame {
     public static void main(String[] args) {
         FrameUtils.visibleAndExitOnClose(TreeEditFrame.class);
     }
+
 }
