@@ -8,7 +8,6 @@ import code.java.utils.FrameUtils;
  * tree.setShowsRootHandles(true);
  * tree.setRootVisible(false);
  * stateCalifornia.setAllowsChildren(false);
- *
  */
 public class SimpleTreeFrame2 extends SimpleTreeFrame {
     public SimpleTreeFrame2() {

@@ -4,6 +4,7 @@ import code.java.utils.FrameUtils;
 
 import javax.swing.*;
 import javax.swing.tree.*;
+import java.awt.*;
 
 /**
  * From Core Java 2.
@@ -39,7 +40,7 @@ public class SimpleTreeFrame extends JFrame {
         setupGermanyNode();
         // construct tree and put it in a scroll pane
         tree = new JTree(root);
-        add(new JScrollPane(tree));
+        add(new JScrollPane(tree), BorderLayout.CENTER);
     }
 
     private void setupGermanyNode() {
