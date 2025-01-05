@@ -1,4 +1,4 @@
-package code.java.view.tree;
+package code.java.view.tree.jTree;
 
 import code.java.utils.FrameUtils;
 
@@ -31,12 +31,14 @@ public class SimpleTreeFrame extends JFrame {
     DefaultMutableTreeNode stateSchleswigHolstein = new DefaultMutableTreeNode("Schleswig-Holstein");
     DefaultMutableTreeNode cityKiel = new DefaultMutableTreeNode("Kiel");
 
+    JTree tree;
+
     public SimpleTreeFrame() {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setupUSANode();
         setupGermanyNode();
         // construct tree and put it in a scroll pane
-        var tree = new JTree(root);
+        tree = new JTree(root);
         add(new JScrollPane(tree));
     }
 
