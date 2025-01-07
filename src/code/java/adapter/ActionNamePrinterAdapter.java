@@ -16,7 +16,7 @@ public class ActionNamePrinterAdapter extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent event) {
-        println(getValue(Action.NAME) + " selected.");
+        println("actionPerformed->" + getValue(Action.NAME));
     }
 
 }

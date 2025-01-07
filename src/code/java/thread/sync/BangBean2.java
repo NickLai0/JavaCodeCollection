@@ -140,39 +140,3 @@ public class BangBean2 extends Canvas implements Serializable {
     }
 }
 
-class TestBangBean2 extends Frame {
-    BangBean2 bb = new BangBean2();
-
-    public TestBangBean2() {
-        setTitle("BangBean2 Test");
-        addWindowListener(new WL());
-        setSize(300, 300);
-        add(bb, BorderLayout.CENTER);
-
-        bb.addActionListener(new BBL1());
-        bb.addActionListener(new BBL2());
-    }
-
-    class WL extends WindowAdapter {
-        public void windowClosing(WindowEvent e) {
-            System.exit(0);
-        }
-    }
-
-    class BBL1 implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("BangBean2 action");
-        }
-    }
-
-    class BBL2 implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("More action");
-        }
-    }
-
-    public static void main(String args[]) {
-        Frame f = new TestBangBean2();
-        f.setVisible(true);
-    }
-} /// :~
