@@ -130,6 +130,7 @@ public class BookTableOfContentAndBodyFactory {
         switch (bookName) {
             case "李敖有话说":
             case "李敖大哥大":
+            case "李敖政论综艺集":
                 return false;
             default://默认情况下都需要切割
                 return true;
