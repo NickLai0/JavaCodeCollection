@@ -1,6 +1,6 @@
 package code.java.database.ddl;
 
-import code.java.io.file.book.fkjjy.utils.FFJJYUtils;
+import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
 
 import java.util.*;
 import java.io.*;
@@ -19,10 +19,10 @@ import static code.java.utils.LU.println;
  * @author Yeeku.H.Lee kongyeeku@163.com
  * @version 1.0
  */
-public class CreateJDBCTestTable {
+public class CreateTableByExecuteUpdateMethod {
     public static void main(String[] args) throws Exception {
-        CreateJDBCTestTable ed = new CreateJDBCTestTable();
-        ed.initParam(FFJJYUtils.getInitFilePath());
+        CreateTableByExecuteUpdateMethod ed = new CreateTableByExecuteUpdateMethod();
+        ed.initParam(FKJJYUtils.getInitFilePath());
         ed.createTable("create table jdbc_test "
                 + "( jdbc_id int auto_increment primary key, "
                 + "jdbc_name varchar(255), "

@@ -2,7 +2,7 @@ package code.java.io.file.book.fkjjy.utils;
 
 import code.java.utils.ProjectFileUtils;
 
-public class FFJJYUtils {
+public class FKJJYUtils {
     private static final String ROOT_DIR;
     private static final String SQL_DIR;
     private static final String INIT_FILE_PATH;
