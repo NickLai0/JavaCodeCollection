@@ -5,17 +5,26 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import static code.java.utils.LU.println;
+
 public class ResultSetTableModel extends AbstractTableModel {
 
-    private ResultSet rs;
+    private ResultSet resultSet;
 
-    private ResultSetMetaData rsmd;
+    /**
+     * 可通过ResultSetMetaData提供的大量方
+     * 法来返回ResultSet的描述信息。常用的方法有如下三个。
+     * ➢ int getColumnCount()：返回该ResultSet的列数量。
+     * ➢ String getColumnName(int column)：返回指定索引的列名。
+     * ➢ int getColumnType(int column)：返回指定索引的列类型。
+     */
+    private ResultSetMetaData resultSetMetaData;
 
     // 构造器，初始化rs和rsmd两个属性
-    public ResultSetTableModel(ResultSet aResultSet) {
-        rs = aResultSet;
+    public ResultSetTableModel(ResultSet rs) {
+        resultSet = rs;
         try {
-            rsmd = rs.getMetaData();
+            resultSetMetaData = resultSet.getMetaData();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -24,7 +33,7 @@ public class ResultSetTableModel extends AbstractTableModel {
     // 重写getColumnName方法，用于为该TableModel设置列名
     public String getColumnName(int c) {
         try {
-            return rsmd.getColumnName(c + 1);
+            return resultSetMetaData.getColumnName(c + 1);
         } catch (SQLException e) {
             e.printStackTrace();
             return "";
@@ -34,7 +43,7 @@ public class ResultSetTableModel extends AbstractTableModel {
     // 重写getColumnCount方法，用于设置该TableModel的列数
     public int getColumnCount() {
         try {
-            return rsmd.getColumnCount();
+            return resultSetMetaData.getColumnCount();
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
@@ -44,8 +53,8 @@ public class ResultSetTableModel extends AbstractTableModel {
     // 重写getValueAt方法，用于设置该TableModel指定单元格的值
     public Object getValueAt(int r, int c) {
         try {
-            rs.absolute(r + 1);
-            return rs.getObject(c + 1);
+            resultSet.absolute(r + 1);
+            return resultSet.getObject(c + 1);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -55,8 +64,8 @@ public class ResultSetTableModel extends AbstractTableModel {
     // 重写getColumnCount方法，用于设置该TableModel的行数
     public int getRowCount() {
         try {
-            rs.last();
-            return rs.getRow();
+            resultSet.last();
+            return resultSet.getRow();
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
@@ -69,18 +78,26 @@ public class ResultSetTableModel extends AbstractTableModel {
     }
 
     // 重写setValueAt()方法，当用户编辑单元格时，将会触发该方法
-    public void setValueAt(Object aValue, int row, int column) {
+    public void setValueAt(Object value, int row, int column) {
         try {
-            // 结果集定位到对应的行数
-            rs.absolute(row + 1);
+            // 设置结果集到对应的行
+            resultSet.absolute(row + 1);
+            int valueColumnIndex = column + 1;
+            Object oldValue = resultSet.getObject(valueColumnIndex);
+            if ((oldValue == value) || (oldValue != null && oldValue.equals(value))) {
+                //新老值一样，不做处理，直接返回
+                return;
+            }
+            //println("setValueAt: oldValue = " + oldValue + ", value = " + value);
             // 修改单元格多对应的值
-            rs.updateObject(column + 1, aValue);
+            resultSet.updateObject(valueColumnIndex, value);
             // 提交修改
-            rs.updateRow();
+            resultSet.updateRow();
             // 触发单元格的修改事件
             fireTableCellUpdated(row, column);
         } catch (SQLException evt) {
             evt.printStackTrace();
         }
     }
+
 }
