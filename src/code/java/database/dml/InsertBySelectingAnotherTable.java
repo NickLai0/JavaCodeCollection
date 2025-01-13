@@ -1,6 +1,7 @@
 package code.java.database.dml;
 
 import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
+import code.java.utils.JDBCUtils;
 
 import java.util.*;
 import java.io.*;
@@ -57,10 +58,12 @@ public class InsertBySelectingAnotherTable {
          条件是student_table的java_teacher字段是
          teacher_table的teacher_id。
          */
-        int result = ed.insertData("insert into jdbc_test(jdbc_name,jdbc_desc)"
+        String tableName = "jdbc_test";
+        int result = ed.insertData("insert into "+tableName+"(jdbc_name,jdbc_desc)"
                 + "select s.student_name , t.teacher_name "
                 + "from student_table s , teacher_table t "
                 + "where s.java_teacher = t.teacher_id;");
         System.out.println("--系统中共有" + result + "条记录受影响--");
+        JDBCUtils.showTableData(tableName);
     }
 }
