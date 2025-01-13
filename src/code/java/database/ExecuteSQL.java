@@ -39,33 +39,35 @@ public class ExecuteSQL {
     public void executeSql(String sql) throws Exception {
         // 加载驱动
         Class.forName(driver);
-        try (
-                // 获取数据库连接
-                Connection conn = DriverManager.getConnection(url, user, pass);
-                // 使用Connection来创建一个Statement对象
-                Statement stmt = conn.createStatement()) {
+        try ( // 获取数据库连接
+              Connection conn = DriverManager.getConnection(url, user, pass);
+              // 使用Connection来创建一个Statement对象
+              Statement stmt = conn.createStatement()) {
             // 执行SQL,返回boolean值表示是否包含ResultSet
             boolean hasResultSet = stmt.execute(sql);
             // 如果执行后有ResultSet结果集
             if (hasResultSet) {
-                try (
-                        // 获取结果集
-                        ResultSet rs = stmt.getResultSet()) {
-                    // ResultSetMetaData是用于分析结果集的元数据接口
-                    ResultSetMetaData rsmd = rs.getMetaData();
-                    int columnCount = rsmd.getColumnCount();
-                    // 迭代输出ResultSet对象
-                    while (rs.next()) {
-                        // 依次输出每列的值
-                        for (int i = 0; i < columnCount; i++) {
-                            print(rs.getString(i + 1) + "\t");
-                        }
-                        print("\n");
-                    }
+                try (ResultSet rs = stmt.getResultSet()/*获取结果集*/) {
+                    parseResultSet(rs);
                 }
             } else {
-                println("该SQL语句影响的记录有"  + stmt.getUpdateCount() + "条");
+                println("该SQL语句影响的记录有" + stmt.getUpdateCount() + "条");
             }
+        }
+    }
+
+    //遍历查询出来的结果，逐列逐行打印。
+    private static void parseResultSet(ResultSet rs) throws SQLException {
+        // ResultSetMetaData是用于分析结果集的元数据接口
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columnCount = rsmd.getColumnCount();
+        // 迭代输出ResultSet对象
+        while (rs.next()) {
+            // 依次输出每列的值
+            for (int i = 0; i < columnCount; i++) {
+                print(rs.getString(i + 1) + "\t");
+            }
+            print("\n");
         }
     }
 
