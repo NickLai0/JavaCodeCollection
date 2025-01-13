@@ -7,6 +7,14 @@ import java.io.*;
 import java.sql.*;
 
 /**
+ *
+ *  使用PreparedStatement的优势：
+ *      1、比Statement的执行效率高。
+ *      2、SQL语句可用占位符？，使得SQL更简洁，且不容易出错。
+ *      3、可防止SQL注 入。
+ *
+ *
+ *
  * Description:
  * 网站: <a href="http://www.crazyit.org">疯狂Java联盟</a><br>
  * Copyright (C), 2001-2018, Yeeku.H.Lee<br>
@@ -59,6 +67,7 @@ public class InsertByPreparedStatement {
         try (
                 // 获取数据库连接
                 Connection conn = DriverManager.getConnection(url, user, pass);
+
                 // 使用Connection来创建一个PreparedStatement对象
                 PreparedStatement pstmt = conn.prepareStatement(
                         "insert into student_table values(null,?,1)")) {
