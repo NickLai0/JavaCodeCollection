@@ -21,6 +21,10 @@ public class ImageUtils {
         return ProjectFileUtils.getImageAbsPathByName(imageName);
     }
 
+    public static ImageIcon nii(byte[] byteArr) {
+        return new ImageIcon(byteArr);
+    }
+
     //create a new ImageIcon
     public static ImageIcon nii(String imageName) {
         return newImageIcon(imageName);

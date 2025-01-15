@@ -2,9 +2,7 @@ package code.java.utils;
 
 import code.java.database.select.ShowAllData;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static code.java.utils.LU.print;
 import static code.java.utils.LU.println;
@@ -40,5 +38,25 @@ public class JDBCUtils {
         println();
     }
 
+    /**
+     * 执行conn连接的sql语句后，
+     * close Statement对象，
+     * 并返回boolean结果。
+     *
+     * @param conn
+     * @param sql
+     * @return
+     * @throws Exception
+     */
+    public static boolean executeSql(Connection conn, String sql) throws Exception {
+        boolean hasResultSet;
+        try ( // 获取数据库连接
+              // 使用Connection来创建一个Statement对象
+              Statement stmt = conn.createStatement()) {
+            // 执行SQL,返回boolean值表示是否包含ResultSet
+            hasResultSet = stmt.execute(sql);
 
+        }
+        return hasResultSet;
+    }
 }
