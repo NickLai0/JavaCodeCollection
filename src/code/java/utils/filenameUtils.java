@@ -2,7 +2,7 @@ package code.java.utils;
 
 import java.io.File;
 
-public class PrefixAndSuffixUtils {
+public class filenameUtils {
     public static final String DEFAULT_SEPARATOR = ".";
 
     // 获取文件扩展名的方法
@@ -29,7 +29,7 @@ public class PrefixAndSuffixUtils {
         if (str != null) {
             int sepIndex = str.lastIndexOf(suffixSeparator);
             if (sepIndex > 0 && sepIndex < str.length() - 1) {
-                return str.substring(0,sepIndex );
+                return str.substring(0, sepIndex);
             }
         }
         return str;
@@ -47,5 +47,14 @@ public class PrefixAndSuffixUtils {
             }
         }
         return str;
+    }
+
+    public static String getFileName(String path) {
+        // 截取文件名
+        String imageName = path.substring(
+                path.lastIndexOf('\\') + 1,
+                path.lastIndexOf('.')
+        );
+        return imageName;
     }
 }

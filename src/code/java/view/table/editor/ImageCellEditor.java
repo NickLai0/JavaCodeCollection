@@ -1,7 +1,7 @@
 package code.java.view.table.editor;
 
 import code.java.utils.ImageUtils;
-import code.java.utils.PrefixAndSuffixUtils;
+import code.java.utils.filenameUtils;
 import code.java.view.JFileChooser.filter.CommonImageExtensionFileFilter;
 
 import javax.swing.*;
@@ -72,7 +72,7 @@ public class ImageCellEditor extends DefaultCellEditor {
                 if (f.isDirectory()) {
                     return true;
                 }
-                String suf = PrefixAndSuffixUtils.getSuffix(f);
+                String suf = filenameUtils.getSuffix(f);
                 if (suf != null) {
                     if (suf.equals(ImageUtils.tiff)
                             || suf.equals(ImageUtils.tif)
