@@ -84,10 +84,16 @@ public class ResultSetTableModel extends AbstractTableModel {
             resultSet.absolute(row + 1);
             int valueColumnIndex = column + 1;
             Object oldValue = resultSet.getObject(valueColumnIndex);
-            if ((oldValue == value) || (oldValue != null && oldValue.equals(value))) {
+            if ((oldValue == value)) {
                 //新老值一样，不做处理，直接返回
                 return;
             }
+            //编辑Cell的数据时，即使数据库里的类型是INTEGER，
+            //value居然是String类型，所以全部按String来比较
+            if (oldValue != null && oldValue.toString().equals(value)) {
+                return;
+            }
+
             //println("setValueAt: oldValue = " + oldValue + ", value = " + value);
             // 修改单元格多对应的值
             resultSet.updateObject(valueColumnIndex, value);

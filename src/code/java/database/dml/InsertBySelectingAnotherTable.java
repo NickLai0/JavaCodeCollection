@@ -8,6 +8,8 @@ import java.io.*;
 import java.sql.*;
 
 /**
+ * Modify a lot.
+ *
  * Description:
  * 网站: <a href="http://www.crazyit.org">疯狂Java联盟</a><br>
  * Copyright (C), 2001-2018, Yeeku.H.Lee<br>
@@ -19,27 +21,11 @@ import java.sql.*;
  * @version 1.0
  */
 public class InsertBySelectingAnotherTable {
-    private String driver;
-    private String url;
-    private String user;
-    private String pass;
-
-    public void initParam(String paramFile) throws Exception {
-        // 使用Properties类来加载属性文件
-        Properties props = new Properties();
-        props.load(new FileInputStream(paramFile));
-        driver = props.getProperty("jdbc.drivers");
-        url = props.getProperty("jdbc.url");
-        user = props.getProperty("jdbc.username");
-        pass = props.getProperty("jdbc.password");
-    }
-
     public int insertData(String sql) throws Exception {
-        // 加载驱动
-        Class.forName(driver);
+
         try (
                 // 获取数据库连接
-                Connection conn = DriverManager.getConnection(url, user, pass);
+                Connection conn = FKJJYUtils.getTestDBConnection();
                 // 使用Connection来创建一个Statment对象
                 Statement stmt = conn.createStatement()
         ) {
@@ -50,7 +36,6 @@ public class InsertBySelectingAnotherTable {
 
     public static void main(String[] args) throws Exception {
         InsertBySelectingAnotherTable ed = new InsertBySelectingAnotherTable();
-        ed.initParam(FKJJYUtils.getInitFilePath());
         /*
          查询出student_table和teacher_table表的
          student_name和teacher_name列的数据，
@@ -66,4 +51,5 @@ public class InsertBySelectingAnotherTable {
         System.out.println("--系统中共有" + result + "条记录受影响--");
         JDBCUtils.showTableData(tableName);
     }
+
 }

@@ -1,4 +1,4 @@
-package code.java.database;
+package code.java.database.stament.prepared;
 
 import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
 
@@ -8,7 +8,7 @@ import java.sql.*;
 
 /**
  *
- *  使用PreparedStatement的优势：
+ *  使用PreparedStatement的三种优势：
  *      1、比Statement的执行效率高。
  *      2、SQL语句可用占位符？，使得SQL更简洁，且不容易出错。
  *      3、可防止SQL注 入。

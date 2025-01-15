@@ -1,9 +1,9 @@
 package code.java.database.dml;
 
-import code.java.view.table.JTable.TableDataFromDatabase;
+import code.java.view.table.JTable.TablesDataFromDatabase;
 
 public class TablesEditableAndUpdatable {
     public static void main(String[] args) {
-        TableDataFromDatabase.main(args);
+        TablesDataFromDatabase.main(args);
     }
 }

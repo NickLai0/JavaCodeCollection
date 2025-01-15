@@ -34,7 +34,7 @@ import static code.java.utils.LU.println;
  * @author Yeeku.H.Lee kongyeeku@163.com
  * @version 1.0
  */
-public class TableDataFromDatabase extends JFrame {
+public class TablesDataFromDatabase extends JFrame {
 
     private ResultSetTableModel model;
 
@@ -50,7 +50,7 @@ public class TableDataFromDatabase extends JFrame {
 
     private Statement stmt;
 
-    public TableDataFromDatabase() {
+    public TablesDataFromDatabase() {
         setupView();
         setupDatabase();
         setupListener();
@@ -60,7 +60,7 @@ public class TableDataFromDatabase extends JFrame {
         setSize(400, 600);
         // 为JComboBox添加事件监听器，当用户选择某个数据表时，触发该方法
         setupNorth();
-        add(curScrollPane = new JScrollPane(changeMsg), BorderLayout.SOUTH);
+        add(new JScrollPane(changeMsg), BorderLayout.SOUTH);
         //不让视图自适应，setSize才有效果
         //pack();
     }
@@ -145,17 +145,16 @@ public class TableDataFromDatabase extends JFrame {
         public void tableChanged(TableModelEvent e) {
             int row = e.getFirstRow();
             int column = e.getColumn();
-            String str = "修改的列:" + column
-                    + "，修改的行:" + row
-                    + "，修改后的值:" + model.getValueAt(row, column);
-            println("tableChanged-> " + str);
-            changeMsg.append(str);
+            changeMsg.append("修改的列:" + column);
+            changeMsg.append("，修改的行:" + row);
+            changeMsg.append("，修改后的值:" + model.getValueAt(row, column));
+            changeMsg.append("\n");
         }
     }
 
     public static void main(String[] args) {
         FrameUtils.visibleAndExitOnClose(
-                TableDataFromDatabase.class
+                TablesDataFromDatabase.class
         );
     }
 

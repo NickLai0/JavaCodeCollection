@@ -1,11 +1,9 @@
-package code.java.database.select;
+package code.java.database;
 
 import code.java.view.table.JTable.TablesDataFromDatabase;
 
-public class ShowTableList4DB {
-
+public class ShowAllTablesDataAndEditable {
     public static void main(String[] args) {
         TablesDataFromDatabase.main(args);
     }
-
 }

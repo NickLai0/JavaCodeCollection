@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class FKJJYUtils {
+
     private static final String ROOT_DIR;
     private static final String SQL_DIR;
     private static final String INIT_FILE_PATH;
@@ -47,7 +48,6 @@ public class FKJJYUtils {
         String url = props.getProperty("jdbc.url");
         String username = props.getProperty("jdbc.username");
         String password = props.getProperty("jdbc.password");
-
         // 加载数据库驱动
         Class.forName(drivers);
         // 取得数据库连接
