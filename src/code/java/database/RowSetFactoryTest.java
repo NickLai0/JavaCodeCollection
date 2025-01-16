@@ -13,7 +13,12 @@ import static code.java.utils.LU.println;
  *
  * Modify a lot。
  *
- * 提示：实际运行该程序会提示“No suitable driver”，出现这个错误应该是由于MySQL驱动对JdbcRowSet支持得不太好。
+ * 本案例代码实际使用会提示“No suitable driver”，出现这个错误应该是由于
+ * MySQL驱动对JdbcRowSet支持得不太好。
+ *
+ * 更好地方案参考：
+ *  CachedRowSetPage.java
+ *  CachedRowSetTest.java
  *
  * Description:
  * 网站: <a href="http://www.crazyit.org">疯狂Java联盟</a><br>
