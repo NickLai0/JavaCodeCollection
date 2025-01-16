@@ -1,5 +1,6 @@
 package code.java.io.file.book.fkjjy.utils;
 
+import code.java.data.JDBCDriverInfo;
 import code.java.utils.ProjectFileUtils;
 
 import java.io.FileInputStream;
@@ -33,6 +34,23 @@ public class FKJJYUtils {
         return INIT_FILE_PATH;
     }
 
+    private static JDBCDriverInfo sJdbcDriverInfo;
+
+    /**
+     * 获取数据库driver的基础信息对象
+     *
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public static JDBCDriverInfo getJDBCDriverInfo() throws SQLException, IOException, ClassNotFoundException {
+        if (sJdbcDriverInfo == null) {
+            sJdbcDriverInfo = JDBCDriverInfo.create4FKJJY();
+        }
+        return sJdbcDriverInfo;
+    }
+
     /**
      * 获取疯狂Java讲义书籍对应的测试数据库的Connection。
      *
@@ -42,16 +60,15 @@ public class FKJJYUtils {
      * @throws ClassNotFoundException
      */
     public static Connection getTestDBConnection() throws SQLException, IOException, ClassNotFoundException {
-        // 通过加载conn.ini文件来获取数据库连接的详细信息
-        Properties props = loadDatabaseProperties();
-        String drivers = props.getProperty("jdbc.drivers");
-        String url = props.getProperty("jdbc.url");
-        String username = props.getProperty("jdbc.username");
-        String password = props.getProperty("jdbc.password");
+        JDBCDriverInfo info = getJDBCDriverInfo();
         // 加载数据库驱动
-        Class.forName(drivers);
+        Class.forName(info.getDriverClassName());
         // 取得数据库连接
-        return DriverManager.getConnection(url, username, password);
+        return DriverManager.getConnection(
+                info.getUrl(),
+                info.getUsername(),
+                info.getPassword()
+        );
     }
 
     //加载测试数据库的ini配置文件
