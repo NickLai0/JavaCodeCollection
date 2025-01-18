@@ -30,6 +30,13 @@ public class JDBCUtils {
     /**
      * 打印查询的数据集的所有列名
      */
+    public static void printColumnNames(ResultSetMetaData rsmd) throws SQLException {
+        printColumnNames(rsmd, "\t");
+    }
+
+    /**
+     * 打印查询的数据集的所有列名
+     */
     public static void printColumnNames(ResultSetMetaData rsmd, String separator) throws SQLException {
         for (int i = 0, size = rsmd.getColumnCount(); i < size; i++) {
             print(rsmd.getColumnName(i + 1));
@@ -58,5 +65,18 @@ public class JDBCUtils {
 
         }
         return hasResultSet;
+    }
+
+    public static void printResultSet(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsmd = rs.getMetaData();
+        printColumnNames(rsmd);
+        // 打印ResultSet里的全部这段的值
+        while (rs.next()) {
+            for (int i = 0; i < rsmd.getColumnCount(); i++) {
+                print(rs.getString(i + 1) + "\t");
+            }
+            print("\n");
+        }
+        rs.close();
     }
 }

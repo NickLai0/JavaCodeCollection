@@ -11,27 +11,14 @@ import static code.java.utils.LU.println;
 
 //展示一张表的所有数据
 public class ShowAllData {
-    private String driver;
-    private String url;
-    private String user;
-    private String pass;
+
 
     private String tableName;
 
     public ShowAllData(String tableName) throws Exception {
         this.tableName = tableName;
-        initParam(FKJJYUtils.getInitFilePath());
     }
 
-    public void initParam(String paramFile) throws Exception {
-        // 使用Properties类来加载属性文件
-        Properties props = new Properties();
-        props.load(new FileInputStream(paramFile));
-        driver = props.getProperty("jdbc.drivers");
-        url = props.getProperty("jdbc.url");
-        user = props.getProperty("jdbc.username");
-        pass = props.getProperty("jdbc.password");
-    }
 
     public void show() throws Exception {
         println("------查询" + tableName + "表的所有数据-----");
@@ -39,10 +26,8 @@ public class ShowAllData {
     }
 
     public void executeSql(String sql) throws Exception {
-        // 加载驱动
-        Class.forName(driver);
         try ( // 获取数据库连接
-              Connection conn = DriverManager.getConnection(url, user, pass);
+              Connection conn = FKJJYUtils.getTestDBConnection();
               // 使用Connection来创建一个Statement对象
               Statement stmt = conn.createStatement()) {
             // 执行SQL,返回boolean值表示是否包含ResultSet
