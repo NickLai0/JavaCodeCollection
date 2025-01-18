@@ -9,7 +9,7 @@ import static code.java.utils.LU.print;
 import static code.java.utils.LU.println;
 
 /**
- * 将源文件夹下的所有文件（含子目录下的文件），
+ * 将源文件夹下的所有.java、.txt、.sql文件（含子目录下的文件），
  * 用GB2312编码读取出来后，再用UTF-8编码保存
  * 到目标目录，同时在"all files(system generated)"
  * 目录下也保持一份。
@@ -61,7 +61,8 @@ public class FKJJYCodeToUTF8 {
                 toUTF8ForJavaSourceCodeFilesRecursively(anotherF, newDestDir);
             }
         } else {
-            if (f.getName().endsWith(".java")) {
+            String filename = f.getName();
+            if (filename.endsWith(".java") || filename.endsWith(".txt") || filename.endsWith(".sql")) {
                 javaSourceCodeToUTF8(f, toDir);
             }
         }

@@ -1,4 +1,4 @@
-package code.java.database.query;
+package code.java.database.select.query;
 
 import code.java.database.dml.InsertImageByBlobDataType;
 //InsertImageByBlobDataType里有显示已经insert的图片（blob）demo
