@@ -6,7 +6,7 @@ import java.sql.*;
 
 /**
  * 演示：JDBC开启事务，执行四条DML语句，最后一条刻意出错，导致事务自动回滚。
- *
+ *Modify a lot.
  * <p>
  * Modify a lot.
  *
