@@ -35,7 +35,7 @@ public class CachedRowSetPage {
      */
     public CachedRowSet query2(String sql, int pageSize, int page) throws Exception {
         try (  // 获取数据库连接
-               Connection conn = FKJJYUtils.getTestDBConnection();
+               Connection conn = FKJJYUtils.getSelectTestDBConnection();
                Statement stmt = conn.createStatement();
                ResultSet rs = stmt.executeQuery(sql)) {
             // 使用RowSetProvider创建RowSetFactory
@@ -52,7 +52,7 @@ public class CachedRowSetPage {
 
     public CachedRowSet query(String sql, int pageSize, int page) throws Exception {
         try (  // 获取数据库连接
-               Connection conn = FKJJYUtils.getTestDBConnection();
+               Connection conn = FKJJYUtils.getSelectTestDBConnection();
                PreparedStatement pstmt = conn.prepareStatement(
                        sql
                        , ResultSet.TYPE_SCROLL_INSENSITIVE

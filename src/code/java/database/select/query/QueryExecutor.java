@@ -34,7 +34,7 @@ public class QueryExecutor extends JFrame {
     static {
         try {
             // 取得数据库连接
-            conn = FKJJYUtils.getTestDBConnection();
+            conn = FKJJYUtils.getSelectTestDBConnection();
             stmt = conn.createStatement();
         } catch (Exception e) {
             e.printStackTrace();

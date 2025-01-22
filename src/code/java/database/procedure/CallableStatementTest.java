@@ -24,7 +24,7 @@ public class CallableStatementTest {
     public void callProcedure() throws Exception {
         try (
                 // 获取数据库连接
-                Connection conn = FKJJYUtils.getTestDBConnection();
+                Connection conn = FKJJYUtils.getSelectTestDBConnection();
                 // 使用Connection来创建一个CallableStatment对象
                 CallableStatement cstmt = conn.prepareCall("{call AddNumbers(?,?,?)}")) {
             cstmt.setInt(1, 4);

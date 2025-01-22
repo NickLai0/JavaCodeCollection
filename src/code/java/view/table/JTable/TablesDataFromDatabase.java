@@ -91,7 +91,7 @@ public class TablesDataFromDatabase extends JFrame {
     private void setupDatabase() {
         try {
             // 获取数据库连接
-            conn = FKJJYUtils.getTestDBConnection();
+            conn = FKJJYUtils.getSelectTestDBConnection();
             // 获取数据库的MetaData对象
             DatabaseMetaData meta = conn.getMetaData();
             // 创建Statement

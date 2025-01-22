@@ -29,7 +29,7 @@ import static code.java.utils.LU.println;
  * @version 1.0
  */
 public class SQLInjectAttachDemo extends JFrame {
-    private final String PROP_FILE = FKJJYUtils.getInitFilePath();
+    private final String PROP_FILE = FKJJYUtils.getInitFileTestSelect();
 
     private String driver;
     // url是数据库的服务地址

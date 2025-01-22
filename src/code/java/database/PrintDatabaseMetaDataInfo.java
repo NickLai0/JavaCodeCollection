@@ -36,7 +36,7 @@ import static code.java.utils.LU.println;
 public class PrintDatabaseMetaDataInfo {
 
     public static void main(String[] args) throws Exception {
-        try (Connection conn = FKJJYUtils.getTestDBConnection()) {
+        try (Connection conn = FKJJYUtils.getSelectTestDBConnection()) {
             // 获取的DatabaseMetaData对象
             DatabaseMetaData dbmd = conn.getMetaData();
 

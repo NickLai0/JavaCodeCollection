@@ -1,16 +1,17 @@
 package code.java.data;
 
 import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
+import code.java.utils.PropertiesUtils;
 
 import java.io.IOException;
 import java.util.Properties;
 
 public class JDBCDriverInfo {
 
-    private String driverClassName;
-    private String url;
-    private String username;
-    private String password;
+    protected String driverClassName;
+    protected String url;
+    protected String username;
+    protected String password;
 
     public JDBCDriverInfo() {
     }
@@ -40,8 +41,17 @@ public class JDBCDriverInfo {
 
     //静态工厂方法
     public static JDBCDriverInfo create4FKJJY() throws IOException {
-        // 使用Properties类来加载属性文件
-        Properties props = FKJJYUtils.loadDatabaseProperties();
+        Properties props = PropertiesUtils.loadProperty(FKJJYUtils.getInitFileTestSelect());
+        return create(props);
+    }
+
+    //c
+    public static JDBCDriverInfo create4informationSchema() throws IOException {
+        Properties props = PropertiesUtils.loadProperty(FKJJYUtils.getInitFileInformationSchema());
+        return create(props);
+    }
+
+    private static JDBCDriverInfo create(Properties props) {
         return new JDBCDriverInfo(
                 props.getProperty("jdbc.drivers")
                 , props.getProperty("jdbc.url")
@@ -49,4 +59,5 @@ public class JDBCDriverInfo {
                 , props.getProperty("jdbc.password")
         );
     }
+
 }

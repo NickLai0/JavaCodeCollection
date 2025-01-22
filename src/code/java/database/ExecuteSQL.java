@@ -73,7 +73,7 @@ public class ExecuteSQL {
 
     public static void main(String[] args) throws Exception {
         ExecuteSQL es = new ExecuteSQL();
-        es.initParam(FKJJYUtils.getInitFilePath());
+        es.initParam(FKJJYUtils.getInitFileTestSelect());
 
         println("------执行删除表的DDL语句-----");
         es.executeSql("drop table if exists my_test");

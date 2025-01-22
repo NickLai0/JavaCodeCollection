@@ -22,7 +22,7 @@ import static code.java.utils.LU.println;
 public class CreateTableByExecuteUpdateMethod {
     public static void main(String[] args) throws Exception {
         CreateTableByExecuteUpdateMethod ed = new CreateTableByExecuteUpdateMethod();
-        ed.initParam(FKJJYUtils.getInitFilePath());
+        ed.initParam(FKJJYUtils.getInitFileTestSelect());
         ed.createTable("create table jdbc_test "
                 + "( jdbc_id int auto_increment primary key, "
                 + "jdbc_name varchar(255), "

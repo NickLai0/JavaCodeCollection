@@ -2,9 +2,7 @@ package code.java.database.select;
 
 import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
 
-import java.io.FileInputStream;
 import java.sql.*;
-import java.util.Properties;
 
 import static code.java.utils.LU.print;
 import static code.java.utils.LU.println;
@@ -27,7 +25,7 @@ public class ShowAllData {
 
     public void executeSql(String sql) throws Exception {
         try ( // 获取数据库连接
-              Connection conn = FKJJYUtils.getTestDBConnection();
+              Connection conn = FKJJYUtils.getSelectTestDBConnection();
               // 使用Connection来创建一个Statement对象
               Statement stmt = conn.createStatement()) {
             // 执行SQL,返回boolean值表示是否包含ResultSet

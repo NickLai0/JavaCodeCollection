@@ -3,8 +3,6 @@ package code.java.database.dml;
 import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
 import code.java.utils.JDBCUtils;
 
-import java.util.*;
-import java.io.*;
 import java.sql.*;
 
 /**
@@ -25,7 +23,7 @@ public class InsertBySelectingAnotherTable {
 
         try (
                 // 获取数据库连接
-                Connection conn = FKJJYUtils.getTestDBConnection();
+                Connection conn = FKJJYUtils.getSelectTestDBConnection();
                 // 使用Connection来创建一个Statment对象
                 Statement stmt = conn.createStatement()
         ) {

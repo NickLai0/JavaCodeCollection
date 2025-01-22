@@ -83,7 +83,7 @@ public class InsertByPreparedStatement {
 
     public static void main(String[] args) throws Exception {
         InsertByPreparedStatement pt = new InsertByPreparedStatement();
-        pt.initParam(FKJJYUtils.getInitFilePath());
+        pt.initParam(FKJJYUtils.getInitFileTestSelect());
         pt.insertUseStatement();
         pt.insertUsePrepare();
     }

@@ -23,7 +23,7 @@ public class CachedRowSetTest {
 
     public CachedRowSet queryCachedData(String sql) throws Exception {
         // 获取数据库连接
-        Connection conn = FKJJYUtils.getTestDBConnection();
+        Connection conn = FKJJYUtils.getSelectTestDBConnection();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         // 使用RowSetProvider创建RowSetFactory
@@ -55,7 +55,7 @@ public class CachedRowSetTest {
             }
         }
         // 重新获取数据库连接
-        Connection conn = FKJJYUtils.getTestDBConnection();
+        Connection conn = FKJJYUtils.getSelectTestDBConnection();
         /*
             If a connection is
             in auto-commit mode, then all its SQL

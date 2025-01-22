@@ -28,7 +28,7 @@ public class ScrollableAndUpdatableResultSet {
 
     public void query(String sql) throws Exception {
         try (
-                Connection conn = FKJJYUtils.getTestDBConnection();
+                Connection conn = FKJJYUtils.getSelectTestDBConnection();
                 // 使用Connection来创建一个PreparedStatement对象
                 // 传入控制结果集可滚动，可更新的参数。
                 PreparedStatement pstmt = conn.prepareStatement(sql

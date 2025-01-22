@@ -62,7 +62,7 @@ public class InsertImageByBlobDataType extends JFrame {
     {
         try {
             // 获取数据库连接
-            conn = FKJJYUtils.getTestDBConnection();
+            conn = FKJJYUtils.getSelectTestDBConnection();
             // 创建执行插入的PreparedStatement对象，该对象执行插入后可以返回自动生成的主键
             insert = conn.prepareStatement("insert into img_table values(null,?,?)"
                     , Statement.RETURN_GENERATED_KEYS);

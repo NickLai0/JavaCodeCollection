@@ -20,7 +20,7 @@ import java.sql.Statement;
 public class ExecuteLargeBatchTest {
 
     public static void insertBatch(String[] sqls) throws Exception {
-        try (Connection conn = FKJJYUtils.getTestDBConnection()) {
+        try (Connection conn = FKJJYUtils.getSelectTestDBConnection()) {
             // 保存当前的自动的提交模式
             boolean autoCommit = conn.getAutoCommit();
             // 关闭自动提交

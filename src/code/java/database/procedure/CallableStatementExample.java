@@ -4,8 +4,6 @@ import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Types;
 
 public class CallableStatementExample {
@@ -13,7 +11,7 @@ public class CallableStatementExample {
         try {
             // 打开连接
             System.out.println("连接数据库...");
-            Connection conn = FKJJYUtils.getTestDBConnection();
+            Connection conn = FKJJYUtils.getSelectTestDBConnection();
             // 调用存储过程
             System.out.println("调用存储过程...");
             CallableStatement stmt = conn.prepareCall("{call my_test(?,?)}");

@@ -1,4 +1,4 @@
-package code.java.proxy.dynamic;
+package code.java.pattern.proxy.dynamic;
 
 import code.java.view.table.JTable.TableCellRenderFrame;
 

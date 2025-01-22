@@ -24,7 +24,7 @@ import java.sql.*;
 public class TransactionMeetsExceptionAndRollbackAutomatically {
 
     public void insertInTransaction(String[] sqls) throws Exception {
-        try (Connection conn = FKJJYUtils.getTestDBConnection()) {
+        try (Connection conn = FKJJYUtils.getSelectTestDBConnection()) {
             // 关闭自动提交，开启事务
             conn.setAutoCommit(false);
             // 使用Connection来创建一个Statment对象
