@@ -11,7 +11,7 @@ import code.java.io.file.book.fkjjy.utils.FKJJYUtils;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 //演示数据库连接池的使用
-public class DataBaseUtility {
+public class DBCPDataBaseUtility {
 
     private static BasicDataSource dataSource;
 
@@ -36,7 +36,7 @@ public class DataBaseUtility {
     }
 
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        try (BasicDataSource dataSource = DataBaseUtility.getDataSource();
+        try (BasicDataSource dataSource = DBCPDataBaseUtility.getDataSource();
              Connection connection = dataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM student_table");) {
             System.out.println("The Connection Object is of Class: " + connection.getClass());

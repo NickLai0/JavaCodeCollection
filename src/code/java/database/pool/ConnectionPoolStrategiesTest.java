@@ -1,5 +1,8 @@
-package code.java.database.pool.strategy;
+package code.java.database.pool;
 
+import code.java.database.pool.strategy.ConnectionContext;
+import code.java.database.pool.strategy.DBCP4FKJJYDBStrategy;
+import code.java.database.pool.strategy.DBCP4SystemSchemaDBStrategy;
 import code.java.utils.JDBCUtils;
 
 import java.sql.Connection;
@@ -9,7 +12,7 @@ import java.sql.Statement;
 
 import static code.java.utils.LU.printSeparateLine;
 
-public class DBCPConnectionPoolTest {
+public class ConnectionPoolStrategiesTest {
     public static void main(String[] args) throws SQLException {
         ConnectionContext context = new ConnectionContext(new DBCP4FKJJYDBStrategy());
 
