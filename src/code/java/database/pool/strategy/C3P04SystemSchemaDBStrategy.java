@@ -5,7 +5,7 @@ import code.java.database.pool.bean.ConnectionPoolConfiguration;
 import java.io.IOException;
 
 //疯狂Java讲义数据库连接池DBCP策略
-public class DBCP4SystemSchemaDBStrategy extends BaseBDCPStrategy {
+public class C3P04SystemSchemaDBStrategy extends BaseC3P0Strategy {
 
     @Override
     protected ConnectionPoolConfiguration getConfiguration() {

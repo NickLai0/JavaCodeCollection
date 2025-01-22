@@ -17,7 +17,7 @@ public class C3P0DatabaseUtility {
 
     public static ComboPooledDataSource getDataSource() throws PropertyVetoException, SQLException, IOException, ClassNotFoundException {
         JDBCDriverInfo di = FKJJYUtils.getJDBCDriverInfo();
-//Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/logging/log4j/spi/LoggerContext
+        //Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/logging/log4j/spi/LoggerContext
         ComboPooledDataSource cpds = new ComboPooledDataSource();
         cpds.setDriverClass(di.getDriverClassName());
         cpds.setJdbcUrl(di.getUrl());

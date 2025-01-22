@@ -6,13 +6,13 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 //策略模式的变种，实现接口后，还有个基础抽象类~
-public abstract class BaseStrategy implements ConnectionPoolStrategy {
+public abstract class BaseBDCPStrategy implements ConnectionPoolStrategy {
 
     private ConnectionPoolConfiguration c;
 
     private BasicDataSource ds = new BasicDataSource();
 
-    public BaseStrategy() {
+    public BaseBDCPStrategy() {
         init();
     }
 
@@ -24,9 +24,9 @@ public abstract class BaseStrategy implements ConnectionPoolStrategy {
             ds.setUsername(c.getUsername());
             ds.setPassword(c.getPassword());
 
-            ds.setMinIdle(5);
-            ds.setMaxIdle(10);
-            ds.setMaxOpenPreparedStatements(100);
+            ds.setMinIdle(c.getMinIdle());
+            ds.setMaxIdle(c.getMaxIdle());
+            ds.setMaxOpenPreparedStatements(c.getMaxOpenPreparedStatements());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
