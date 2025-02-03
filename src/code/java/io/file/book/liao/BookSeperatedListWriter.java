@@ -312,7 +312,7 @@ public class BookSeperatedListWriter {
                     mSbTemp.append(PREFIX_LESS_THAN_TEN);
                 }
                 mSbTemp.append(titleOrder).append(TABLE_OF_CONTENT_SEPARATOR).append(toci.getArticleTitle());
-                pw.println(mSbTemp.toString());
+                pw.println(mSbTemp);
             }
         } else {
             for (int i = 0; i < tociList.size(); i++) {
@@ -326,7 +326,7 @@ public class BookSeperatedListWriter {
                     mSbTemp.append(PREFIX_LESS_THAN_TEN);
                 }
                 mSbTemp.append(titleOrder).append(TABLE_OF_CONTENT_SEPARATOR).append(toci.getArticleTitle());
-                pw.println(mSbTemp.toString());
+                pw.println(mSbTemp);
             }
         }
     }

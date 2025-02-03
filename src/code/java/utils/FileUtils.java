@@ -375,14 +375,11 @@ public class FileUtils {
     }
 
     public static String fileToString(File file, String charsetName) throws IOException {
-        FileInputStream fis = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream((int) file.length());
-        try {
-            fis = new FileInputStream(file);
+        try (FileInputStream fis = new FileInputStream(file)) {
             IOUtils.copy(fis, baos);
-        } finally {
-            IOUtils.closeQuietly(fis);
         }
         return baos.toString(charsetName);
     }
+
 }
