@@ -131,6 +131,7 @@ public class BookTableOfContentAndBodyFactory {
             case "李敖有话说":
             case "李敖大哥大":
             case "李敖政论综艺集":
+            case "李敖笑傲江湖":
                 return false;
             default://默认情况下都需要切割
                 return true;
@@ -201,6 +202,7 @@ public class BookTableOfContentAndBodyFactory {
             case "千秋万岁乌鸦求是合集":
             case "李敖全集":
             case "上山·上山·爱":
+            case "李敖笑傲江湖":
                 return 1;
             case "李敖登陆记"://这本书的目录有点独特，带有“上篇：李敖登陆记” “下篇：出版背后的故事”这样的目录名
             case "李敖大哥大":

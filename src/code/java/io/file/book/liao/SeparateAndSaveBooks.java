@@ -31,7 +31,7 @@ public class SeparateAndSaveBooks {
                         .build();
         BookSeperatedListWriter writer = new BookSeperatedListWriter(bsl, destDir.getAbsolutePath());
         writer.write();
-        println("Copy finished.");
+        println("finished.");
         checkExceptedTableOfContent(bsl);
     }
 
