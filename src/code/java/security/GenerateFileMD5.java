@@ -17,20 +17,12 @@ public class GenerateFileMD5 {
                 if ("quit".equals(filePath)) {
                     break;
                 }
-                println("MD5：" + getFileMD5(filePath));
+                println("MD5：" + MD5Utils.getFileMD5(filePath));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static String getFileMD5(String filePath) {
-        try {
-            print("--------MD5Utils.getFileMD5(filePath)--------");
-            return MD5Utils.getFileMD5(filePath);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }
