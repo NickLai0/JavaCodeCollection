@@ -10,9 +10,9 @@ import java.io.InputStreamReader;
 import static code.java.utils.LU.print;
 
 /**
- * 递归清除当前目录下所有文件和目录
+ * 深度（递归）清除当前目录下所有文件和目录
  */
-public class ClearDir {
+public class ClearDirDeeply {
 
     public static void main(String[] args) throws IOException {
         print("请输入需要清空的目录（不可恢复，谨慎输入）：");
