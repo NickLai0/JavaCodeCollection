@@ -32,7 +32,14 @@ public class BookTableOfContentAndBodyFactory {
     }
 
     private static Pattern tablesOfContentsEndLinePattern = Pattern.compile(
-            "(.*wjm_tcy.*制作.*)|(.*wjm_tcy.*编.*)"//一般目录的结束行
+            /*
+            一般目录的结束行的情况如下：
+             * 不自由的自由（wjm_tcy）与Jeff Ao兄联合制作。
+             * wjm_tcy（不自由的自由）制作！
+             * wjm_tcy（不自由的自由）与XXX所编
+             */
+
+            "(.*wjm_tcy.*制作.*)|(.*wjm_tcy.*编.*)"//一般目录的结束行，格式有上面注释所列情况
                     + "|(李庆元简介)"//《陈水扁的真面目》目录结束行
                     + "|(版权信息)"//《快意还乡——李敖神州文化之旅》目录结束行
 //                    + "|(《李敖大哥大》简介)"//《李敖大哥大》目录结束行
@@ -65,13 +72,23 @@ public class BookTableOfContentAndBodyFactory {
         LinkedList<String> articleTitleAndDescriptionList = new LinkedList<>();
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
-            boolean matched = tablesOfContentsEndLinePattern.matcher(temp).matches();
-            if (temp.length() > 0 /*过滤空行*/) {
-                articleTitleAndDescriptionList.add(temp);
-            }
-            if (matched) {
-                //正则匹配了目录结尾行，所以中断
+            boolean isEndLine = tablesOfContentsEndLinePattern.matcher(temp).matches();
+            if (isEndLine) {
+                //正则匹配了目录结尾行,代表articleTitleAndDescriptionList里面已经存放了所有【目录行】以及【描述行】（如果有的话）
+                if (descriptionCount(book.getBookName()) > 0) {
+                    //如果描述行至少有一行的话，说明结束行是在最后一行描述行的后面，把这两行重新组合成一行，否则程序会有多一个目录行的bug。
+                    String lastDescLine = articleTitleAndDescriptionList.removeLast();
+                    String endLine = temp;
+                    lastDescLine += "\n" + endLine;
+                    articleTitleAndDescriptionList.addLast(lastDescLine);
+                }
+                //因为是到了所有【目录+描述行】的结束标记行，所以要结束目录、描述行的处理。
                 break;
+            } else {
+                if (temp.length() > 0/*空行判断*/) {
+                    //添加每一行的标题（一行或多行）和描述（一行或多行，配置决定）
+                    articleTitleAndDescriptionList.add(temp);
+                }
             }
         }
 

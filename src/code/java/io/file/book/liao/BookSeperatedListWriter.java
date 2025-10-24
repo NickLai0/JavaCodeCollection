@@ -175,8 +175,7 @@ public class BookSeperatedListWriter {
          * 得出最终正则：
          */
         Pattern articleEndLinePattern = Pattern.compile(
-                "(.*wjm_tcy.*(制作！)$)"
-                        + "|(.*Jeff Ao.*(制作！)$)"
+                "(.*wjm_tcy.*制作.*)|(.*Jeff Ao.*制作.*)"
         );
         int articleIndex = 0;
         for (int i = 0, size = tocItemList.size(); i < size; i++) {
