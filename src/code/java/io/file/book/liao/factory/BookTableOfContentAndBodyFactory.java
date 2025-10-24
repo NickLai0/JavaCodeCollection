@@ -65,11 +65,11 @@ public class BookTableOfContentAndBodyFactory {
         LinkedList<String> articleTitleAndDescriptionList = new LinkedList<>();
         while ((temp = brInput.readLine()) != null) {
             temp = temp.trim();
-            if (!tablesOfContentsEndLinePattern.matcher(temp).matches()) {
-                if (temp.length() > 0 /*过滤空行*/) {
-                    articleTitleAndDescriptionList.add(temp);
-                }
-            } else {
+            boolean matched = tablesOfContentsEndLinePattern.matcher(temp).matches();
+            if (temp.length() > 0 /*过滤空行*/) {
+                articleTitleAndDescriptionList.add(temp);
+            }
+            if (matched) {
                 //正则匹配了目录结尾行，所以中断
                 break;
             }
@@ -199,11 +199,12 @@ public class BookTableOfContentAndBodyFactory {
             case "李敖书信集":
             case "李敖秘藏日记":
             case "虽千万人，李敖往矣":
-            case "千秋万岁乌鸦求是合集":
             case "李敖全集":
             case "上山·上山·爱":
             case "李敖笑傲江湖":
                 return 1;
+
+            case "千秋万岁乌鸦求是合集":
             case "李敖登陆记"://这本书的目录有点独特，带有“上篇：李敖登陆记” “下篇：出版背后的故事”这样的目录名
             case "李敖大哥大":
             case "阳痿美国":

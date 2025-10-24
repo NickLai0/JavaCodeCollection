@@ -43,7 +43,7 @@ public class SeparateAndSaveBooks {
     private static File[] inputSrcAndDestDirs() throws IOException {
         File[] dirs = new File[2];
         println("切割李敖大全集的书为：切割出目录表和每篇文章来保存。");
-        print("请输入整本书的源文件文目：");
+        print("请输入整本书的源文件目录：");
         dirs[0] = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
         print("请输入书本切割出目录和每篇文章后要保持的目录：");
         dirs[1] = new File(new BufferedReader(new InputStreamReader(System.in)).readLine());
